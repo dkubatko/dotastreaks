@@ -518,7 +518,10 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	resp, err := (&http.Client{}).Do(r)
 
+	fmt.Println("Did request to twitch")
+
 	if err != nil {
+		fmt.Println(err.Error())
 		return
 	}
 
