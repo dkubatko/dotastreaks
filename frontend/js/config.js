@@ -22,7 +22,6 @@ $(document).ready(function(){
     
     $(".defbtn").click(function() {
         var clr = $(this).css("background-color")
-        console.log(clr)
         if (clr == "rgb(255, 255, 255)") {
             $(this).animate({backgroundColor: "rgb(102, 255, 153)"}, "slow");
         } else if (clr == "rgb(102, 255, 153)") {
@@ -43,12 +42,6 @@ $(document).ready(function(){
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: JSON.stringify(data),
-            success: function(data) {
-                console.log("ok")        
-            },
-            error: function() {
-                console.log("AJAX ERROR")
-            }
         }); 
     });
 });
@@ -60,7 +53,8 @@ function sendSteamID() {
     var account_id =        document.getElementById('inp').value;
     var data = {
                 "account_id": account_id,
-                "client_id": Gauth.clientId
+                "client_id": Gauth.clientId,
+                "channel_id": Gauth.channelId
             };
     $.ajax({
             url: 'https://dotastreaks.com/verify',

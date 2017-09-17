@@ -20,11 +20,25 @@ or in the "license" file accompanying this file. This file is distributed on an 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/common.css">
         <link rel="stylesheet" href="css/viewer.css">
+        <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
+        <!-- import to call AJAX -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     <body>
-        <p>This is the viewer page</p>
         <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
         <script src="js/common.js"></script>
         <script src="js/viewer.js"></script>
+        <div id="main">
+            <div class="stats">
+                <p>Streak</p>
+            </div>
+            <div class="stats">
+                <p>Kills</p>
+            </div>
+            <div id="stats1" class="stats">
+                <p>Deaths</p>
+            </div>
+            
+        </div>
     </body>
 </html>

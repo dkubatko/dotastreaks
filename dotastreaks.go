@@ -132,6 +132,7 @@ type Player struct {
 type User struct {
 	Client_id     string
 	Account_id    string
+	Channel_id    string
 	Stats         DotaStats
 	Last_match_id int
 }
@@ -319,6 +320,7 @@ var Users []User
 type ValRequest struct {
 	Account_id string
 	Client_id  string
+	Channel_id string
 }
 
 type VResponse struct {
@@ -366,19 +368,30 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	//append new user with channel id and account id
-	us := User{Client_id: val.Client_id, Account_id: val.Account_id}
+	us := User{Client_id: val.Client_id, Account_id: val.Account_id,
+		Channel_id: val.Channel_id}
+
 	us.convertID(us.Account_id)
 	Users = append(Users, us)
 }
 
 /* Actual update */
 type UpdateRequest struct {
-	client_id string
+	Channel_id string
 }
 
 func findUserByID(Client_id string) User {
 	for _, user := range Users {
 		if user.Client_id == Client_id {
+			return user
+		}
+	}
+	return User{}
+}
+
+func findUserByChannelID(Channel string) User {
+	for _, user := range Users {
+		if user.Channel_id == Channel_id {
 			return user
 		}
 	}
@@ -422,7 +435,54 @@ func update(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	js, err := json.Marshal(updUser)
+	js, err := json.Marshal(updUser.Stats)
+
+	if err != nil {
+		fmt.Println("Error processing json!")
+		return
+	}
+
+	rw.Header().Set("Content-Type", "application/json")
+	rw.Write(js)
+}
+
+func userUpdate(rw http.ResponseWriter, req *http.Request) {
+	var JWTtoken string = req.Header.Get("x-extension-jwt")
+	var JWTclaims jwt.MapClaims
+	JWTclaims, err := parseJWT(JWTtoken)
+
+	if err != nil {
+		return
+	}
+
+	if JWTclaims["role"] != "viewer" {
+		return
+	}
+
+	defer req.Body.Close()
+	decoder := json.NewDecoder(req.Body)
+	var upd UpdateRequest
+	err = decoder.Decode(&upd)
+
+	if err != nil {
+		return
+	}
+
+	var updUser User = findUserByChannelID(upd.cahnnel_id)
+
+	if updUser.Client_id == "" {
+		fmt.Println("User not found!")
+		return
+	}
+
+	err = updUser.collectStats()
+
+	if err != nil {
+		fmt.Println("Error getting data!")
+		return
+	}
+
+	js, err := json.Marshal(updUser.Stats)
 
 	if err != nil {
 		fmt.Println("Error processing json!")
@@ -496,13 +556,6 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
-	var uns jwt.MapClaims
-	uns, _ = parseJWT(tokenstr)
-
-	fmt.Println(uns["exp"].(float64))
-	fmt.Println(uns["user_id"].(string))
-	fmt.Println(uns["role"].(string))
-
 	if err != nil {
 		return
 	}
@@ -515,20 +568,10 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	auth := "Bearer " + tokenstr
 
-	fmt.Printf("%v\n", auth)
-
 	r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
 	r.Header.Set("Authorization", auth)
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
 	r.Header.Set("Content-Type", "application/json")
-
-	// Loop through headers
-	for name, headers := range r.Header {
-		name = strings.ToLower(name)
-		for _, h := range headers {
-			fmt.Printf("%v: %v\n ", name, h)
-		}
-	}
 
 	q := r.URL.Query()
 	q.Add("channel_id", val.Channel_id)
@@ -536,14 +579,10 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	resp, err := (&http.Client{}).Do(r)
 
-	fmt.Println("Did request to twitch")
-
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-
-	fmt.Println(resp.StatusCode)
 
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
