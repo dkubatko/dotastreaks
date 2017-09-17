@@ -444,6 +444,11 @@ func main() {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
+	//support static file for validation
+	http.HandleFunc("/.well-known/pki-validation/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, r.URL.Path[1:])
+	})
+
 	fmt.Println("Server running!")
 	err := http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", nil)
 
