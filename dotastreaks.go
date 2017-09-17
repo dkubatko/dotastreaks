@@ -434,7 +434,7 @@ func main() {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 	//support static file for pictures
-	http.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/frontend/images/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
