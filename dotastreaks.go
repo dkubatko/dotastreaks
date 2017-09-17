@@ -447,11 +447,10 @@ func signToken(jwts JWTSignature) (string, error) {
 		"role":    jwts.Role,
 	})
 
-	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString(JWTsecret)
+	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
 
-	fmt.Printf(tokenString)
-	fmt.Printf(err.Error())
+	// Sign and get the complete encoded token as a string using the secret
+	tokenString, err := token.SignedString(sDec)
 
 	return tokenString, err
 }
@@ -483,14 +482,10 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Println("Got request and verified header")
-
 	defer req.Body.Close()
 	decoder := json.NewDecoder(req.Body)
 	var val ConfigReq
 	err = decoder.Decode(&val)
-
-	fmt.Println(val.Channel_id)
 
 	if err != nil {
 		return
@@ -503,8 +498,6 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
-
-	fmt.Println("I got here")
 
 	jsonStr, _ := json.Marshal(ConfigResp{"done"})
 
