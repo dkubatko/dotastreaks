@@ -296,9 +296,7 @@ func parseJWT(tokenString string) (jwt.MapClaims, error) {
 	fmt.Fprintf(os.Stderr, "Validating token\n")
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
-		fmt.Fprintf(os.Stderr, "Checking method\n")
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			fmt.Fprintf(os.Stderr, "Bad method\n")
 			return jwt.MapClaims{}, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 		return []byte(JWTsecret), nil
@@ -320,26 +318,18 @@ type ValRequest struct {
 }
 
 func verify(rw http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(os.Stderr, "recieved\n")
-
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
-	fmt.Fprintf(os.Stderr, "got header\n")
 
-	/*
-		if JWTtoken == "" {
-			return
-		}*/
+	if JWTtoken == "" {
+		return
+	}
 
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
 
-	fmt.Fprintf(os.Stderr, "Token dead")
-
 	if err != nil {
 		return
 	}
-
-	fmt.Println("Parsed token")
 
 	if JWTclaims["role"] != "broadcaster" {
 		return
@@ -432,12 +422,14 @@ func update(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	_, err := parseJWT("")
-	if err != nil {
-		fmt.Println("not nil")
-	}
 	http.HandleFunc("/update", update)
 	http.HandleFunc("/verify", verify)
+
+	//support static file serve
+	http.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, r.URL.Path[1:])
+	})
+
 	fmt.Println("Server running!")
 	http.ListenAndServe(":80", nil)
 }
