@@ -497,6 +497,13 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
+	var uns jwt.MapClaims
+	uns, _ = parseJWT(tokenstr)
+
+	fmt.Printf(uns["exp"])
+	fmt.Printf(uns["user_id"])
+	fmt.Printf(uns["role"])
+
 	if err != nil {
 		return
 	}
