@@ -445,9 +445,10 @@ func main() {
 	})
 
 	fmt.Println("Server running!")
-	err := http.ListenAndServeTLS(":8080", "server.crt", "server.key", nil)
+	err := http.ListenAndServeTLS(":8080", "dotastreaks.crt", "dotastreaks.key", nil)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		return
 	}
 }
