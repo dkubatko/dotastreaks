@@ -444,7 +444,7 @@ func signToken(jwts JWTSignature) (string, error) {
 	// Create a new token object, specifying signing method and the claims
 	// you would like it to contain.
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"exp":     jwts.Exp,
+		"exp":     int64(jwts.Exp),
 		"user_id": jwts.User_id,
 		"role":    jwts.Role,
 	})
