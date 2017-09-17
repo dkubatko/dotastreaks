@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	b64 "encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -409,21 +410,21 @@ func update(rw http.ResponseWriter, req *http.Request) {
 	var updUser User = findUserByID(upd.client_id)
 
 	if updUser.Client_id == "" {
-		rw.Write([]byte("User not found!"))
+		fmt.Println("User not found!")
 		return
 	}
 
 	err = updUser.collectStats()
 
 	if err != nil {
-		rw.Write([]byte("Error getting data!"))
+		fmt.Println("Error getting data!")
 		return
 	}
 
 	js, err := json.Marshal(updUser)
 
 	if err != nil {
-		rw.Write([]byte("Error processing json!"))
+		fmt.Println("Error processing json!")
 		return
 	}
 
@@ -431,9 +432,97 @@ func update(rw http.ResponseWriter, req *http.Request) {
 	rw.Write(js)
 }
 
+type JWTSignature struct {
+	Exp     int
+	User_id string
+	Role    string
+}
+
+func signToken(jwts JWTSignature) (string, error) {
+	// Create a new token object, specifying signing method and the claims
+	// you would like it to contain.
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"exp":     jwts.Exp,
+		"user_id": jwts.User_id,
+		"role":    jwts.Role,
+	})
+
+	// Sign and get the complete encoded token as a string using the secret
+	tokenString, err := token.SignedString(JWTsecret)
+
+	return tokenString, err
+}
+
+type ConfigReq struct {
+	Channel_id string
+}
+
+type ConfigResp struct {
+	Required_configuration string
+}
+
+func configDone(rw http.ResponseWriter, req *http.Request) {
+	var JWTtoken string = req.Header.Get("x-extension-jwt")
+
+	if JWTtoken == "" {
+		return
+	}
+
+	var JWTclaims jwt.MapClaims
+	JWTclaims, err := parseJWT(JWTtoken)
+
+	if err != nil {
+		return
+	}
+
+	if JWTclaims["role"] != "broadcaster" {
+		return
+	}
+
+	defer req.Body.Close()
+	decoder := json.NewDecoder(req.Body)
+	var val ConfigReq
+	err = decoder.Decode(&val)
+
+	if err != nil {
+		return
+	}
+
+	var signature = JWTSignature{Exp: 4661352816, User_id: "43665292",
+		Role: "external"}
+	tokenstr, err := signToken(signature)
+
+	if err != nil {
+		return
+	}
+
+	jsonStr, _ := json.Marshal(ConfigResp{"done"})
+
+	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
+
+	r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
+	r.Header.Set("Content-Type", "application/json")
+	r.Header.Set("Authorization", tokenstr)
+
+	q := r.URL.Query()
+	q.Add("channel_id", val.Channel_id)
+	r.URL.RawQuery = q.Encode()
+
+	resp, err := (&http.Client{}).Do(r)
+
+	if err != nil {
+		return
+	}
+
+	fmt.Println(resp.StatusCode)
+
+}
+
 func main() {
 	http.HandleFunc("/update", update)
 	http.HandleFunc("/verify", verify)
+	http.HandleFunc("/config", configDone)
 
 	//support static file serve for htmls
 	http.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
