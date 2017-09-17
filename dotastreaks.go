@@ -450,6 +450,9 @@ func signToken(jwts JWTSignature) (string, error) {
 	// Sign and get the complete encoded token as a string using the secret
 	tokenString, err := token.SignedString(JWTsecret)
 
+	fmt.Printf(tokenString)
+	fmt.Printf(err.Error())
+
 	return tokenString, err
 }
 
@@ -497,12 +500,11 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
-	fmt.Println(tokenstr)
-
 	if err != nil {
-		fmt.Println(err.Error())
 		return
 	}
+
+	fmt.Println("I got here")
 
 	jsonStr, _ := json.Marshal(ConfigResp{"done"})
 
