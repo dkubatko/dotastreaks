@@ -13,3 +13,12 @@ or in the "license" file accompanying this file. This file is distributed on an 
   Set Javascript specific to the extension configuration view in this file.
 
 */
+
+function show_loading() {
+    var x = document.getElementById('loading');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}

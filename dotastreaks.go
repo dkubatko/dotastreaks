@@ -357,7 +357,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	//append new user with channel id and account id
-	us := User{Client_id: JWTclaims["channel_id"], Account_id: val.Account_id}
+	us := User{Client_id: JWTclaims["channel_id"].(string), Account_id: val.Account_id}
 	us.convertID(us.Account_id)
 	Users = append(Users, us)
 }

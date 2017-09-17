@@ -14,17 +14,37 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 -->
 <html lang="">
+    
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/common.css">
         <link rel="stylesheet" href="css/config.css">
+        
+        <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
     </head>
+    
     <body style="background-color: black">
-        <h1>Let's set up your extension</h1>
         <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
         <script src="js/common.js"></script>
         <script src="js/config.js"></script>
+        
+        
+        <h1>Let's set up your extension</h1>
+        <!-- this is comment -->
+        <div class='instr'>
+            <p class='instr-main'>First, we need your Steam ID.</p>
+            <p class='instr-hint'>You can find it in the URL path to your Steam Account or <a href="http://steamcommunity.com" target="_blank">here</a>.</p>
+        </div>
+        <form>
+            <input id="inp" type='text' name='steam_id' placeholder="Your Steam ID" autocomplete="false">
+        </form>
+        <div id="loading">
+            <img src="/images/loading.gif" alt="Loading" style="width:28px;height:28px;">
+        </div>
+        <button id="done" onclick="show_loading()">Done</button>
+        
     </body>
+
 </html>
