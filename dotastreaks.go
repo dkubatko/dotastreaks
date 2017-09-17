@@ -508,7 +508,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
 
 	r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
-	r.Header.Set("Authorization", tokenstr)
+	r.Header.Set("Authorization", "Bearer "+tokenstr)
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
 	r.Header.Set("Content-Type", "application/json")
 
