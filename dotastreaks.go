@@ -516,12 +516,13 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
 	r.Header.Set("Content-Type", "application/json")
 
-    // Loop through headers
-     for name, headers := range r.Header {
-       name = strings.ToLower(name)
-       for _, h := range headers {
-         request = append(request, fmt.Sprintf("%v: %v", name, h))
-       }
+	// Loop through headers
+	for name, headers := range r.Header {
+		name = strings.ToLower(name)
+		for _, h := range headers {
+			request = append(request, fmt.Sprintf("%v: %v", name, h))
+		}
+	}
 
 	q := r.URL.Query()
 	q.Add("channel_id", val.Channel_id)
