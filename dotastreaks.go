@@ -562,8 +562,3 @@ func main() {
 		return
 	}
 }
-curl -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQ2NjEzNTI4MTYsInJvbGUiOiJleHRlcm5hbCIsInVzZXJfaWQiOiI0MzY2NTI5MiJ9.wEwVf0O2bL36n5CpkDEUG-3STnJNOzG_w-EoqciaY3w' \
--H 'Client-Id: ebfbsgj6lg9k2d4czcycledd89vrz9' \
--H 'Content-Type: application/json' \
--d '{"required_configuration": "ok"}' \
--X PUT https://api.twitch.tv/extensions/277906/0.0.1/required_configuration?channel_id=27419011
