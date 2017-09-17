@@ -495,7 +495,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
-	fmt.Println(tokenstr)
+	fmt.Println("Bearer " + tokenstr)
 
 	if err != nil {
 		return
@@ -507,8 +507,9 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
 
+	auth := "Bearer " + tokenstr
 	r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
-	r.Header.Set("Authorization", "Bearer "+tokenstr)
+	r.Header.Set("Authorization", auth)
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
 	r.Header.Set("Content-Type", "application/json")
 
@@ -526,6 +527,11 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	fmt.Println(resp.StatusCode)
+
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	fmt.Println(string(body))
 
 }
 
