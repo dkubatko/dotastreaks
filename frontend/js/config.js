@@ -41,7 +41,7 @@ function sendSteamID() {
                 "client_id": Gauth.clientId
             }
     $.ajax({
-            url: 'https://localhost:8080/verify',
+            url: 'https://dotastreaks.com/verify',
             type: 'POST',
             headers: {
                 'x-extension-jwt': Gauth.token
