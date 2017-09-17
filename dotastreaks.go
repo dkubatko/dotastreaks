@@ -462,6 +462,7 @@ type ConfigResp struct {
 }
 
 func configDone(rw http.ResponseWriter, req *http.Request) {
+
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 
 	if JWTtoken == "" {
@@ -479,10 +480,14 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Println("Got request and verified header")
+
 	defer req.Body.Close()
 	decoder := json.NewDecoder(req.Body)
 	var val ConfigReq
 	err = decoder.Decode(&val)
+
+	fmt.Println(val.Channel_id)
 
 	if err != nil {
 		return
@@ -491,6 +496,8 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	var signature = JWTSignature{Exp: 4661352816, User_id: "43665292",
 		Role: "external"}
 	tokenstr, err := signToken(signature)
+
+	fmt.Println("Signed token")
 
 	if err != nil {
 		return
