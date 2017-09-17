@@ -495,20 +495,22 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
+	fmt.Println(tokenStr)
+
 	if err != nil {
 		return
 	}
 
 	jsonStr, _ := json.Marshal(ConfigResp{"done"})
 
-	fmt.Println(jsonStr)
+	fmt.Println(string(jsonStr))
 
 	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
 
 	r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+	r.Header.Set("Authorization", tokenstr)
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
 	r.Header.Set("Content-Type", "application/json")
-	r.Header.Set("Authorization", tokenstr)
 
 	q := r.URL.Query()
 	q.Add("channel_id", val.Channel_id)
