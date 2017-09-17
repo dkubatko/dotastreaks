@@ -493,7 +493,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var signature = JWTSignature{Exp: (time.Unix() + 60*60), User_id: "43665292",
+	var signature = JWTSignature{Exp: (time.Now().Unix() + 60*60), User_id: "43665292",
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
