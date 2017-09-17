@@ -500,7 +500,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	var uns jwt.MapClaims
 	uns, _ = parseJWT(tokenstr)
 
-	fmt.Println(uns["exp"].(int64))
+	fmt.Println(uns["exp"].(float64))
 	fmt.Println(uns["user_id"].(string))
 	fmt.Println(uns["role"].(string))
 
