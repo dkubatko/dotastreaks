@@ -1,12 +1,12 @@
 package main
 
 import (
+	b64 "encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strconv"
 )
 
@@ -293,13 +293,15 @@ func (d *DotaAPI) validateID(account_id string) bool {
 const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
 
 func parseJWT(tokenString string) (jwt.MapClaims, error) {
-	fmt.Fprintf(os.Stderr, "Validating token\n")
+
+	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
+
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return jwt.MapClaims{}, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(JWTsecret), nil
+		return sDec, nil
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
@@ -314,12 +316,10 @@ var Users []User
 
 type ValRequest struct {
 	Account_id string
-	Channel_id string
 }
 
 func verify(rw http.ResponseWriter, req *http.Request) {
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
-
 	if JWTtoken == "" {
 		return
 	}
@@ -328,10 +328,12 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	JWTclaims, err := parseJWT(JWTtoken)
 
 	if err != nil {
+		rw.Write([]byte("err token"))
 		return
 	}
 
 	if JWTclaims["role"] != "broadcaster" {
+		rw.Write([]byte("err role"))
 		return
 	}
 
@@ -340,6 +342,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	err = decoder.Decode(&val)
 
 	if err != nil {
+		rw.Write([]byte("err body"))
 		return
 	}
 	defer req.Body.Close()
@@ -354,7 +357,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	//append new user with channel id and account id
-	us := User{Client_id: val.Channel_id, Account_id: val.Account_id}
+	us := User{Client_id: JWTclaims["channel_id"], Account_id: val.Account_id}
 	us.convertID(us.Account_id)
 	Users = append(Users, us)
 }
@@ -431,5 +434,9 @@ func main() {
 	})
 
 	fmt.Println("Server running!")
-	http.ListenAndServe(":80", nil)
+	err := http.ListenAndServeTLS(":8080", "server.crt", "server.key", nil)
+
+	if err != nil {
+		return
+	}
 }

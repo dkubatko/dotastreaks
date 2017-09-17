@@ -15,7 +15,6 @@ or in the "license" file accompanying this file. This file is distributed on an 
 */
 
 if(window.Twitch.ext) {
-
   window.Twitch.ext.onAuthorized(function(auth) {
     console.log(auth);
   });
