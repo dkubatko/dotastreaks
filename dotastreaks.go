@@ -520,7 +520,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	for name, headers := range r.Header {
 		name = strings.ToLower(name)
 		for _, h := range headers {
-			request = append(request, fmt.Sprintf("%v: %v", name, h))
+			fmt.Printf("%v: %v\n ", name, h)
 		}
 	}
 
