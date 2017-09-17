@@ -435,7 +435,7 @@ func update(rw http.ResponseWriter, req *http.Request) {
 }
 
 type JWTSignature struct {
-	Exp     int
+	Exp     int64
 	User_id string
 	Role    string
 }
