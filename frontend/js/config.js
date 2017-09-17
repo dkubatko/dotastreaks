@@ -29,6 +29,28 @@ $(document).ready(function(){
             $(this).animate({backgroundColor: "white"}, "slow");
         }
     });
+    
+    $("#complete").click(function() {
+        var data = {
+                "channel_id": Gauth.channelId
+            };
+       $.ajax({
+            url: 'https://dotastreaks.com/config',
+            type: 'POST',
+            headers: {
+                'x-extension-jwt': Gauth.token
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function(data) {
+                console.log("ok")        
+            },
+            error: function() {
+                console.log("AJAX ERROR")
+            }
+        }); 
+    });
 });
 
 function sendSteamID() {
@@ -39,7 +61,7 @@ function sendSteamID() {
     var data = {
                 "account_id": account_id,
                 "client_id": Gauth.clientId
-            }
+            };
     $.ajax({
             url: 'https://dotastreaks.com/verify',
             type: 'POST',
