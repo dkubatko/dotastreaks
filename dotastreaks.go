@@ -500,10 +500,13 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	fmt.Println("Signed token")
 
 	if err != nil {
+		fmt.Println(err.Error())
 		return
 	}
 
 	jsonStr, _ := json.Marshal(ConfigResp{"done"})
+
+	fmt.Println(jsonStr)
 
 	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
 
