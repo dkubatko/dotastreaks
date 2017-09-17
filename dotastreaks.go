@@ -495,7 +495,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
-	fmt.Println(tokenStr)
+	fmt.Println(tokenstr)
 
 	if err != nil {
 		return
