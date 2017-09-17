@@ -319,8 +319,13 @@ type ValRequest struct {
 	Client_id  string
 }
 
+type VResponse struct {
+	Response string
+}
+
 func verify(rw http.ResponseWriter, req *http.Request) {
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
+
 	if JWTtoken == "" {
 		return
 	}
@@ -329,31 +334,32 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	JWTclaims, err := parseJWT(JWTtoken)
 
 	if err != nil {
-		rw.Write([]byte("err token"))
 		return
 	}
 
 	if JWTclaims["role"] != "broadcaster" {
-		rw.Write([]byte("err role"))
 		return
 	}
 
+	defer req.Body.Close()
 	decoder := json.NewDecoder(req.Body)
 	var val ValRequest
 	err = decoder.Decode(&val)
 
 	if err != nil {
-		rw.Write([]byte("err body"))
 		return
 	}
-	defer req.Body.Close()
 
 	dapi := &DotaAPI{}
 	dapi.Default()
 	if ok := dapi.validateID(val.Account_id); ok {
-		rw.Write([]byte("ok"))
+		rw.Header().Set("Content-Type", "application/json")
+		js, _ := json.Marshal(VResponse{"ok"})
+		rw.Write(js)
 	} else {
-		rw.Write([]byte("err"))
+		rw.Header().Set("Content-Type", "application/json")
+		js, _ := json.Marshal(VResponse{"err"})
+		rw.Write(js)
 		return
 	}
 
@@ -434,7 +440,7 @@ func main() {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 	//support static file for pictures
-	http.HandleFunc("/frontend/images/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 

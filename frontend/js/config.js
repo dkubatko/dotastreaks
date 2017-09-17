@@ -14,34 +14,34 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 */
 
+$(document).ready(function(){
+    $("#done").click(function() {
+        $("#loading").slideDown("slow");
+    });
+});
+
 function sendSteamID() {
     var account_id =        document.getElementById('inp').value;
+    var data = {
+                "account_id": account_id,
+                "client_id": Gauth.clientId
+            }
+    console.log(data);
     $.ajax({
             url: 'https://localhost:8080/verify',
             type: 'POST',
             headers: {
                 'x-extension-jwt': Gauth.token
             },
+            contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: {
-                account_id: account_id,
-                client_id: Gauth.clientId
-            },
+            data: JSON.stringify(data),
             success: function(data) {
-                console.log(data)
+                $("#loading").slideUp("slow");
+                console.log(data);
             },
             error: function() {
-                console.log("error")
+                console.log("AJAX ERROR")
             }
-        });   
-}
-
-function show_loading() {
-    var x = document.getElementById('loading');
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-        sendSteamID();
-    } else {
-        x.style.display = 'none';
-    }
+        });
 }
