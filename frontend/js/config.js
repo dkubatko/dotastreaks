@@ -14,10 +14,33 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 */
 
+function sendSteamID() {
+    var account_id =        document.getElementById('inp').value;
+    $.ajax({
+            url: 'https://localhost:8080/verify',
+            type: 'POST',
+            headers: {
+                'x-extension-jwt': Gauth.token
+            },
+            dataType: 'json',
+            data: {
+                account_id: account_id,
+                client_id: Gauth.clientId
+            },
+            success: function(data) {
+                console.log(data)
+            },
+            error: function() {
+                console.log("error")
+            }
+        });   
+}
+
 function show_loading() {
     var x = document.getElementById('loading');
     if (x.style.display === 'none') {
         x.style.display = 'block';
+        sendSteamID();
     } else {
         x.style.display = 'none';
     }

@@ -316,6 +316,7 @@ var Users []User
 
 type ValRequest struct {
 	Account_id string
+	Client_id  string
 }
 
 func verify(rw http.ResponseWriter, req *http.Request) {
@@ -357,14 +358,14 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	//append new user with channel id and account id
-	us := User{Client_id: JWTclaims["channel_id"].(string), Account_id: val.Account_id}
+	us := User{Client_id: val.Client_id, Account_id: val.Account_id}
 	us.convertID(us.Account_id)
 	Users = append(Users, us)
 }
 
 /* Actual update */
 type UpdateRequest struct {
-	channel_id string
+	client_id string
 }
 
 func findUserByID(Client_id string) User {
@@ -399,7 +400,7 @@ func update(rw http.ResponseWriter, req *http.Request) {
 
 	defer req.Body.Close()
 
-	var updUser User = findUserByID(upd.channel_id)
+	var updUser User = findUserByID(upd.client_id)
 
 	if updUser.Client_id == "" {
 		rw.Write([]byte("User not found!"))
@@ -428,8 +429,12 @@ func main() {
 	http.HandleFunc("/update", update)
 	http.HandleFunc("/verify", verify)
 
-	//support static file serve
+	//support static file serve for htmls
 	http.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, r.URL.Path[1:])
+	})
+	//support static file for pictures
+	http.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
