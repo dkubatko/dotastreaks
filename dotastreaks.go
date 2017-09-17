@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const DefaultExt = ".html"
@@ -491,11 +492,9 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var signature = JWTSignature{Exp: 1600380812, User_id: "43665292",
+	var signature = JWTSignature{Exp: (time.Unix() + 60*60), User_id: "43665292",
 		Role: "external"}
 	tokenstr, err := signToken(signature)
-
-	fmt.Println("Bearer " + tokenstr)
 
 	if err != nil {
 		return
@@ -508,6 +507,9 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
 
 	auth := "Bearer " + tokenstr
+
+	fmt.Printf("%v\n", auth)
+
 	r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
 	r.Header.Set("Authorization", auth)
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
