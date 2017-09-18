@@ -31,11 +31,9 @@ $(document).ready(function (){
     $(".defbtn").click(function() {
         var clr = $(this).css("backgroundColor")
         if (clr == unpressedColor) {
-            $(this).animate({backgroundColor: pressedColor}, "slow");
-            $("#complete").prop("disabled", true).delay("slow").prop("disabled", false);
+            $(this).animate({backgroundColor: pressedColor}, "fast");
         } else if (clr == pressedColor) {
-            $(this).animate({backgroundColor: unpressedColor}, "slow");
-            $("#complete").prop("disabled", true).delay("slow").prop("disabled", false);
+            $(this).animate({backgroundColor: unpressedColor}, "fast");
         }
     });
     
