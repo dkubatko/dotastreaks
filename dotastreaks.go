@@ -620,7 +620,7 @@ func launchUpdates() {
 			go updateInfo(&Users[i], doneChan)
 		}
 
-		for _ := range Users {
+		for _ = range Users {
 			fmt.Println(<-doneChan)
 		}
 
