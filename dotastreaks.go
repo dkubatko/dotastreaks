@@ -643,7 +643,6 @@ func launchUpdates() {
 		doneChan := make(chan bool, len(Users))
 
 		for i := range Users {
-			fmt.Println(i)
 			//using actual user, not a copy of it
 			go updateInfo(&Users[i], doneChan)
 		}
