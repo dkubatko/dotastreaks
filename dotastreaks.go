@@ -155,9 +155,9 @@ func toBool(b []byte) []bool {
 	bool_sl := make([]bool, 0, 0)
 	for _, v := range b {
 		if v == 1 {
-			append(bool_sl, true)
+			bool_sl = append(bool_sl, true)
 		} else if v == 0 {
-			append(bool_sl, false)
+			bool_sl = append(bool_sl, false)
 		}
 	}
 	return bool_sl
