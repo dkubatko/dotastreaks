@@ -628,7 +628,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	jsonStr, _ := json.Marshal(ConfigResp{"done"})
 
-	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
+	url := "https://api.twitch.tv/extensions/ebfbsgj6lg9k2d4czcycledd89vrz9/0.0.1/required_configuration"
 
 	auth := "Bearer " + tokenstr
 
