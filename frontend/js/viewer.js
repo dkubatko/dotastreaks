@@ -13,11 +13,8 @@ or in the "license" file accompanying this file. This file is distributed on an 
   Set Javascript specific to the extension viewer view in this file.
 
 */
-
-var Gauth;
 if (window.Twitch.ext) {
   window.Twitch.ext.onAuthorized(function(auth) {
-      console.log(auth.token)
       (function update() {
         var data = {
                 "channel_id": auth.channelId
