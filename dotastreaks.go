@@ -699,18 +699,17 @@ func main() {
 
 	go launchUpdates()
 
-    handler := cors.Default().Handler(mux)
+	handler := cors.Default().Handler(mux)
 
 	//for cross-origin requests
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"https://ebfbsgj6lg9k2d4czcycledd89vrz9.ext-twitch.tv"},
-		AllowCredentials: true,
-        AllowedHeaders: []string{"X-Requested-With"},
-        AllowedMethods: []string{"POST, GET, OPTIONS, PUT, DELETE"},
-        OptionsPassthrough: true
-	})
+		AllowedOrigins:     []string{"https://ebfbsgj6lg9k2d4czcycledd89vrz9.ext-twitch.tv"},
+		AllowCredentials:   true,
+		AllowedHeaders:     []string{"X-Requested-With"},
+		AllowedMethods:     []string{"POST, GET, OPTIONS, PUT, DELETE"},
+		OptionsPassthrough: true})
 
-	handler := c.Handler(handler)
+	handler = c.Handler(handler)
 	fmt.Println("Server running!")
 	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handler)
 
