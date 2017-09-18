@@ -18,6 +18,7 @@ var Gauth;
 if (window.Twitch.ext) {
   window.Twitch.ext.onAuthorized(function(auth) {
       Gauth = auth;
+      console.log(auth.channelId)
   });
 }
 
