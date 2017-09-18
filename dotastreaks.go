@@ -144,7 +144,7 @@ func (u *User) save() error {
 		choice.Put([]byte(u.Client_id), buf.Bytes())
 
 		fmt.Println("Verification:")
-		fmt.Printf(choice.Get([]byte(u.Client_id)))
+		fmt.Println(choice.Get([]byte(u.Client_id)))
 
 		return nil
 	})
