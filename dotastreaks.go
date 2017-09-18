@@ -134,13 +134,9 @@ func (u *User) save() error {
 		acc.Put([]byte(u.Client_id), []byte(u.Account_id))
 		chs.Put([]byte(u.Client_id), []byte(u.Channel_id))
 
-		fmt.Println(u.Stats.Choice)
-
 		buf := new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
 		choice.Put([]byte(u.Client_id), buf.Bytes())
-
-		fmt.Println(buf.Bytes())
 
 		return nil
 	})
@@ -177,6 +173,8 @@ func readAll() ([]User, error) {
 				buf := bytes.NewReader(choice.Get([]byte(k)))
 				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
 			}
+
+			fmt.Println(us.Stats.Choice)
 
 			Users = append(Users, us)
 		}
