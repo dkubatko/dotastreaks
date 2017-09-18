@@ -661,8 +661,8 @@ func main() {
 	db, err := bolt.Open("UserData.db", 0600, nil)
 
 	err = db.Update(func(tx *bolt.Tx) error {
-		chs := tx.CreateBucket([]byte("Account_id"))
-		choice := tx.CreateBucket([]byte("Choice"))
+		chs, err := tx.CreateBucket([]byte("Account_id"))
+		choice, err := tx.CreateBucket([]byte("Choice"))
 
 		if err != nil {
 			return err
