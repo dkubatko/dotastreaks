@@ -478,13 +478,6 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	err = updUser.collectStats()
-
-	if err != nil {
-		fmt.Println("Error getting data!")
-		return
-	}
-
 	js, err := json.Marshal(updUser.Stats)
 
 	if err != nil {
@@ -616,8 +609,8 @@ func updateInfo(us *User, done chan bool) {
 
 func launchUpdates() {
 	doneChan := make(chan bool, len(Users))
-	for _, u := range Users {
-		go updateInfo(u, doneChan)
+	for i := range Users {
+		go updateInfo(&Users[i], doneChan)
 	}
 	for done := range doneChan {
 		fmt.Println(done)
