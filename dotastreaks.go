@@ -103,7 +103,6 @@ type Player struct {
 
 /* Struct for user info */
 type User struct {
-	Client_id     string
 	Account_id    string
 	Channel_id    string
 	Stats         DotaStats
@@ -130,23 +129,19 @@ func (u *User) save() error {
 	defer db.Close()
 
 	err = db.Batch(func(tx *bolt.Tx) error {
-		fmt.Println("Saving user")
-		fmt.Println(u.Client_id)
-		acc := tx.Bucket([]byte("Account_id"))
-		chs := tx.Bucket([]byte("Channel_id"))
+		chs := tx.Bucket([]byte("Account_id"))
 		choice := tx.Bucket([]byte("Choice"))
 
 		if err != nil {
 			return err
 		}
 
-		acc.Put([]byte(u.Client_id), []byte(u.Account_id))
-		chs.Put([]byte(u.Client_id), []byte(u.Channel_id))
+		chs.Put([]byte(u.Channel_id), []byte(u.Client_id))
 
 		buf := new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
 
-		choice.Put([]byte(u.Client_id), buf.Bytes())
+		choice.Put([]byte(u.Channel_id), buf.Bytes())
 
 		return nil
 	})
@@ -177,18 +172,16 @@ func readAll() ([]User, error) {
 	var Users []User = []User{}
 
 	db.View(func(tx *bolt.Tx) error {
-		acc := tx.Bucket([]byte("Account_id"))
-		chs := tx.Bucket([]byte("Channel_id"))
+		chs := tx.Bucket([]byte("Account_id"))
 		choice := tx.Bucket([]byte("Choice"))
 
-		c := acc.Cursor()
+		c := chs.Cursor()
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
 			var us = User{}
 
-			us.Client_id = string(k)
+			us.Channel_id = string(k)
 			us.Account_id = string(v)
-			us.Channel_id = string(chs.Get([]byte(k)))
 
 			if stats := choice.Get([]byte(k)); stats != nil {
 				us.Stats.Choice = toBool(stats)
@@ -441,7 +434,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	//append new user with channel id and account id
-	us = User{Client_id: val.Client_id, Account_id: val.Account_id,
+	us = User{Account_id: val.Account_id,
 		Channel_id: val.Channel_id}
 
 	us.convertID(us.Account_id)
