@@ -25,6 +25,7 @@ $(document).ready(function (){
     }
     
     $("#done").click(function() {
+        sendSteamID();
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
     });
@@ -72,7 +73,7 @@ $(document).ready(function (){
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             complete: function() {
-                $("#complete").fadeOut("slow");
+                $("#complete").fadeOut ("slow");
                 $("#last").delay("slow").fadeIn("slow");
             },
             data: JSON.stringify(data),
