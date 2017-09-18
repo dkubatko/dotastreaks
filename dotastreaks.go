@@ -632,7 +632,10 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	updUser.Stats.Choice = val.Choice
+	//copy contents to new slice
+	updUser.Stats.Choice = make([]bool, len(val.Choice))
+	copy(updUser.Stats.Choice, val.Choice)
+
 	updUser.save()
 
 	fmt.Println(updUser.Stats.Choice)
