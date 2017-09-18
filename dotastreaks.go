@@ -370,9 +370,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	us := User{Client_id: val.Client_id, Account_id: val.Account_id,
 		Channel_id: val.Channel_id}
 
-	fmt.Println(us)
-	fmt.Println("New user ^")
-
 	us.convertID(us.Account_id)
 	Users = append(Users, us)
 }
@@ -453,9 +450,6 @@ type UserUpdateRequest struct {
 }
 
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
-
-	fmt.Println("Got request")
-
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
@@ -477,8 +471,6 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		fmt.Println("Error decoding")
 		return
 	}
-
-	fmt.Println(upd.Channel_id)
 
 	var updUser User = findUserByChannelID(upd.Channel_id)
 
@@ -503,7 +495,6 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 
 	rw.Header().Set("Content-Type", "application/json")
 	rw.Write(js)
-	fmt.Println("Written data back")
 }
 
 type JWTSignature struct {
