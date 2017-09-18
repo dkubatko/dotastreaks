@@ -41,7 +41,7 @@ if (window.Twitch.ext) {
             },
             complete: function() {
               // Schedule the next request when the current one's complete
-              setTimeout(update, 10000);
+              setTimeout(update, 30000);
             }
         }); 
     })();

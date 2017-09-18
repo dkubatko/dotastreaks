@@ -43,6 +43,7 @@ $(document).ready(function (){
                 "choice": [false, false, false]
             };
         
+        //JQuery didnt give me any result for some reason
         var clr1 = document.getElementsByClassName("defbtn")[0].style.backgroundColor;
         var clr2 = document.getElementsByClassName("defbtn")[1].style.backgroundColor;
         var clr3 = document.getElementsByClassName("defbtn")[2].style.backgroundColor;
@@ -96,15 +97,15 @@ function sendSteamID() {
             dataType: 'json',
             data: JSON.stringify(data),
             success: function(data) {
-                SuccessVerify(data);        
+                successVerify(data);        
             },
             error: function() {
-                console.log("AJAX ERROR")
+                notSuccess()
             }
         });
 }
 
-function SuccessVerify(data) {
+function successVerify(data) {
     $("#loading").slideUp("slow");
     if (data.Response == "ok") {
         $("#resimg").delay(100).attr("src", "/images/ok.png");
@@ -115,4 +116,8 @@ function SuccessVerify(data) {
         $("#resimg").attr("src", "/images/error.png");
         $("#res").delay(1000).slideDown("slow");
     }
+}
+
+function notSuccess() {
+    $("#loading").slideUp("slow");
 }
