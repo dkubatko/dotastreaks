@@ -22,16 +22,13 @@ var clr2
 var clr3
 
 $(document).ready(function (){
-    clr1 = $("#ch1").css("background-color")
-    clr2 = $("#ch2").css("background-color")
-    clr3 = $("#ch3").css("background-color")
     $("#done").click(function() {
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
     });
     
     $(".defbtn").click(function() {
-        var clr = $(this).css("background-color")
+        var clr = $(this).css("backgroundColor")
         if (clr == unpressedColor) {
             $(this).animate({backgroundColor: pressedColor}, "slow");
         } else if (clr == pressedColor) {
@@ -45,9 +42,9 @@ $(document).ready(function (){
                 "choice": [true, true, true]
             };
         
-        clr1 = $("#ch1").css("background-color")
-        clr2 = $("#ch2").css("background-color")
-        clr3 = $("#ch3").css("background-color")
+        clr1 = $("#ch1").css("backgroundColor")
+        clr2 = $("#ch2").css("backgroundColor")
+        clr3 = $("#ch3").css("backgroundColor")
         
         console.log(clr1)
         console.log(clr2)
