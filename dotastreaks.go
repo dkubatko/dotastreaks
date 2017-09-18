@@ -619,6 +619,8 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	updUser.Stats.Choice = val.Choice
 	updUser.save()
 
+	fmt.Println(updUser.Stats.Choice)
+
 	var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
 		Role: "external"}
 	tokenstr, err := signToken(signature)
