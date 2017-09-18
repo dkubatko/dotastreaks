@@ -466,28 +466,7 @@ type UserUpdateRequest struct {
 }
 
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
-	fmt.Println("Got update request")
-	// Loop through headers
-	//var access string = req.Header.Get("Access-Control-Request-Headers")
-
-	/*if access != "" {
-		rw.Header().Add("Content-Type", "application/json")
-		m := map[string]string{
-			"response": "ok",
-		}
-		rw.WriteHeader(http.StatusCreated)
-		_ = json.NewEncoder(rw).Encode(m)
-		return
-	}*/
-
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Printf("%v: %v\n", name, h)
-		}
-	}
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
-	fmt.Println("No header?")
-	fmt.Println(JWTtoken)
 
 	if JWTtoken == "" {
 		fmt.Println("Empty token")
@@ -496,7 +475,6 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
 
-	fmt.Println("Got header")
 	if err != nil {
 		return
 	}
@@ -510,13 +488,11 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	var upd UserUpdateRequest
 	err = decoder.Decode(&upd)
 
-	fmt.Println("Decoded")
 	if err != nil {
 		fmt.Println("Error decoding")
 		return
 	}
 
-	fmt.Println("Searching for user")
 	var updUser *User = findUserByChannelID(upd.Channel_id)
 
 	if updUser.Channel_id == "" {
