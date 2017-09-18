@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/rs/cors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
