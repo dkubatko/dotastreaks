@@ -14,6 +14,8 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 */
 
+var pressedColor = "rgb(102, 255, 153)"
+
 $(document).ready(function (){
     $("#done").click(function() {
         $("#res").slideUp("50");
@@ -23,8 +25,8 @@ $(document).ready(function (){
     $(".defbtn").click(function() {
         var clr = $(this).css("background-color")
         if (clr == "rgb(255, 255, 255)") {
-            $(this).animate({backgroundColor: "rgb(102, 255, 153)"}, "slow");
-        } else if (clr == "rgb(102, 255, 153)") {
+            $(this).animate({backgroundColor: pressedColor}, "slow");
+        } else if (clr == pressedColor) {
             $(this).animate({backgroundColor: "white"}, "slow");
         }
     });
@@ -40,16 +42,16 @@ $(document).ready(function (){
         var clr2 = $("#ch2").css("background-color")
         var clr3 = $("#ch3").css("background-color")
         
-        if (clr1 == "rgb(102, 255, 153)") {
-            data.choice[0] = true
+        if (clr1 != pressedColor) {
+            data.choice[0] = false
         }
         
-        if (clr2 == "rgb(102, 255, 153)") {
-            data.choice[1] = true
+        if (clr2 != pressedColor) {
+            data.choice[1] = false
         }
         
-        if (clr3 == "rgb(102, 255, 153)") {
-            data.choice[2] = true
+        if (clr3 != pressedColor) {
+            data.choice[2] = false
         }
         
         console.log(JSON.stringify(data))
