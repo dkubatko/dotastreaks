@@ -21,7 +21,6 @@ $(document).ready(function (){
     });
     
     $(".defbtn").click(function() {
-        console.log("I AM HERE! I AM ALIVE@@!!!")
         var clr = $(this).css("background-color")
         if (clr == "rgb(255, 255, 255)") {
             $(this).animate({backgroundColor: "rgb(102, 255, 153)"}, "slow");
@@ -33,11 +32,27 @@ $(document).ready(function (){
     $("#complete").click(function() {
         var data = {
                 "channel_id": Gauth.channelId,
-                "choice": [true, false, true]
+                "choice": [true, true, true]
             };
         console.log(JSON.stringify(data))
-        console.log("I AM HERE! I AM ALIVE@@!!!")
-       $.ajax({
+
+        var clr1 = $("#ch1").css("background-color")
+        var clr2 = $("#ch2").css("background-color")
+        var clr3 = $("#ch3").css("background-color")
+        
+        if (clr1 == "rgb(102, 255, 153)") {
+            data.choice[0] = true
+        }
+        
+        if (clr2 == "rgb(102, 255, 153)") {
+            data.choice[1] = true
+        }
+        
+        if (clr3 == "rgb(102, 255, 153)") {
+            data.choice[2] = true
+        }
+       
+        $.ajax({
             url: 'https://dotastreaks.com/config',
             type: 'POST',
             headers: {

@@ -134,16 +134,11 @@ func (u *User) save() error {
 		acc.Put([]byte(u.Client_id), []byte(u.Account_id))
 		chs.Put([]byte(u.Client_id), []byte(u.Channel_id))
 
-		fmt.Println(u.Stats.Choice)
-		fmt.Println("^ is gonna be put")
-
 		buf := new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
-		fmt.Println("Putting into db")
-		fmt.Println(buf.Bytes())
+
 		choice.Put([]byte(u.Client_id), buf.Bytes())
 
-		fmt.Println("Verification:")
 		fmt.Println(choice.Get([]byte(u.Client_id)))
 
 		return nil
@@ -189,13 +184,7 @@ func readAll() ([]User, error) {
 			us.Channel_id = string(chs.Get([]byte(k)))
 
 			if stats := choice.Get([]byte(k)); stats != nil {
-				fmt.Println("not nil")
-				fmt.Println(stats)
-
 				us.Stats.Choice = toBool(stats)
-
-				fmt.Println(us.Stats.Choice)
-				fmt.Println("After converstion")
 			}
 
 			Users = append(Users, us)
@@ -616,8 +605,6 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	var val ConfigReq
 	err = decoder.Decode(&val)
 
-	fmt.Println(val)
-
 	if err != nil {
 		return
 	}
@@ -630,8 +617,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	updUser.Stats.Choice = val.Choice
-
-	fmt.Println(val.Choice)
+	fmt.Println(updUser.Stats.Choice)
 	updUser.save()
 
 	/*
