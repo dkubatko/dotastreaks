@@ -469,7 +469,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	// Loop through headers
 	var access string = req.Header.Get("Access-Control-Request-Headers")
 
-	if access != "" {
+	/*if access != "" {
 		rw.Header().Add("Content-Type", "application/json")
 		m := map[string]string{
 			"response": "ok",
@@ -477,7 +477,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(http.StatusCreated)
 		_ = json.NewEncoder(rw).Encode(m)
 		return
-	}
+	}*/
 
 	for name, headers := range req.Header {
 		for _, h := range headers {
@@ -681,21 +681,24 @@ func main() {
 
 	fmt.Printf("DB loaded with %v users.\n", len(Users))
 
-	http.HandleFunc("/verify", verify)
-	http.HandleFunc("/config", configDone)
-	http.HandleFunc("/userUpdate", userUpdate)
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/verify", verify)
+	mux.HandleFunc("/config", configDone)
+	mux.HandleFunc("/userUpdate", userUpdate)
 
 	//support static file serve for htmls
-	http.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 	//support static file for pictures
-	http.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
 	go launchUpdates()
-
+	//for cross-origin requests
+	handler := cors.Default().Handler(mux)
 	fmt.Println("Server running!")
 	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", nil)
 
