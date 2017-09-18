@@ -21,13 +21,13 @@ body {
 }
 div {
 	margin: 0px;
+    padding: 10px;
 }
 
 #main {
-    max-height: 330px;
-    height: 330px;
-    max-width: 280px;
-    width: 280px;
+    max-height: 320px;
+    min-height: 200px;
+    width: 230px;
     margin: 0px;
     background-color: black;
     position: relative;
@@ -36,23 +36,21 @@ div {
 #pod {
     text-align: center;
     font: 10px "Work Sans";
-    margin-bottom: 0;
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    margin-left: -45px; 
+    margin-top: -4px;
+    margin-bottom: 0px;
 }
 
 #data {
-    margin: 15px;
-    margin-left: 6px;
-    margin-right: 6px;
+    padding-top: 0px;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
     border: 2px solid darkred;
 }
 
 #header {
     margin-bottom: -18px;
-    margin-top: 0px;
+    margin-top: -5px;
     font: 28px "Work Sans";
     border: 2px solid darkred;
 }
@@ -61,7 +59,7 @@ div {
     margin: 0px;
     color: white;
     text-align: center;
-    padding: 7px;
+    padding: 5px;
 }
 
 .stath {
