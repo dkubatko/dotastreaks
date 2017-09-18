@@ -8,8 +8,7 @@ import (
 	"fmt"
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -683,28 +682,37 @@ func main() {
 
 	fmt.Printf("DB loaded with %v users.\n", len(Users))
 
-	router := mux.NewRouter()
+	mux := http.NewServeMux()
 
-	router.HandleFunc("/verify", verify)
-	router.HandleFunc("/config", configDone)
-	router.HandleFunc("/userUpdate", userUpdate)
+	mux.HandleFunc("/verify", verify)
+	mux.HandleFunc("/config", configDone)
+	mux.HandleFunc("/userUpdate", userUpdate)
 
 	//support static file serve for htmls
-	router.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 	//support static file for pictures
-	router.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
 	go launchUpdates()
+
+    handler := cors.Default().Handler(mux)
+
 	//for cross-origin requests
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Access-Control-Allow-Origin"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
-	originsOk := handlers.AllowedOrigins([]string{"https://ebfbsgj6lg9k2d4czcycledd89vrz9.ext-twitch.tv"})
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"https://ebfbsgj6lg9k2d4czcycledd89vrz9.ext-twitch.tv"},
+		AllowCredentials: true,
+        AllowedHeaders: []string{"X-Requested-With"},
+        AllowedMethods: []string{"POST, GET, OPTIONS, PUT, DELETE"},
+        OptionsPassthrough: true
+	})
+
+	handler := c.Handler(handler)
 	fmt.Println("Server running!")
-	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handlers.CORS(originsOk, headersOk, methodsOk)(router))
+	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handler)
 
 	if err != nil {
 		fmt.Println(err.Error())
