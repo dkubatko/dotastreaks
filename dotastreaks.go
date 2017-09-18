@@ -557,6 +557,8 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Println(val.Choice)
+
 	//copy contents to new slice
 	updUser.Stats.Choice = make([]bool, len(val.Choice))
 	copy(updUser.Stats.Choice, val.Choice)

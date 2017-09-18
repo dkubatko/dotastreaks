@@ -106,16 +106,19 @@ a:visited {
 
 #outer
 {
-    width:100%;
+    width: 100%;
+    align-self: center;
+    align-content: center;
     text-align: center;
 }
 .inner
 {
     display: inline-block;
+    margin: 5px;
 }
 
 #second {
-    display: none;
+    display: non;
 }
 
 #last {
@@ -126,7 +129,7 @@ a:visited {
     color: black;
     background-color: white;
     margin-bottom: 1%;
-    margin-top: 3%;
+    margin-top: 1%;
     border: none;
     height: 2.5em;
     width: 6em;

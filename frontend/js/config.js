@@ -19,45 +19,46 @@ var unpressedColor = "rgb(255, 255, 255)"
 
 $(document).ready(function (){
     //set up all buttons to have unpressed color
-    document.getElementsByClassName("defbtn")[0].style.backgroundColor = unpressedColor
-    document.getElementsByClassName("defbtn")[1].style.backgroundColor = unpressedColor
-    document.getElementsByClassName("defbtn")[2].style.backgroundColor = unpressedColor
+    var buttons = document.getElementsByClassName("defbtn")
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.backgroundColor = unpressedColor
+    }
     
     $("#done").click(function() {
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
     });
     
+    //count number of pressed buttons
+    var count = 0
+    
     $(".defbtn").click(function() {
         var clr = $(this).css("backgroundColor")
-        if (clr == unpressedColor) {
+        if (clr == unpressedColor && count < 3) {
             $(this).animate({backgroundColor: pressedColor}, "fast");
+            count++;
         } else if (clr == pressedColor) {
             $(this).animate({backgroundColor: unpressedColor}, "fast");
+            count--;
         }
+        //do nothing if count == 3
     });
     
     $("#complete").click(function() {
         var data = {
                 "channel_id": Gauth.channelId,
-                "choice": [false, false, false]
+                "choice": [false, false, false,
+                          false, false, false]
             };
         
+        var clr = [];
+        var buttons = document.getElementsByClassName("defbtn")
         //JQuery didnt give me any result for some reason
-        var clr1 = document.getElementsByClassName("defbtn")[0].style.backgroundColor;
-        var clr2 = document.getElementsByClassName("defbtn")[1].style.backgroundColor;
-        var clr3 = document.getElementsByClassName("defbtn")[2].style.backgroundColor;
-        
-        if (clr1 != unpressedColor) {
-            data.choice[0] = true
-        }
-        
-        if (clr2 != unpressedColor) {
-            data.choice[1] = true
-        }
-        
-        if (clr3 != unpressedColor) {
-            data.choice[2] = true
+        for (var i = 0; i < buttons.length; i++) {
+            clr[i] = buttons[i].style.backgroundColor = unpressedColor;
+            if (clr[i]) != unpressedColor) {
+                data.choice[i] = true;
+            }
         }
        
         $.ajax({
