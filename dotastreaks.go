@@ -624,7 +624,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	var err Error
+	var err error
 	Users, err = readAll()
 
 	if err != nil {
