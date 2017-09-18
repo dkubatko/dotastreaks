@@ -31,7 +31,8 @@ $(document).ready(function(){
     
     $("#complete").click(function() {
         var data = {
-                "channel_id": Gauth.channelId
+                "channel_id": Gauth.channelId,
+                "choice": [true, true, true]
             };
        $.ajax({
             url: 'https://dotastreaks.com/config',
