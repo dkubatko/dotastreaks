@@ -59,7 +59,7 @@ $(document).ready(function (){
             if (clr[i] != unpressedColor) {
                 data.choice[i] = true;
             } else {
-                $(buttons[i]).fadeOut("slow");
+                $(buttons[i]).animate({ opacity: 0 }, "slow");
             }
         }
        
