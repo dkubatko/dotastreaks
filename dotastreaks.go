@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/rs/cors"
+	"github.com/gorilla/handlers"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -682,26 +682,28 @@ func main() {
 
 	fmt.Printf("DB loaded with %v users.\n", len(Users))
 
-	mux := http.NewServeMux()
+	router := mux.NewRouter()
 
-	mux.HandleFunc("/verify", verify)
-	mux.HandleFunc("/config", configDone)
-	mux.HandleFunc("/userUpdate", userUpdate)
+	router.HandleFunc("/verify", verify)
+	router.HandleFunc("/config", configDone)
+	router.HandleFunc("/userUpdate", userUpdate)
 
 	//support static file serve for htmls
-	mux.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 	//support static file for pictures
-	mux.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/images/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
 	go launchUpdates()
 	//for cross-origin requests
-	handler := cors.Default().Handler(mux)
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
 	fmt.Println("Server running!")
-	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handler)
+	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handlers.CORS(originsOk, headersOk, methodsOk)(router))
 
 	if err != nil {
 		fmt.Println(err.Error())
