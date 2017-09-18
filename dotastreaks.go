@@ -370,6 +370,9 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	us := User{Client_id: val.Client_id, Account_id: val.Account_id,
 		Channel_id: val.Channel_id}
 
+    fmt.Println(us)
+    fmt.Println("New user ^")
+
 	us.convertID(us.Account_id)
 	Users = append(Users, us)
 }
@@ -457,8 +460,8 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if JWTclaims["role"] != "viewer" {
-		fmt.Println("Not a viewer")
+	if JWTclaims["role"] != "viewer" && JWTclaims["role"] != "broadcaster") {
+		return
 	}
 
 	defer req.Body.Close()
@@ -470,6 +473,8 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		fmt.Println("Error decoding")
 		return
 	}
+
+    fmt.Println(upd.id)
 
 	var updUser User = findUserByChannelID(upd.id)
 
