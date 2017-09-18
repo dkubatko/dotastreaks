@@ -645,7 +645,26 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	var err error
+	db, err := bolt.Open("UserData.db", 0600, nil)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	db.Update(func(tx *bolt.Tx) error {
+		_, err := tx.CreateBucket([]byte("Account_id"))
+		_, err = tx.CreateBucket([]byte("Channel_id"))
+		_, err = tx.CreateBucket([]byte("Choice"))
+
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+
+	db.Close()
+
+	//var err error
 	Users, err = readAll()
 
 	if err != nil {
