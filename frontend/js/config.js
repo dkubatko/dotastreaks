@@ -22,6 +22,7 @@ $(document).ready(function (){
     document.getElementsByClassName("defbtn")[0].style.backgroundColor = unpressedColor
     document.getElementsByClassName("defbtn")[1].style.backgroundColor = unpressedColor
     document.getElementsByClassName("defbtn")[2].style.backgroundColor = unpressedColor
+    
     $("#done").click(function() {
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
@@ -31,8 +32,10 @@ $(document).ready(function (){
         var clr = $(this).css("backgroundColor")
         if (clr == unpressedColor) {
             $(this).animate({backgroundColor: pressedColor}, "slow");
+            $("#complete").prop("disabled", true).delay("slow").prop("disabled", false);
         } else if (clr == pressedColor) {
             $(this).animate({backgroundColor: unpressedColor}, "slow");
+            $("#complete").prop("disabled", true).delay("slow").prop("disabled", false);
         }
     });
     
