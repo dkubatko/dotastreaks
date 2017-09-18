@@ -34,7 +34,7 @@ $(document).ready(function (){
                 "channel_id": Gauth.channelId,
                 "choice": [true, true, true]
             };
-        console.log(JSON.stringify(data))
+        
 
         var clr1 = $("#ch1").css("background-color")
         var clr2 = $("#ch2").css("background-color")
@@ -51,6 +51,8 @@ $(document).ready(function (){
         if (clr3 == "rgb(102, 255, 153)") {
             data.choice[2] = true
         }
+        
+        console.log(JSON.stringify(data))
        
         $.ajax({
             url: 'https://dotastreaks.com/config',
