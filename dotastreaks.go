@@ -700,9 +700,9 @@ func main() {
 
 	go launchUpdates()
 	//for cross-origin requests
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Access-Control-Allow-Origin"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
-	originsOk := handlers.AllowedOrigins([]string{"*"})
+	originsOk := handlers.AllowedOrigins([]string{"https://ebfbsgj6lg9k2d4czcycledd89vrz9.ext-twitch.tv"})
 	fmt.Println("Server running!")
 	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handlers.CORS(originsOk, headersOk, methodsOk)(router))
 
