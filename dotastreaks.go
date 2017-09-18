@@ -142,6 +142,8 @@ func readAll(Users []User) error {
 		return err
 	}
 
+	defer db.Close()
+
 	db.View(func(tx *bolt.Tx) error {
 		acc := tx.Bucket([]byte("Account_id"))
 		chs := tx.Bucket([]byte("Channel_id"))
