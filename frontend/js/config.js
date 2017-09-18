@@ -18,6 +18,10 @@ var pressedColor = "rgb(102, 255, 153)"
 var unpressedColor = "rgb(255, 255, 255)"
 
 $(document).ready(function (){
+    //set up all buttons to have unpressed color
+    document.getElementsByClassName("defbtn")[0].style.backgroundColor = unpressedColor
+    document.getElementsByClassName("defbtn")[1].style.backgroundColor = unpressedColor
+    document.getElementsByClassName("defbtn")[2].style.backgroundColor = unpressedColor
     $("#done").click(function() {
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
@@ -35,7 +39,7 @@ $(document).ready(function (){
     $("#complete").click(function() {
         var data = {
                 "channel_id": Gauth.channelId,
-                "choice": [true, true, true]
+                "choice": [false, false, false]
             };
         
         var clr1 = document.getElementsByClassName("defbtn")[0].style.backgroundColor;
@@ -46,16 +50,16 @@ $(document).ready(function (){
         console.log(clr2);
         console.log(clr3);
         
-        if (clr1 == unpressedColor) {
-            data.choice[0] = false
+        if (clr1 != unpressedColor) {
+            data.choice[0] = true
         }
         
-        if (clr2 == unpressedColor) {
-            data.choice[1] = false
+        if (clr2 != unpressedColor) {
+            data.choice[1] = true
         }
         
-        if (clr3 == unpressedColor) {
-            data.choice[2] = false
+        if (clr3 != unpressedColor) {
+            data.choice[2] = true
         }
         
         console.log(JSON.stringify(data))
