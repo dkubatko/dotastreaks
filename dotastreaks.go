@@ -466,13 +466,12 @@ type UserUpdateRequest struct {
 
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	fmt.Println("Got update request")
-    // Loop through headers
-     for name, headers := range req.Header {
-       for _, h := range headers {
-         fmt.Printf("%v: %v", name, h))
-       }
-     }
-
+	// Loop through headers
+	for name, headers := range req.Header {
+		for _, h := range headers {
+			fmt.Printf("%v: %v", name, h)
+		}
+	}
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 	fmt.Println("No header?")
 	fmt.Println(JWTtoken)
