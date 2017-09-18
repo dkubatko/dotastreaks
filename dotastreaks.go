@@ -606,19 +606,24 @@ func updateInfo(us *User, done chan bool) {
 	}
 	us.save()
 	done <- true
+	return
 }
 
 func launchUpdates() {
 	for {
 		fmt.Println("Going into cycle")
-		doneChan := make(chan bool)
+
+		doneChan := make(chan bool, len(Users))
+
 		for i := range Users {
 			fmt.Println(i)
 			go updateInfo(&Users[i], doneChan)
 		}
-		for done := range doneChan {
-			fmt.Println(done)
+
+		for i := range Users {
+			fmt.Println(<-doneChan)
 		}
+
 		fmt.Println("sleeping")
 		time.Sleep(10 * time.Second)
 	}
