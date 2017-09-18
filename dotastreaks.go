@@ -134,9 +134,13 @@ func (u *User) save() error {
 		acc.Put([]byte(u.Client_id), []byte(u.Account_id))
 		chs.Put([]byte(u.Client_id), []byte(u.Channel_id))
 
+		fmt.Println(u.Stats.Choice)
+
 		buf := new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
 		choice.Put([]byte(u.Client_id), buf.Bytes())
+
+		fmt.Println(string(choice.Get([]byte(u.Client_id))))
 
 		return nil
 	})
