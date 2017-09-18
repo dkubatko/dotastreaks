@@ -469,7 +469,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	// Loop through headers
 	for name, headers := range req.Header {
 		for _, h := range headers {
-			fmt.Printf("%v: %v", name, h)
+			fmt.Printf("%v: %v\n", name, h)
 		}
 	}
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
