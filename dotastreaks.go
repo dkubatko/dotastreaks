@@ -130,6 +130,8 @@ func (u *User) save() error {
 	defer db.Close()
 
 	err = db.Batch(func(tx *bolt.Tx) error {
+		fmt.Println("Saving user")
+		fmt.Println(u.Client_id)
 		acc := tx.Bucket([]byte("Account_id"))
 		chs := tx.Bucket([]byte("Channel_id"))
 		choice := tx.Bucket([]byte("Choice"))
