@@ -35,9 +35,9 @@ if (window.Twitch.ext) {
             dataType: 'json',
             data: JSON.stringify(data),
             success: function(data) {
-              $("#val1").text(data.Streak)
-              $("#val2").text(data.Kills)
-              $("#val1").text(data.Deaths)
+              $("#val1").html(data.Streak)
+              $("#val2").html(data.Kills)
+              $("#val1").html(data.Deaths)
             },
             complete: function() {
               // Schedule the next request when the current one's complete
