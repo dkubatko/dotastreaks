@@ -38,9 +38,9 @@ $(document).ready(function (){
                 "choice": [true, true, true]
             };
         
-        var clr1 = document.getElementById("ch1").style.backgroundColor;
-        var clr2 = document.getElementById("ch2").style.backgroundColor;
-        var clr3 = document.getElementById("ch3").style.backgroundColor;
+        var clr1 = document.getElementsByClassName("defbtn")[0].style.backgroundColor;
+        var clr2 = document.getElementsByClassName("defbtn")[1].style.backgroundColor;
+        var clr3 = document.getElementsByClassName("defbtn")[2].style.backgroundColor;
         
         console.log(clr1);
         console.log(clr2);
@@ -77,7 +77,7 @@ function sendSteamID() {
     //close result before showing new one
     $("#res").slideUp(300);
     
-    var account_id =        document.getElementById('inp').value;
+    var account_id = document.getElementById('inp').value;
     var data = {
                 "account_id": account_id,
                 "client_id": Gauth.clientId,
