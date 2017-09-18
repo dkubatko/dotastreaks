@@ -618,6 +618,7 @@ func launchUpdates() {
 		for done := range doneChan {
 			fmt.Println(done)
 		}
+		fmt.Println("sleeping")
 		time.Sleep(10 * time.Second)
 	}
 }
