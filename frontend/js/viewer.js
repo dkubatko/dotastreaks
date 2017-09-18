@@ -21,14 +21,14 @@ if (window.Twitch.ext) {
       console.log(auth.channelId);
       
       (function update() {
-      var data = {
-                "channel_id": Gauth.channelId
+        var data = {
+                "channel_id": auth.channelId
             };
-       $.ajax({
+        $.ajax({
             url: 'https://dotastreaks.com/userUpdate',
             type: 'POST',
             headers: {
-                'x-extension-jwt': Gauth.token
+                'x-extension-jwt': auth.token
             },
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
