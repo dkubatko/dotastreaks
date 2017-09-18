@@ -66,26 +66,62 @@ function trackData(data) {
     } else {
       $("#block3").fadeIn("slow");
     }
+    if (!data.Choice[3]) {
+      $("#block4").fadeOut("slow");
+    } else {
+      $("#block4").fadeIn("slow");
+    }
+    if (!data.Choice[4]) {
+      $("#block5").fadeOut("slow");
+    } else {
+      $("#block5").fadeIn("slow");
+    }
+    if (!data.Choice[5]) {
+      $("#block6").fadeOut("slow");
+    } else {
+      $("#block6").fadeIn("slow");
+    }
     //now track data
-    $("#val1").text(data.Streak)
+    $("#val1").text(data.Streak);
     if (data.Streak > 0) {
         $("#val1").animate({borderColor: goodStats}, "slow");
     } else {
         $("#val1").animate({borderColor: regStats}, "slow");
     }
 
-    $("#val2").text(data.Kills)
+    $("#val2").text(data.Kills);
     if (data.Kills > 10) {
         $("#val2").animate({borderColor: goodStats}, "slow");
     } else {
         $("#val2").animate({borderColor: regStats}, "slow");
     }
     
-    $("#val3").text(data.Deaths)
-    if (data.Deaths == 0) {
+    $("#val3").text(data.Deaths);
+    if (data.Deaths < 5) {
         $("#val3").animate({borderColor: goodStats}, "slow");
     } else {
         $("#val3").animate({borderColor: regStats}, "slow");
+    }
+    
+    $("#val4").text(Math.floor(data.GPM / (data.Streak == 0) ? 1 : data.Streak));
+    if (data.GPM > 500) {
+        $("#val4").animate({borderColor: goodStats}, "slow");
+    } else {
+        $("#val4").animate({borderColor: regStats}, "slow");
+    }
+    
+    $("#val5").text(Math.floor(data.XPM / (data.Streak == 0) ? 1 : data.Streak));
+    if (data.XPM > 500) {
+        $("#val5").animate({borderColor: goodStats}, "slow");
+    } else {
+        $("#val5").animate({borderColor: regStats}, "slow");
+    }
+    
+    $("#val6").text(Math.floor(data.Level / (data.Streak == 0) ? 1 : data.Streak));
+    if (data.Level > 20) {
+        $("#val6").animate({borderColor: goodStats}, "slow");
+    } else {
+        $("#val6").animate({borderColor: regStats}, "slow");
     }
 }
 
