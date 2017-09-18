@@ -9,6 +9,7 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
 	"strconv"
