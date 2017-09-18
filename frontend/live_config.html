@@ -19,12 +19,29 @@ or in the "license" file accompanying this file. This file is distributed on an 
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/common.css">
-        <link rel="stylesheet" href="css/live_config.css">
+        <link rel="stylesheet" href="css/viewer.css">
+        <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
+        <!-- import to call AJAX -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     <body>
-        <p>This is the live config page!</p>
         <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
         <script src="js/common.js"></script>
-        <script src="js/live_config.js"></script>
+        <script src="js/viewer.js"></script>
+        <div id="main">
+            <div class="stats">
+                <p id="stat1" class="stath">Streak</p>
+                <p id="val1" class="statv">0</p>
+            </div>
+            <div class="stats">
+                <p id="stat2" class="stath">Kills</p>
+                <p id="val1" class="statv">0</p>
+            </div>
+            <div id="stats1" class="stats">
+                <p id="stat3" class="stath">Deaths</p>
+                <p id="val1" class="statv">0</p>
+            </div>
+            <p id="pod">Developed by DK</p>
+        </div>
     </body>
 </html>

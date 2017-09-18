@@ -135,14 +135,16 @@ func (u *User) save() error {
 	return nil
 }
 
-func readAll(Users []User) error {
+func readAll() ([]User, error) {
 	db, err := bolt.Open("users.db", 0600, nil)
 
 	if err != nil {
-		return err
+		return []User{}, err
 	}
 
 	defer db.Close()
+
+	var Users []User = []User{}
 
 	db.View(func(tx *bolt.Tx) error {
 		acc := tx.Bucket([]byte("Account_id"))
@@ -167,7 +169,7 @@ func readAll(Users []User) error {
 
 		return nil
 	})
-	return nil
+	return Users, nil
 }
 
 func (u *User) collectStats() error {
@@ -621,7 +623,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	err := readAll(Users)
+	Users, err := readAll()
 
 	if err != nil {
 		fmt.Println(err.Error())
