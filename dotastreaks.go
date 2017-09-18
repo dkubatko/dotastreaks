@@ -413,8 +413,16 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	us := findUserByChannelID(val.Channel_id)
+
+	if us.Client_id != "" {
+		us.convertID(val.Account_id)
+		us.save()
+		return
+	}
+
 	//append new user with channel id and account id
-	us := User{Client_id: val.Client_id, Account_id: val.Account_id,
+	us = User{Client_id: val.Client_id, Account_id: val.Account_id,
 		Channel_id: val.Channel_id}
 
 	us.convertID(us.Account_id)
