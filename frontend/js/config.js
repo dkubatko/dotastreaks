@@ -59,7 +59,7 @@ $(document).ready(function (){
             if (clr[i] != unpressedColor) {
                 data.choice[i] = true;
             } else {
-                $(buttons[i]).animate({ opacity: 0.25 }, "slow");
+                $(buttons[i]).animate({ opacity: 0.25 }, 1000);
             }
         }
        
@@ -72,7 +72,7 @@ $(document).ready(function (){
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             complete: function() {
-                $("#complete").slideUp("slow");
+                $("#complete").fadeOut("slow");
                 $("#last").delay("slow").fadeIn("slow");
             },
             data: JSON.stringify(data),
