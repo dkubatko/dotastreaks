@@ -613,8 +613,6 @@ func updateInfo(us *User, done chan bool) {
 
 func launchUpdates() {
 	for {
-		fmt.Println("Going into cycle")
-
 		doneChan := make(chan bool, len(Users))
 
 		for i := range Users {
