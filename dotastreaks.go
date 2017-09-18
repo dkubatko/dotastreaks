@@ -486,13 +486,8 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	for _, v := range Users {
-		fmt.Println(v.Channel_id)
-		fmt.Println(v.Stats.Choice)
-		fmt.Println("-__-")
-	}
-
 	fmt.Println(updUser.Stats.Choice)
+	fmt.Println("Sended")
 
 	js, err := json.Marshal(updUser.Stats)
 
@@ -580,6 +575,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	updUser.save()
 
 	fmt.Println(updUser.Stats.Choice)
+	fmt.Println("Recieved")
 
 	var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
 		Role: "external"}
@@ -644,7 +640,6 @@ func main() {
 
 	fmt.Printf("DB loaded with %v users.\n", len(Users))
 
-	http.HandleFunc("/update", update)
 	http.HandleFunc("/verify", verify)
 	http.HandleFunc("/config", configDone)
 	http.HandleFunc("/userUpdate", userUpdate)
