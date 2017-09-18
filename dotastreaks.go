@@ -158,13 +158,10 @@ func readAll() ([]User, error) {
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
 			var us = User{}
-			fmt.Printf("key=%s, value=%s\n", k, v)
-
 			us.Client_id = string(k)
 			us.Account_id = string(v)
 			us.Channel_id = string(chs.Get([]byte(k)))
 			Users = append(Users, us)
-			fmt.Println(us)
 		}
 
 		return nil
