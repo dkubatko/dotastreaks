@@ -115,11 +115,11 @@ a:visited {
 }
 
 #second {
-    display: non;
+    display: none;
 }
 
 #last {
-    display: non
+    display: none;
 }
 
 #complete {
