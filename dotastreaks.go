@@ -183,7 +183,7 @@ func readAll() ([]User, error) {
 				us.Stats.Choice = make([]bool, 0, len(stats))
 
 				buf := bytes.NewReader(stats)
-				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+				binary.Read(buf, binary.BigEndian, us.Stats.Choice)
 
 				fmt.Println(us.Stats.Choice)
 				fmt.Println("After converstion")
