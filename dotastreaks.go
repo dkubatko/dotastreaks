@@ -629,10 +629,9 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	url := "https://api.twitch.tv/extensions/ebfbsgj6lg9k2d4czcycledd89vrz9/0.0.1/required_configuration"
 	auth := "Bearer " + tokenstr
 
-	b := new(bytes.Buffer)
-	json.NewEncoder(b).Encode(ConfigResp{"done"})
+	var jsonStr string = []bytes{"required_configuration": "done"}
 
-	r, err := http.NewRequest("PUT", url, b)
+	r, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonStr))
 
 	r.Header.Set("Authorization", auth)
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
