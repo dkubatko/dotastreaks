@@ -433,76 +433,17 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	Users = append(Users, us)
 }
 
-func findUserByID(Client_id string) User {
-	for _, user := range Users {
-		if user.Client_id == Client_id {
-			return user
-		}
-	}
-	return User{}
-}
-
 func findUserByChannelID(Channel_id string) *User {
-	for _, user := range Users {
-		if user.Channel_id == Channel_id {
-			return &user
+	//this uses references
+	for i := range Users {
+		if Users[i].Channel_id == Channel_id {
+			return &Users[i]
 		}
 	}
 	return &User{}
 }
 
 /* Actual update */
-type UpdateRequest struct {
-	Account_id string
-}
-
-func update(rw http.ResponseWriter, req *http.Request) {
-	var JWTtoken string = req.Header.Get("x-extension-jwt")
-	var JWTclaims jwt.MapClaims
-	JWTclaims, err := parseJWT(JWTtoken)
-
-	if err != nil {
-		return
-	}
-
-	if JWTclaims["role"] != "broadcaster" {
-		return
-	}
-
-	decoder := json.NewDecoder(req.Body)
-	var upd UpdateRequest
-	err = decoder.Decode(&upd)
-
-	if err != nil {
-		return
-	}
-
-	defer req.Body.Close()
-
-	var updUser User = findUserByID(upd.Account_id)
-
-	if updUser.Client_id == "" {
-		fmt.Println("User not found!")
-		return
-	}
-
-	err = updUser.collectStats()
-
-	if err != nil {
-		fmt.Println("Error getting data!")
-		return
-	}
-
-	js, err := json.Marshal(updUser.Stats)
-
-	if err != nil {
-		fmt.Println("Error processing json!")
-		return
-	}
-
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(js)
-}
 
 type UserUpdateRequest struct {
 	Channel_id string
