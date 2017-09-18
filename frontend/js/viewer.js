@@ -69,23 +69,23 @@ function trackData(data) {
     //now track data
     $("#val1").text(data.Streak)
     if (data.Streak > 0) {
-        $("#val1").animate({backgroundColor: goodStats}, "slow");
+        $("#val1").animate({color: goodStats}, "slow");
     } else {
-        $("#val1").animate({backgroundColor: regStats}, "slow");
+        $("#val1").animate({color: regStats}, "slow");
     }
 
     $("#val2").text(data.Kills)
     if (data.Kills > 10) {
-        $("#val2").animate({backgroundColor: goodStats}, "slow");
+        $("#val2").animate({color: goodStats}, "slow");
     } else {
-        $("#val2").animate({backgroundColor: regStats}, "slow");
+        $("#val2").animate({color: regStats}, "slow");
     }
     
     $("#val3").text(data.Deaths)
     if (data.Deaths == 0) {
-        $("#val3").animate({backgroundColor: goodStats}, "slow");
+        $("#val3").animate({color: goodStats}, "slow");
     } else {
-        $("#val3").animate({backgroundColor: regStats}, "slow");
+        $("#val3").animate({color: regStats}, "slow");
     }
 }
 
