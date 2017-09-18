@@ -602,7 +602,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	q.Add("channel_id", val.Channel_id)
 	r.URL.RawQuery = q.Encode()
 
-	_, err := (&http.Client{}).Do(r)
+	_, err = (&http.Client{}).Do(r)
 
 	if err != nil {
 		fmt.Println(err.Error())
