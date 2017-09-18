@@ -466,14 +466,7 @@ type UserUpdateRequest struct {
 }
 
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Printf("%v: %v\n", name, h)
-		}
-	}
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
-	fmt.Println("No header?")
-	fmt.Println(JWTtoken)
 
 	if JWTtoken == "" {
 		fmt.Println("Empty token")
@@ -482,7 +475,6 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
 
-	fmt.Println("Got header")
 	if err != nil {
 		return
 	}
