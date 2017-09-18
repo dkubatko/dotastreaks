@@ -37,12 +37,18 @@ if (window.Twitch.ext) {
                   console.log(data.Choice[0])
                   if (!data.Choice[0]) {
                       $("#block1").fadeOut("slow");
+                  } else {
+                      $("#block1").fadeIn("slow");
                   }
                   if (!data.Choice[1]) {
                       $("#block2").fadeOut("slow");
+                  } else {
+                      $("#block2").fadeIn("slow");
                   }
                   if (!data.Choice[2]) {
                       $("#block3").fadeOut("slow");
+                  } else {
+                      $("#block3").fadeIn("slow");
                   }
                   $("#val1").text(data.Streak)
                   $("#val2").text(data.Kills)

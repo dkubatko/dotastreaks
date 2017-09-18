@@ -415,8 +415,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 	us := *(findUserByChannelID(val.Channel_id))
 
-	fmt.Println(us)
-
 	if us.Client_id != "" {
 		us.convertID(val.Account_id)
 		us.save()
@@ -485,9 +483,6 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		fmt.Println("Error getting data!")
 		return
 	}
-
-	fmt.Println(updUser.Stats.Choice)
-	fmt.Println("Sended")
 
 	js, err := json.Marshal(updUser.Stats)
 
@@ -573,9 +568,6 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	copy(updUser.Stats.Choice, val.Choice)
 
 	updUser.save()
-
-	fmt.Println(updUser.Stats.Choice)
-	fmt.Println("Recieved")
 
 	var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
 		Role: "external"}
