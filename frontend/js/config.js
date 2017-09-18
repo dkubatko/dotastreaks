@@ -15,6 +15,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 */
 
 var pressedColor = "rgb(102, 255, 153)"
+var unpressedColor = "rgb(255, 255, 255)"
 
 $(document).ready(function (){
     $("#done").click(function() {
@@ -24,10 +25,10 @@ $(document).ready(function (){
     
     $(".defbtn").click(function() {
         var clr = $(this).css("background-color")
-        if (clr == "rgb(255, 255, 255)") {
+        if (clr == unpressedColor) {
             $(this).animate({backgroundColor: pressedColor}, "slow");
         } else if (clr == pressedColor) {
-            $(this).animate({backgroundColor: "white"}, "slow");
+            $(this).animate({backgroundColor: unpressedColor}, "slow");
         }
     });
     
@@ -42,15 +43,19 @@ $(document).ready(function (){
         var clr2 = $("#ch2").css("background-color")
         var clr3 = $("#ch3").css("background-color")
         
-        if (clr1 != pressedColor) {
+        console.log(clr1)
+        console.log(clr2)
+        console.log(clr3)
+        
+        if (clr1 == unpressedColor) {
             data.choice[0] = false
         }
         
-        if (clr2 != pressedColor) {
+        if (clr2 == unpressedColor) {
             data.choice[1] = false
         }
         
-        if (clr3 != pressedColor) {
+        if (clr3 == unpressedColor) {
             data.choice[2] = false
         }
         
