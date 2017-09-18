@@ -33,7 +33,7 @@ $(document).ready(function (){
     $("#complete").click(function() {
         var data = {
                 "channel_id": Gauth.channelId,
-                "choice": [true, true, true]
+                "choice": [true, false, true]
             };
         console.log(JSON.stringify(data))
         console.log("I AM HERE! I AM ALIVE@@!!!")
