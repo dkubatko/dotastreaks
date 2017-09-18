@@ -90,10 +90,13 @@ func (m *MatchStruct) ifWon(p Player) (bool, error) {
 
 /* Common Player struct for all API calls */
 type Player struct {
-	Account_id  int
-	Kills       int
-	Deaths      int
-	Player_slot int
+	Account_id   int
+	Kills        int
+	Deaths       int
+	Xp_per_min   int
+	Gold_per_min int
+	Level        int
+	Player_slot  int
 }
 
 /* USER FUNCTIONALITY NOW */
@@ -112,6 +115,9 @@ type DotaStats struct {
 	Streak int
 	Kills  int
 	Deaths int
+	GPM    int
+	XPM    int
+	Lvl    int
 }
 
 func (u *User) save() error {
@@ -217,12 +223,19 @@ func (u *User) collectStats() error {
 	//get easy pointer to user stats
 	var stats *DotaStats = &u.Stats
 
-	for _, match := range matches {
-		//if already tracked, skip
-		if match.Match_id == u.Last_match_id {
-			return nil
-		}
+	//if already tracked, skip
+	if matches[0].Match_id == u.Last_match_id {
+		return nil
+	}
 
+	//nulify statistics for new
+	//record
+	newStats := DotaStats{}
+	newStats.Choice = make([]bool, len(stats.Choice))
+	copy(newStats.Choice, stats.Choice)
+	*stats = newStats
+
+	for _, match := range matches {
 		//get extended match info from API
 		//convert int id to string
 		match_id := strconv.Itoa(match.Match_id)
@@ -239,6 +252,9 @@ func (u *User) collectStats() error {
 			stats.Streak += 1
 			stats.Kills += gamestats.Kills
 			stats.Deaths += gamestats.Deaths
+			stats.Lvl += gamestats.Level
+			stats.GPM += gamestats.Gold_per_min
+			stats.XPM += gamestats.Xp_per_min
 		} else {
 			u.Last_match_id = matches[0].Match_id
 			return nil
