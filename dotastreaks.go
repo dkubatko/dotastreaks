@@ -469,7 +469,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	fmt.Println("Got update request")
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 	fmt.Println("No header?")
-	fmt.Println("jwt token")
+	fmt.Println(JWTtoken)
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
 
