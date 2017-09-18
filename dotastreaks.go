@@ -157,7 +157,7 @@ func readAll() ([]User, error) {
 	db.View(func(tx *bolt.Tx) error {
 		acc := tx.Bucket([]byte("Account_id"))
 		chs := tx.Bucket([]byte("Channel_id"))
-		choice := tx.Bucket([]byte("Choice"))
+		choice := tx.CreateBucket([]byte("Choice"))
 
 		if err != nil {
 			return err
@@ -170,9 +170,12 @@ func readAll() ([]User, error) {
 			us.Client_id = string(k)
 			us.Account_id = string(v)
 			us.Channel_id = string(chs.Get([]byte(k)))
-
-			buf := bytes.NewReader(choice.Get([]byte(k)))
-			binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+			/*
+				buf := bytes.NewReader(choice.Get([]byte(k)))
+				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+			*/
+			acc.Delete([]byte(k))
+			chs.Delete([]byte(k))
 
 			Users = append(Users, us)
 		}
