@@ -182,6 +182,8 @@ func readAll() ([]User, error) {
 				fmt.Println(choice.Get([]byte(k)))
 				buf := bytes.NewReader(choice.Get([]byte(k)))
 				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+				fmt.Println(us.Stats.Choice)
+				fmt.Println("After converstion")
 			}
 
 			Users = append(Users, us)
