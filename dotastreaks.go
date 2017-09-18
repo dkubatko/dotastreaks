@@ -665,10 +665,10 @@ func main() {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
+	go launchUpdates()
+
 	fmt.Println("Server running!")
 	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", nil)
-
-	go launchUpdates()
 
 	if err != nil {
 		fmt.Println(err.Error())
