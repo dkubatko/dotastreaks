@@ -163,15 +163,16 @@ func readAll() ([]User, error) {
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
 			var us = User{}
+			us.Stats.Choice = make([]bool, 0, 0)
+
 			us.Client_id = string(k)
 			us.Account_id = string(v)
 			us.Channel_id = string(chs.Get([]byte(k)))
 
-			buf := bytes.NewReader(choice.Get([]byte(k)))
-			binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
-
-			acc.Delete([]byte(k))
-			chs.Delete([]byte(k))
+			if choice.Get([]byte(k)) != nil {
+				buf := bytes.NewReader(choice.Get([]byte(k)))
+				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+			}
 
 			Users = append(Users, us)
 		}
@@ -406,6 +407,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		Channel_id: val.Channel_id}
 
 	us.convertID(us.Account_id)
+	us.Stats.Choice = make([]bool, 0, 0)
 	us.save()
 	Users = append(Users, us)
 }
