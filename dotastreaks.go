@@ -615,7 +615,6 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	updUser.Stats.Choice = val.Choice
-	fmt.Println(updUser.Stats.Choice)
 	updUser.save()
 
 	var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
@@ -648,10 +647,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-
-	fmt.Println(string(body))
+	fmt.Println(resp.Status)
 
 }
 
