@@ -535,6 +535,8 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Println(updUser.Stats.Choice)
+
 	js, err := json.Marshal(updUser.Stats)
 
 	if err != nil {
