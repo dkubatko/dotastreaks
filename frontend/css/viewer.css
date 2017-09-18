@@ -17,6 +17,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 body {
 	font: 22px "Work Sans";
     color: white;
+    margin: 0px;
 }
 div {
 	margin: 0px;
@@ -25,9 +26,9 @@ div {
 #main {
     max-height: 330px;
     height: 330px;
-    max-width: 300px;
+    max-width: 280px;
+    width: 280px;
     margin: 0px;
-    width: 300px;
     background-color: black;
     position: relative;
 }

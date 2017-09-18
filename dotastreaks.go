@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const DefaultExt = ".html"
@@ -603,6 +604,27 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 }
 
+func updateInfo(us *User, done chan bool) {
+	err := us.collectStats()
+	if err != nil {
+		done <- true
+		return
+	}
+	us.save()
+	done <- true
+}
+
+func launchUpdates() {
+	doneChan := make(chan bool, len(Users))
+	for _, u := range Users {
+		go updateInfo(u, doneChan)
+	}
+	for done := range doneChan {
+		fmt.Println(done)
+	}
+	time.Sleep(10 * time.Second)
+}
+
 func main() {
 	db, err := bolt.Open("UserData.db", 0600, nil)
 
@@ -628,6 +650,7 @@ func main() {
 
 	if err != nil {
 		fmt.Println(err.Error())
+		return
 	}
 
 	fmt.Printf("DB loaded with %v users.\n", len(Users))
@@ -645,13 +668,10 @@ func main() {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
-	//support static file for validation
-	http.HandleFunc("/.well-known/pki-validation/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, r.URL.Path[1:])
-	})
-
 	fmt.Println("Server running!")
 	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", nil)
+
+	go launchUpdates()
 
 	if err != nil {
 		fmt.Println(err.Error())
