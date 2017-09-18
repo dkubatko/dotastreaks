@@ -136,7 +136,7 @@ func (u *User) save() error {
 			return err
 		}
 
-		chs.Put([]byte(u.Channel_id), []byte(u.Client_id))
+		chs.Put([]byte(u.Channel_id), []byte(u.Account_id))
 
 		buf := new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
@@ -427,7 +427,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 	us := *(findUserByChannelID(val.Channel_id))
 
-	if us.Client_id != "" {
+	if us.Channel_id != "" {
 		us.convertID(val.Account_id)
 		us.save()
 		return
@@ -484,7 +484,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 
 	var updUser *User = findUserByChannelID(upd.Channel_id)
 
-	if updUser.Client_id == "" {
+	if updUser.Channel_id == "" {
 		fmt.Println("User not found!")
 		return
 	}
@@ -563,7 +563,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	var updUser *User = findUserByChannelID(val.Channel_id)
 
-	if updUser.Client_id == "" {
+	if updUser.Channel_id == "" {
 		fmt.Println("User not found!")
 		return
 	}
