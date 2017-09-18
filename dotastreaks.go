@@ -573,8 +573,6 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Println(val.Choice)
-
 	//copy contents to new slice
 	updUser.Stats.Choice = make([]bool, len(val.Choice))
 	copy(updUser.Stats.Choice, val.Choice)
@@ -610,9 +608,6 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		fmt.Println(err.Error())
 		return
 	}
-
-	fmt.Println(resp.Status)
-
 }
 
 func updateInfo(us *User, done chan bool) {
