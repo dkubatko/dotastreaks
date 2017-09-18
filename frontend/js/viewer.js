@@ -24,6 +24,7 @@ if (window.Twitch.ext) {
         var data = {
                 "channel_id": auth.channelId
             };
+        console.log(data)
         $.ajax({
             url: 'https://dotastreaks.com/userUpdate',
             type: 'POST',
