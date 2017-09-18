@@ -47,10 +47,6 @@ $(document).ready(function (){
         var clr2 = document.getElementsByClassName("defbtn")[1].style.backgroundColor;
         var clr3 = document.getElementsByClassName("defbtn")[2].style.backgroundColor;
         
-        console.log(clr1);
-        console.log(clr2);
-        console.log(clr3);
-        
         if (clr1 != unpressedColor) {
             data.choice[0] = true
         }
@@ -62,8 +58,6 @@ $(document).ready(function (){
         if (clr3 != unpressedColor) {
             data.choice[2] = true
         }
-        
-        console.log(JSON.stringify(data))
        
         $.ajax({
             url: 'https://dotastreaks.com/config',
