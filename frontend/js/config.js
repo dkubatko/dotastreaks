@@ -14,7 +14,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 */
 
-$(document).ready(function(){
+$(document).ready(function (){
     $("#done").click(function() {
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
@@ -34,6 +34,7 @@ $(document).ready(function(){
                 "channel_id": Gauth.channelId,
                 "choice": [true, true, true]
             };
+        console.log(JSON.stringify(data))
        $.ajax({
             url: 'https://dotastreaks.com/config',
             type: 'POST',
