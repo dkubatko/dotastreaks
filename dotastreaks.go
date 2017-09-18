@@ -377,11 +377,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	Users = append(Users, us)
 }
 
-/* Actual update */
-type UpdateRequest struct {
-	id string
-}
-
 func findUserByID(Client_id string) User {
 	for _, user := range Users {
 		if user.Client_id == Client_id {
@@ -398,6 +393,11 @@ func findUserByChannelID(Channel_id string) User {
 		}
 	}
 	return User{}
+}
+
+/* Actual update */
+type UpdateRequest struct {
+	Account_id string
 }
 
 func update(rw http.ResponseWriter, req *http.Request) {
@@ -423,7 +423,7 @@ func update(rw http.ResponseWriter, req *http.Request) {
 
 	defer req.Body.Close()
 
-	var updUser User = findUserByID(upd.id)
+	var updUser User = findUserByID(upd.Account_id)
 
 	if updUser.Client_id == "" {
 		fmt.Println("User not found!")
@@ -448,6 +448,10 @@ func update(rw http.ResponseWriter, req *http.Request) {
 	rw.Write(js)
 }
 
+type UserUpdateRequest struct {
+	Channel_id string
+}
+
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
 
 	fmt.Println("Got request")
@@ -466,7 +470,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 
 	defer req.Body.Close()
 	decoder := json.NewDecoder(req.Body)
-	var upd UpdateRequest
+	var upd UserUpdateRequest
 	err = decoder.Decode(&upd)
 
 	if err != nil {
@@ -476,7 +480,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 
 	fmt.Println(upd.id)
 
-	var updUser User = findUserByChannelID(upd.id)
+	var updUser User = findUserByChannelID(upd.Channel_id)
 
 	if updUser.Client_id == "" {
 		fmt.Println("User not found!")
