@@ -468,7 +468,7 @@ type UserUpdateRequest struct {
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	fmt.Println("Got update request")
 	// Loop through headers
-	var access string = req.Header.Get("Access-Control-Request-Headers")
+	//var access string = req.Header.Get("Access-Control-Request-Headers")
 
 	/*if access != "" {
 		rw.Header().Add("Content-Type", "application/json")
@@ -701,7 +701,7 @@ func main() {
 	//for cross-origin requests
 	handler := cors.Default().Handler(mux)
 	fmt.Println("Server running!")
-	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", nil)
+	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handler)
 
 	if err != nil {
 		fmt.Println(err.Error())
