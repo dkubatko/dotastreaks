@@ -413,7 +413,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	us := findUserByChannelID(val.Channel_id)
+	us := *(findUserByChannelID(val.Channel_id))
 
 	if us.Client_id != "" {
 		us.convertID(val.Account_id)
