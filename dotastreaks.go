@@ -415,6 +415,8 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 	us := *(findUserByChannelID(val.Channel_id))
 
+	fmt.Println(us)
+
 	if us.Client_id != "" {
 		us.convertID(val.Account_id)
 		us.save()
@@ -541,6 +543,12 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		fmt.Println("Error getting data!")
 		return
+	}
+
+	for _, v := range Users {
+		fmt.Println(v.Channel_id)
+		fmt.Println(v.Stats.Choice)
+		fmt.Println("-__-")
 	}
 
 	fmt.Println(updUser.Stats.Choice)
