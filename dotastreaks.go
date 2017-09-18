@@ -411,6 +411,7 @@ func findUserByID(Client_id string) User {
 }
 
 func findUserByChannelID(Channel_id string) User {
+	fmt.Println(Users)
 	for _, user := range Users {
 		if user.Channel_id == Channel_id {
 			return user
@@ -623,7 +624,8 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	Users, err := readAll()
+	var err Error
+	Users, err = readAll()
 
 	if err != nil {
 		fmt.Println(err.Error())
