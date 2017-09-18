@@ -37,7 +37,9 @@ div {
     font: 10px "Work Sans";
     margin-bottom: 0;
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
+    left: 50%;
+    margin-left: -45px; 
 }
 
 .stats {

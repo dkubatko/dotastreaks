@@ -19,15 +19,24 @@ $(document).ready(function() {
 });
 
 (function update() {
-     
-    $.ajax({
-    url: 'ajax/test.html', 
-    success: function(data) {
-      console.log(data);
-    },
-    complete: function() {
-      // Schedule the next request when the current one's complete
-      setTimeout(update, 5000);
-    }
-  });
+    var data = {
+                "channel_id": Gauth.channelId
+            };
+   $.ajax({
+        url: 'https://dotastreaks.com/userUpdate',
+        type: 'POST',
+        headers: {
+            'x-extension-jwt': Gauth.token
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        data: JSON.stringify(data),
+        success: function(data) {
+          console.log(data);
+        },
+        complete: function() {
+          // Schedule the next request when the current one's complete
+          setTimeout(update, 5000);
+        }
+    }); 
 })();
