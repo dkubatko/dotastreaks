@@ -114,7 +114,7 @@ type DotaStats struct {
 }
 
 func (u *User) save() error {
-	db, err := bolt.Open("users.db", 0600, nil)
+	db, err := bolt.Open("UserData.db", 0600, nil)
 
 	if err != nil {
 		return err
@@ -144,7 +144,7 @@ func (u *User) save() error {
 }
 
 func readAll() ([]User, error) {
-	db, err := bolt.Open("users.db", 0600, nil)
+	db, err := bolt.Open("UserData.db", 0600, nil)
 
 	if err != nil {
 		return []User{}, err
