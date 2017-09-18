@@ -151,6 +151,18 @@ func (u *User) save() error {
 	return nil
 }
 
+func toBool(b []byte) []bool {
+	bool_sl := make([]bool, 0, 0)
+	for _, v := range b {
+		if v == 1 {
+			append(bool_sl, true)
+		} else if v == 0 {
+			append(bool_sl, false)
+		}
+	}
+	return bool_sl
+}
+
 func readAll() ([]User, error) {
 	db, err := bolt.Open("UserData.db", 0600, nil)
 
@@ -180,10 +192,7 @@ func readAll() ([]User, error) {
 				fmt.Println("not nil")
 				fmt.Println(stats)
 
-				us.Stats.Choice = make([]bool, 0, len(stats))
-
-				buf := bytes.NewReader(stats)
-				binary.Read(buf, binary.BigEndian, us.Stats.Choice)
+				us.Stats.Choice = toBool(stats)
 
 				fmt.Println(us.Stats.Choice)
 				fmt.Println("After converstion")
