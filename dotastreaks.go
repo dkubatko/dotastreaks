@@ -478,7 +478,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Println(upd.id)
+	fmt.Println(upd.Channel_id)
 
 	var updUser User = findUserByChannelID(upd.Channel_id)
 
