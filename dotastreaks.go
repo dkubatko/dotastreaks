@@ -377,7 +377,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 /* Actual update */
 type UpdateRequest struct {
-	Channel_id string
+	id string
 }
 
 func findUserByID(Client_id string) User {
@@ -389,7 +389,7 @@ func findUserByID(Client_id string) User {
 	return User{}
 }
 
-func findUserByChannelID(Channel string) User {
+func findUserByChannelID(Channel_id string) User {
 	for _, user := range Users {
 		if user.Channel_id == Channel_id {
 			return user
@@ -421,7 +421,7 @@ func update(rw http.ResponseWriter, req *http.Request) {
 
 	defer req.Body.Close()
 
-	var updUser User = findUserByID(upd.client_id)
+	var updUser User = findUserByID(upd.id)
 
 	if updUser.Client_id == "" {
 		fmt.Println("User not found!")
@@ -468,7 +468,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var updUser User = findUserByChannelID(upd.cahnnel_id)
+	var updUser User = findUserByChannelID(upd.id)
 
 	if updUser.Client_id == "" {
 		fmt.Println("User not found!")
