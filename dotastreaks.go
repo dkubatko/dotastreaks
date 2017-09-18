@@ -411,7 +411,6 @@ func findUserByID(Client_id string) User {
 }
 
 func findUserByChannelID(Channel_id string) User {
-	fmt.Println(Users)
 	for _, user := range Users {
 		if user.Channel_id == Channel_id {
 			return user
@@ -631,7 +630,7 @@ func main() {
 		fmt.Println(err.Error())
 	}
 
-	fmt.Println(Users)
+	fmt.Printf("DB loaded with %v users.\n", len(Users))
 
 	http.HandleFunc("/update", update)
 	http.HandleFunc("/verify", verify)
