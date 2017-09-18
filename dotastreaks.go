@@ -140,7 +140,7 @@ func (u *User) save() error {
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
 		choice.Put([]byte(u.Client_id), buf.Bytes())
 
-		fmt.Println(string(choice.Get([]byte(u.Client_id))))
+		fmt.Println(buf.Bytes())
 
 		return nil
 	})
