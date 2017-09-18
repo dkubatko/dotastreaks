@@ -58,6 +58,8 @@ $(document).ready(function (){
             clr[i] = buttons[i].style.backgroundColor;
             if (clr[i] != unpressedColor) {
                 data.choice[i] = true;
+            } else {
+                $(buttons[i]).fadeOut("slow");
             }
         }
        
