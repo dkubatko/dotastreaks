@@ -5,6 +5,7 @@ import (
 	b64 "encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
@@ -13,42 +14,8 @@ import (
 
 const DefaultExt = ".html"
 const DotaAPIKey = "06F92D7C6DF8F881925E1513838D2C80"
-
-type Page struct {
-	Title string
-	Body  []byte
-	Ext   string
-}
-
-/* Page methods */
-func (p *Page) load(filename string, exts ...string) {
-	ext := DefaultExt
-
-	if len(exts) != 0 {
-		ext = exts[0]
-	}
-
-	fn := filename + ext
-	text, err := ioutil.ReadFile(fn)
-
-	if err != nil {
-		return
-	}
-
-	*p = Page{filename, text, ext}
-}
-
-func (p *Page) save() {
-	fn := p.Title + p.Ext
-	ioutil.WriteFile(fn, p.Body, 0600)
-}
-
-func getTestPage() *Page {
-	p := &Page{Title: "test", Ext: ".html"}
-	p.Body = append(p.Body, []byte("And I have written that!\n")...)
-	p.save()
-	return p
-}
+const STEAM64 = 76561197960265728
+const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
 
 /* Match data struct sequence */
 type MatchDataAPIResponse struct {
@@ -127,6 +94,8 @@ type Player struct {
 	Player_slot int
 }
 
+/* USER FUNCTIONALITY NOW */
+
 /* Struct for user info */
 type User struct {
 	Client_id     string
@@ -140,6 +109,63 @@ type DotaStats struct {
 	Streak int
 	Kills  int
 	Deaths int
+}
+
+func (u *User) save() error {
+	db, err := bolt.Open("users.db", 0600, nil)
+
+	if err != nil {
+		return err
+	}
+
+	defer db.Close()
+
+	err = db.Batch(func(tx *bolt.Tx) error {
+		acc := tx.Bucket([]byte("Account_id"))
+		chs := tx.Bucket([]byte("Channel_id"))
+
+		if err != nil {
+			return err
+		}
+
+		acc.Put([]byte(u.Client_id), []byte(u.Account_id))
+		chs.Put([]byte(u.Client_id), []byte(u.Channel_id))
+		return nil
+	})
+	return nil
+}
+
+func readAll(Users []User) error {
+	db, err := bolt.Open("users.db", 0600, nil)
+
+	if err != nil {
+		return err
+	}
+
+	db.View(func(tx *bolt.Tx) error {
+		acc := tx.Bucket([]byte("Account_id"))
+		chs := tx.Bucket([]byte("Channel_id"))
+
+		if err != nil {
+			return err
+		}
+
+		c := acc.Cursor()
+
+		for k, v := c.First(); k != nil; k, v = c.Next() {
+			var us = User{}
+			fmt.Printf("key=%s, value=%s\n", k, v)
+
+			us.Client_id = string(k)
+			us.Account_id = string(v)
+			us.Channel_id = string(chs.Get([]byte(k)))
+			Users = append(Users, us)
+			fmt.Println(us)
+		}
+
+		return nil
+	})
+	return nil
 }
 
 func (u *User) collectStats() error {
@@ -195,8 +221,6 @@ func (u *User) collectStats() error {
 
 	return nil
 }
-
-const STEAM64 = 76561197960265728
 
 func (u *User) convertID(id string) error {
 	var long_id int64
@@ -292,8 +316,6 @@ func (d *DotaAPI) validateID(account_id string) bool {
 
 }
 
-const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
-
 func parseJWT(tokenString string) (jwt.MapClaims, error) {
 
 	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
@@ -371,6 +393,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		Channel_id: val.Channel_id}
 
 	us.convertID(us.Account_id)
+	us.save()
 	Users = append(Users, us)
 }
 
@@ -596,6 +619,14 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	err := readAll(Users)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	fmt.Println(Users)
+
 	http.HandleFunc("/update", update)
 	http.HandleFunc("/verify", verify)
 	http.HandleFunc("/config", configDone)
@@ -616,7 +647,7 @@ func main() {
 	})
 
 	fmt.Println("Server running!")
-	err := http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", nil)
+	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", nil)
 
 	if err != nil {
 		fmt.Println(err.Error())
