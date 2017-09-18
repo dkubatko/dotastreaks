@@ -595,6 +595,8 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	var val ConfigReq
 	err = decoder.Decode(&val)
 
+	fmt.Println(val)
+
 	if err != nil {
 		return
 	}
@@ -607,6 +609,8 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	updUser.Stats.Choice = val.Choice
+
+	fmt.Println(val.Choice)
 	updUser.save()
 
 	/*
