@@ -166,10 +166,10 @@ func readAll() ([]User, error) {
 			us.Client_id = string(k)
 			us.Account_id = string(v)
 			us.Channel_id = string(chs.Get([]byte(k)))
-			/*
-				buf := bytes.NewReader(choice.Get([]byte(k)))
-				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
-			*/
+
+			buf := bytes.NewReader(choice.Get([]byte(k)))
+			binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+
 			acc.Delete([]byte(k))
 			chs.Delete([]byte(k))
 
