@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	b64 "encoding/base64"
+	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"github.com/boltdb/bolt"
@@ -106,6 +107,7 @@ type User struct {
 }
 
 type DotaStats struct {
+	Choice []bool
 	Streak int
 	Kills  int
 	Deaths int
@@ -123,6 +125,7 @@ func (u *User) save() error {
 	err = db.Batch(func(tx *bolt.Tx) error {
 		acc := tx.Bucket([]byte("Account_id"))
 		chs := tx.Bucket([]byte("Channel_id"))
+		choice := tx.Bucket([]byte("Choice"))
 
 		if err != nil {
 			return err
@@ -130,6 +133,11 @@ func (u *User) save() error {
 
 		acc.Put([]byte(u.Client_id), []byte(u.Account_id))
 		chs.Put([]byte(u.Client_id), []byte(u.Channel_id))
+
+		buf := new(bytes.Buffer)
+		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
+		choice.Put([]byte(u.Client_id), buf.Bytes())
+
 		return nil
 	})
 	return nil
@@ -149,6 +157,7 @@ func readAll() ([]User, error) {
 	db.View(func(tx *bolt.Tx) error {
 		acc := tx.Bucket([]byte("Account_id"))
 		chs := tx.Bucket([]byte("Channel_id"))
+		choice := tx.Bucket([]byte("Choice"))
 
 		if err != nil {
 			return err
@@ -161,6 +170,10 @@ func readAll() ([]User, error) {
 			us.Client_id = string(k)
 			us.Account_id = string(v)
 			us.Channel_id = string(chs.Get([]byte(k)))
+
+			buf := bytes.NewReader(choice.Get([]byte(k)))
+			binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+
 			Users = append(Users, us)
 		}
 
@@ -407,13 +420,13 @@ func findUserByID(Client_id string) User {
 	return User{}
 }
 
-func findUserByChannelID(Channel_id string) User {
+func findUserByChannelID(Channel_id string) *User {
 	for _, user := range Users {
 		if user.Channel_id == Channel_id {
-			return user
+			return &user
 		}
 	}
-	return User{}
+	return &User{}
 }
 
 /* Actual update */
@@ -496,7 +509,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var updUser User = findUserByChannelID(upd.Channel_id)
+	var updUser *User = findUserByChannelID(upd.Channel_id)
 
 	if updUser.Client_id == "" {
 		fmt.Println("User not found!")
@@ -546,6 +559,7 @@ func signToken(jwts JWTSignature) (string, error) {
 
 type ConfigReq struct {
 	Channel_id string
+	Choice     []bool
 }
 
 type ConfigResp struct {
@@ -579,6 +593,16 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
+
+	var updUser *User = findUserByChannelID(val.Channel_id)
+
+	if updUser.Client_id == "" {
+		fmt.Println("User not found!")
+		return
+	}
+
+	updUser.Stats.Choice = val.Choice
+	updUser.save()
 
 	var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
 		Role: "external"}
