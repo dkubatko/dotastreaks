@@ -17,7 +17,14 @@ or in the "license" file accompanying this file. This file is distributed on an 
 var pressedColor = "rgb(102, 255, 153)"
 var unpressedColor = "rgb(255, 255, 255)"
 
+var clr1
+var clr2
+var clr3
+
 $(document).ready(function (){
+    clr1 = $("#ch1").css("background-color")
+    clr2 = $("#ch2").css("background-color")
+    clr3 = $("#ch3").css("background-color")
     $("#done").click(function() {
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
@@ -38,10 +45,9 @@ $(document).ready(function (){
                 "choice": [true, true, true]
             };
         
-
-        var clr1 = $("#ch1").css("background-color")
-        var clr2 = $("#ch2").css("background-color")
-        var clr3 = $("#ch3").css("background-color")
+        clr1 = $("#ch1").css("background-color")
+        clr2 = $("#ch2").css("background-color")
+        clr3 = $("#ch3").css("background-color")
         
         console.log(clr1)
         console.log(clr2)
