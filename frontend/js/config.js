@@ -52,11 +52,11 @@ $(document).ready(function (){
             };
         
         var clr = [];
-        var buttons = document.getElementsByClassName("defbtn")
+        var buttons = document.getElementsByClassName("defbtn");
         //JQuery didnt give me any result for some reason
         for (var i = 0; i < buttons.length; i++) {
-            clr[i] = buttons[i].style.backgroundColor = unpressedColor;
-            if (clr[i]) != unpressedColor) {
+            clr[i] = buttons[i].style.backgroundColor;
+            if (clr[i] != unpressedColor) {
                 data.choice[i] = true;
             }
         }
