@@ -468,6 +468,8 @@ type UserUpdateRequest struct {
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	fmt.Println("Got update request")
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
+	fmt.Println("No header?")
+	fmt.Println("jwt token")
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
 
