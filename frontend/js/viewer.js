@@ -103,21 +103,21 @@ function trackData(data) {
         $("#val3").animate({borderColor: regStats}, "slow");
     }
     
-    $("#val4").text(Math.floor(data.GPM / (data.Streak == 0) ? 1 : data.Streak));
+    $("#val4").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
     if (data.GPM > 500) {
         $("#val4").animate({borderColor: goodStats}, "slow");
     } else {
         $("#val4").animate({borderColor: regStats}, "slow");
     }
     
-    $("#val5").text(Math.floor(data.XPM / (data.Streak == 0) ? 1 : data.Streak));
+    $("#val5").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     if (data.XPM > 500) {
         $("#val5").animate({borderColor: goodStats}, "slow");
     } else {
         $("#val5").animate({borderColor: regStats}, "slow");
     }
     
-    $("#val6").text(Math.floor(data.Level / (data.Streak == 0) ? 1 : data.Streak));
+    $("#val6").text(Math.floor(data.Level / ((data.Streak == 0) ? 1 : data.Streak)));
     if (data.Level > 20) {
         $("#val6").animate({borderColor: goodStats}, "slow");
     } else {
