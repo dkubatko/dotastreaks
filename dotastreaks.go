@@ -170,6 +170,8 @@ func readAll() ([]User, error) {
 			us.Channel_id = string(chs.Get([]byte(k)))
 
 			if choice.Get([]byte(k)) != nil {
+				fmt.Println("not nil")
+				fmt.Println(choice.Get([]byte(k)))
 				buf := bytes.NewReader(choice.Get([]byte(k)))
 				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
 			}
