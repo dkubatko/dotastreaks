@@ -658,20 +658,6 @@ func launchUpdates() {
 func main() {
 	var err error
 
-	db, err := bolt.Open("UserData.db", 0600, nil)
-
-	err = db.Update(func(tx *bolt.Tx) error {
-		_, err = tx.CreateBucket([]byte("Account_id"))
-		_, err = tx.CreateBucket([]byte("Choice"))
-
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-
-	db.Close()
-
 	Users, err = readAll()
 
 	if err != nil {
