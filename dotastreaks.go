@@ -458,7 +458,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	if JWTclaims["role"] != "viewer" {
-		return
+		fmt.Println("Not a viewer")
 	}
 
 	defer req.Body.Close()
@@ -467,6 +467,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	err = decoder.Decode(&upd)
 
 	if err != nil {
+		fmt.Println("Error decoding")
 		return
 	}
 
