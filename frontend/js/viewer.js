@@ -49,7 +49,7 @@ var goodStats = "rgb(102, 255, 153)"
 var regStats = "rgb(139, 0, 0)"
 
 function trackData(data) {
-    console.log(data.Choice[0])
+    console.log(data)
     //get rid of non-tracked data
     if (!data.Choice[0]) {
       $("#block1").fadeOut("slow");
