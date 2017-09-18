@@ -15,7 +15,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 */
 
 $(document).ready(function() {
-    
+    update();
 });
 
 (function update() {
@@ -39,4 +39,4 @@ $(document).ready(function() {
           setTimeout(update, 5000);
         }
     }); 
-})();
+});

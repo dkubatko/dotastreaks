@@ -15,8 +15,46 @@ or in the "license" file accompanying this file. This file is distributed on an 
 */
 
 body {
-	font: 12px arial, sans-serif;
+	font: 22px "Work Sans";
+    color: white;
 }
 div {
 	margin: 0px;
+}
+
+#main {
+    max-height: 400px;
+    max-width: 250px;
+    margin: 0px;
+    height: 350px;
+    width: 250px;
+    background-color: black;
+    position: relative;
+}
+
+#pod {
+    text-align: center;
+    font: 10px "Work Sans";
+    margin-bottom: 0;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    margin-left: -45px; 
+}
+
+.stats {
+    margin: 0px;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.stath {
+    font: 26px "Work Sans";
+    margin: 7px;
+}
+
+.statv {
+    font: 24px "Work Sans";
+    margin: 0px;
 }
