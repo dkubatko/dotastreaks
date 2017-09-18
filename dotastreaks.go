@@ -386,6 +386,7 @@ type VResponse struct {
 }
 
 func verify(rw http.ResponseWriter, req *http.Request) {
+	fmt.Println("Got verify request")
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 
 	if JWTtoken == "" {
@@ -408,6 +409,8 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	var val ValRequest
 	err = decoder.Decode(&val)
 
+	fmt.Println("Got token")
+
 	if err != nil {
 		return
 	}
@@ -425,6 +428,8 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Println("Searching for user")
+
 	us := *(findUserByChannelID(val.Channel_id))
 
 	if us.Channel_id != "" {
@@ -440,6 +445,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	us.convertID(us.Account_id)
 	us.Stats.Choice = make([]bool, 0, 0)
 	us.save()
+	fmt.Println("Everything ok")
 	Users = append(Users, us)
 }
 
@@ -460,10 +466,12 @@ type UserUpdateRequest struct {
 }
 
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
+	fmt.Println("Got update request")
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
 
+	fmt.Println("Got header")
 	if err != nil {
 		return
 	}
@@ -477,11 +485,13 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	var upd UserUpdateRequest
 	err = decoder.Decode(&upd)
 
+	fmt.Println("Decoded")
 	if err != nil {
 		fmt.Println("Error decoding")
 		return
 	}
 
+	fmt.Println("Searching for user")
 	var updUser *User = findUserByChannelID(upd.Channel_id)
 
 	if updUser.Channel_id == "" {
