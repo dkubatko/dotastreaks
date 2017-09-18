@@ -9,7 +9,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 const DefaultExt = ".html"
