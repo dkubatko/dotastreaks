@@ -591,6 +591,10 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	defer req.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+
 	decoder := json.NewDecoder(req.Body)
 	var val ConfigReq
 	err = decoder.Decode(&val)
