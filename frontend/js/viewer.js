@@ -34,18 +34,19 @@ if (window.Twitch.ext) {
             dataType: 'json',
             data: JSON.stringify(data),
             success: function(data) {
-              if (!data.Choice[0]) {
-                  $("#block1").fadeOut("slow");
-              }
-              if (!data.Choice[1]) {
-                  $("#block2").fadeOut("slow");
-              }
-              if (!data.Choice[2]) {
-                  $("#block3").fadeOut("slow");
-              }
-              $("#val1").text(data.Streak)
-              $("#val2").text(data.Kills)
-              $("#val3").text(data.Deaths)
+                  console.log(data.Choice[0])
+                  if (!data.Choice[0]) {
+                      $("#block1").fadeOut("slow");
+                  }
+                  if (!data.Choice[1]) {
+                      $("#block2").fadeOut("slow");
+                  }
+                  if (!data.Choice[2]) {
+                      $("#block3").fadeOut("slow");
+                  }
+                  $("#val1").text(data.Streak)
+                  $("#val2").text(data.Kills)
+                  $("#val3").text(data.Deaths)
             },
             complete: function() {
               // Schedule the next request when the current one's complete
