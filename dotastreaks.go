@@ -171,17 +171,20 @@ func readAll() ([]User, error) {
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
 			var us = User{}
-			us.Stats.Choice = make([]bool, 0, 0)
 
 			us.Client_id = string(k)
 			us.Account_id = string(v)
 			us.Channel_id = string(chs.Get([]byte(k)))
 
-			if choice.Get([]byte(k)) != nil {
+			if stats := choice.Get([]byte(k)); stats != nil {
 				fmt.Println("not nil")
-				fmt.Println(choice.Get([]byte(k)))
-				buf := bytes.NewReader(choice.Get([]byte(k)))
+				fmt.Println(stats)
+
+				us.Stats.Choice = make([]bool, 0, len(stats))
+
+				buf := bytes.NewReader(stats)
 				binary.Read(buf, binary.BigEndian, &us.Stats.Choice)
+
 				fmt.Println(us.Stats.Choice)
 				fmt.Println("After converstion")
 			}
