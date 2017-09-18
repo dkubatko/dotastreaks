@@ -36,7 +36,7 @@ div {
 #pod {
     text-align: center;
     font: 10px "Work Sans";
-    margin-top: -4px;
+    margin-top: -8px;
     margin-bottom: 0px;
 }
 
@@ -70,4 +70,6 @@ div {
 .statv {
     font: 24px "Work Sans";
     margin: 0px;
+    border: 2px solid;
+    border-color: darkred;
 }

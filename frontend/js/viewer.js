@@ -46,7 +46,7 @@ if (window.Twitch.ext) {
 }
 
 var goodStats = "rgb(102, 255, 153)"
-var regStats = "rgb(255, 255, 255)"
+var regStats = "rgb(139, 0, 0)"
 
 function trackData(data) {
     console.log(data.Choice[0])
@@ -69,23 +69,23 @@ function trackData(data) {
     //now track data
     $("#val1").text(data.Streak)
     if (data.Streak > 0) {
-        $("#val1").animate({color: goodStats}, "slow");
+        $("#val1").animate({borderColor: goodStats}, "slow");
     } else {
-        $("#val1").animate({color: regStats}, "slow");
+        $("#val1").animate({borderColor: regStats}, "slow");
     }
 
     $("#val2").text(data.Kills)
     if (data.Kills > 10) {
-        $("#val2").animate({color: goodStats}, "slow");
+        $("#val2").animate({borderColor: goodStats}, "slow");
     } else {
-        $("#val2").animate({color: regStats}, "slow");
+        $("#val2").animate({borderColor: regStats}, "slow");
     }
     
     $("#val3").text(data.Deaths)
     if (data.Deaths == 0) {
-        $("#val3").animate({color: goodStats}, "slow");
+        $("#val3").animate({borderColor: goodStats}, "slow");
     } else {
-        $("#val3").animate({color: regStats}, "slow");
+        $("#val3").animate({borderColor: regStats}, "slow");
     }
 }
 
