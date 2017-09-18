@@ -18,7 +18,6 @@ var Gauth;
 if (window.Twitch.ext) {
   window.Twitch.ext.onAuthorized(function(auth) {
       Gauth = auth;
-      console.log(auth.channelId);
       
       (function update() {
         var data = {
@@ -35,6 +34,7 @@ if (window.Twitch.ext) {
             dataType: 'json',
             data: JSON.stringify(data),
             success: function(data) {
+                console.log(data)
               $("#val1").html(data.Streak)
               $("#val2").html(data.Kills)
               $("#val1").html(data.Deaths)
