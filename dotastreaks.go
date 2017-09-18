@@ -157,11 +157,7 @@ func readAll() ([]User, error) {
 	db.View(func(tx *bolt.Tx) error {
 		acc := tx.Bucket([]byte("Account_id"))
 		chs := tx.Bucket([]byte("Channel_id"))
-		choice := tx.CreateBucket([]byte("Choice"))
-
-		if err != nil {
-			return err
-		}
+		choice, _ := tx.CreateBucket([]byte("Choice"))
 
 		c := acc.Cursor()
 
