@@ -446,6 +446,9 @@ func update(rw http.ResponseWriter, req *http.Request) {
 }
 
 func userUpdate(rw http.ResponseWriter, req *http.Request) {
+
+	fmt.Println("Got request")
+
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
@@ -490,6 +493,7 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 
 	rw.Header().Set("Content-Type", "application/json")
 	rw.Write(js)
+	fmt.Println("Written data back")
 }
 
 type JWTSignature struct {
