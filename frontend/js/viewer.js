@@ -34,7 +34,15 @@ if (window.Twitch.ext) {
             dataType: 'json',
             data: JSON.stringify(data),
             success: function(data) {
-                console.log(data)
+              if (!data.Choice[0]) {
+                  $("#block1").fadeOut("slow");
+              }
+              if (!data.Choice[1]) {
+                  $("#block2").fadeOut("slow");
+              }
+              if (!data.Choice[2]) {
+                  $("#block3").fadeOut("slow");
+              }
               $("#val1").text(data.Streak)
               $("#val2").text(data.Kills)
               $("#val3").text(data.Deaths)
