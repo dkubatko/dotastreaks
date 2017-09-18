@@ -609,42 +609,44 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	updUser.Stats.Choice = val.Choice
 	updUser.save()
 
-	var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
-		Role: "external"}
-	tokenstr, err := signToken(signature)
+	/*
+		var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
+			Role: "external"}
+		tokenstr, err := signToken(signature)
 
-	if err != nil {
-		return
-	}
+		if err != nil {
+			return
+		}
 
-	jsonStr, _ := json.Marshal(ConfigResp{"done"})
+		jsonStr, _ := json.Marshal(ConfigResp{"done"})
 
-	fmt.Println(string(jsonStr))
+		fmt.Println(string(jsonStr))
 
-	url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
+		url := "https://api.twitch.tv/extensions/277906/0.0.1/required_configuration"
 
-	auth := "Bearer " + tokenstr
+		auth := "Bearer " + tokenstr
 
-	r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
-	r.Header.Set("Authorization", auth)
-	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
-	r.Header.Set("Content-Type", "application/json")
+		r, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+		r.Header.Set("Authorization", auth)
+		r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
+		r.Header.Set("Content-Type", "application/json")
 
-	q := r.URL.Query()
-	q.Add("channel_id", val.Channel_id)
-	r.URL.RawQuery = q.Encode()
+		q := r.URL.Query()
+		q.Add("channel_id", val.Channel_id)
+		r.URL.RawQuery = q.Encode()
 
-	resp, err := (&http.Client{}).Do(r)
+		resp, err := (&http.Client{}).Do(r)
 
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
 
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
 
-	fmt.Println(string(body))
+		fmt.Println(string(body))
+	*/
 
 }
 
