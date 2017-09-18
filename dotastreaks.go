@@ -354,7 +354,6 @@ func (d *DotaAPI) validateID(account_id string) bool {
 }
 
 func parseJWT(tokenString string) (jwt.MapClaims, error) {
-
 	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -470,6 +469,11 @@ func userUpdate(rw http.ResponseWriter, req *http.Request) {
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 	fmt.Println("No header?")
 	fmt.Println(JWTtoken)
+
+	if JWTtoken == "" {
+		fmt.Println("Empty token")
+		return
+	}
 	var JWTclaims jwt.MapClaims
 	JWTclaims, err := parseJWT(JWTtoken)
 
