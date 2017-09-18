@@ -14,6 +14,14 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 */
 
+var Gauth;
+if (window.Twitch.ext) {
+  window.Twitch.ext.onAuthorized(function(auth) {
+      Gauth = auth;
+  });
+}
+
+
 $(document).ready(function() {
     (function update() {
       var data = {
