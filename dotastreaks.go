@@ -136,6 +136,8 @@ func (u *User) save() error {
 
 		buf := new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
+		fmt.Println("Putting int db")
+		fmt.Println(buf)
 		choice.Put([]byte(u.Client_id), buf.Bytes())
 
 		return nil
