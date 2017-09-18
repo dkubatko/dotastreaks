@@ -21,7 +21,7 @@ $(document).ready(function (){
     });
     
     $(".defbtn").click(function() {
-        consolo.log("I AM HERE! I AM ALIVE@@!!!")
+        console.log("I AM HERE! I AM ALIVE@@!!!")
         var clr = $(this).css("background-color")
         if (clr == "rgb(255, 255, 255)") {
             $(this).animate({backgroundColor: "rgb(102, 255, 153)"}, "slow");
@@ -36,7 +36,7 @@ $(document).ready(function (){
                 "choice": [true, true, true]
             };
         console.log(JSON.stringify(data))
-        consolo.log("I AM HERE! I AM ALIVE@@!!!")
+        console.log("I AM HERE! I AM ALIVE@@!!!")
        $.ajax({
             url: 'https://dotastreaks.com/config',
             type: 'POST',
