@@ -67,6 +67,10 @@ $(document).ready(function (){
             },
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
+            complete: function() {
+                $("#complete").slideUp("slow");
+                $("#last").delay("slow").fadeIn("slow");
+            }
             data: JSON.stringify(data),
         }); 
     });

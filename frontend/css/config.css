@@ -104,18 +104,6 @@ a:visited {
     font-size: 20px;
 }
 
-#ch1 {
-    background-color: white;
-}
-
-#ch2 {
-    background-color: white;
-}
-
-#ch3 {
-    background-color: white;
-}
-
 #outer
 {
     width:100%;
@@ -127,7 +115,11 @@ a:visited {
 }
 
 #second {
-    display: none;
+    display: non;
+}
+
+#last {
+    display: non
 }
 
 #complete {
