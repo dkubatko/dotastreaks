@@ -13,3 +13,21 @@ or in the "license" file accompanying this file. This file is distributed on an 
   Set Javascript specific to the extension viewer view in this file.
 
 */
+
+$(document).ready(function() {
+    
+});
+
+(function update() {
+     
+    $.ajax({
+    url: 'ajax/test.html', 
+    success: function(data) {
+      console.log(data);
+    },
+    complete: function() {
+      // Schedule the next request when the current one's complete
+      setTimeout(update, 5000);
+    }
+  });
+})();

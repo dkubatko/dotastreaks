@@ -594,6 +594,7 @@ func main() {
 	http.HandleFunc("/update", update)
 	http.HandleFunc("/verify", verify)
 	http.HandleFunc("/config", configDone)
+	http.HandleFunc("/userUpdate", userUpdate)
 
 	//support static file serve for htmls
 	http.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
