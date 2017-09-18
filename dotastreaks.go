@@ -599,6 +599,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 func updateInfo(us *User, done chan bool) {
 	err := us.collectStats()
+	fmt.Println("Collected stats")
 	if err != nil {
 		done <- true
 		return
@@ -608,14 +609,17 @@ func updateInfo(us *User, done chan bool) {
 }
 
 func launchUpdates() {
-	doneChan := make(chan bool, len(Users))
-	for i := range Users {
-		go updateInfo(&Users[i], doneChan)
+	for {
+		fmt.Println("Going into cycle")
+		doneChan := make(chan bool, len(Users))
+		for i := range Users {
+			go updateInfo(&Users[i], doneChan)
+		}
+		for done := range doneChan {
+			fmt.Println(done)
+		}
+		time.Sleep(10 * time.Second)
 	}
-	for done := range doneChan {
-		fmt.Println(done)
-	}
-	time.Sleep(10 * time.Second)
 }
 
 func main() {
