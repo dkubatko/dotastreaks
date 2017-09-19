@@ -45,6 +45,7 @@ var regStats = "rgb(139, 0, 0)"
 
 function trackData(data) {
     //get rid of non-tracked data
+    //could be for-ized but I am not sure how
     if (!data.Choice[0]) {
       $("#block1").fadeOut("slow");
     } else {
@@ -75,6 +76,7 @@ function trackData(data) {
     } else {
       $("#block6").fadeIn("slow");
     }
+    
     //now track data
     $("#val1").text(data.Streak);
     if (data.Streak > 0) {

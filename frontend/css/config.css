@@ -78,7 +78,7 @@ a:visited {
     color: black;
     background-color: white;
     margin-bottom: 0%;
-    margin-top: 0%;
+    margin-top: 5px;
     border: none;
     padding: 8px 20px;
     font-family: 'Work Sans';
@@ -116,7 +116,11 @@ a:visited {
     font-size: 20px;
 }
 
-#outer
+#btns {
+    margin-top: 5px;
+}
+
+.outer
 {
     width: 100%;
     align-self: center;
@@ -127,6 +131,7 @@ a:visited {
 {
     display: inline-block;
     margin: 5px;
+
 }
 
 #second {

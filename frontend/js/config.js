@@ -73,8 +73,8 @@ $(document).ready(function (){
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             complete: function() {
-                $("#complete").fadeOut ("slow");
-                $("#last").delay("slow").fadeIn("slow");
+                $("#complete").fadeOut("slow");
+                $("#last").delay(700).fadeIn("slow");
             },
             data: JSON.stringify(data),
         }); 

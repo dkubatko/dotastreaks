@@ -43,7 +43,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
             <input id="inp" type='text' name='steam_id' placeholder="Your Steam ID" autocomplete="off">
         </form>
         <div id="loading">
-            <img src="https://dotastreaks.com/images/loading.gif" alt="Loading" style="width:28px;height:28px;">
+            <img id="loadingimg" src="https://dotastreaks.com/images/loading.gif" alt="Loading" style="width:28px;height:28px;">
         </div>
         <div id="res">
             <img id="resimg" src="https://dotastreaks.com/images/ok.png" alt="OK"
@@ -56,34 +56,60 @@ or in the "license" file accompanying this file. This file is distributed on an 
                 <p class="instr-main">Now, let's choose what data will we collect.</p>
                 <p class="instr-hint">You can choose up to 3 types.</p>
             </div>
-            <div id="outer">
-              <div class="inner">
-                  <button id="ch1" class="defbtn">Streak</button>
+            <div id="btns">
+                <div class="outer">
+                  <div class="inner">
+                      <button id="ch1" class="defbtn">Streak</button>
+                    </div>
+                  <div class="inner">
+                      <button id="ch2" class="defbtn">Kills</button>
+                    </div>
+                  <div class="inner">
+                      <button id="ch3" class="defbtn">Deaths</button>
+                    </div>
                 </div>
-              <div class="inner">
-                  <button id="ch2" class="defbtn">Kills</button>
-                </div>
-              <div class="inner">
-                  <button id="ch3" class="defbtn">Deaths</button>
-                </div>
-            </div>
-            <div id="outer">
-              <div class="inner">
-                  <button id="ch4" class="defbtn">GPM</button>
-                </div>
-              <div class="inner">
-                  <button id="ch5" class="defbtn">XPM</button>
-                </div>
-              <div class="inner">
-                  <button id="ch6" class="defbtn">Level</button>
+                <div class="outer">
+                  <div class="inner">
+                      <button id="ch4" class="defbtn">GPM</button>
+                    </div>
+                  <div class="inner">
+                      <button id="ch5" class="defbtn">XPM</button>
+                    </div>
+                  <div class="inner">
+                      <button id="ch6" class="defbtn">Level</button>
+                    </div>
                 </div>
             </div>
             
             <div>
                 <button id="complete">Complete</button>
             </div>
-            <div>
-                <p id="last" class="instr-main"> Great! Now you can activate the extension and add it your panel.</p>
+            <div id="last">
+                <p  class="instr-main"> Great! Now you can activate the extension and add it your panel.</p>
+                <p class="instr-hint">If you want more, 
+                reach me by clicking links below!</p>
+                <div class="outer">
+                    <div class="inner">
+                        <a href="http://www.travel-explorer.com/australia-best-beaches/" target="_blank">
+                        <img src="https://dotastreaks.com/images/github.png" style="border:1px solid white;width:50px;height:20px;" alt="Github">
+                        </a>
+                    </div>
+                    <div class="inner">
+                        <a href="https://github.com/dkubatko" target="_blank">
+                        <img src="https://dotastreaks.com/images/github.png" style="border:1px solid white;width:50px;height:20px;" alt="Github">
+                        </a>
+                    </div>
+                    <div class="inner">
+                        <a href="https://vk.com/drazzzer" target="_blank">
+                        <img src="https://dotastreaks.com/images/github.png" style="border:1px solid white;width:50px;height:20px;" alt="VK">
+                        </a>
+                    </div>
+                    <div class="inner">
+                        <a href="https://www.facebook.com/dkubatko" target="_blank">
+                        <img src="https://dotastreaks.com/images/fb.png" style="border:1px solid white;width:50px;height:20px;" alt="FB">
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
