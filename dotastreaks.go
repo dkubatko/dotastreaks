@@ -5,6 +5,7 @@ import (
 	b64 "encoding/base64"
 	"encoding/binary"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
@@ -327,7 +328,7 @@ func (u *User) collectStats() error {
 
 	if len(matches) == 0 {
 		fmt.Println("zero found")
-		return
+		return errors.New("No account_id")
 	}
 
 	//if already tracked, skip
