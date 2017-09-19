@@ -60,8 +60,7 @@ function trackData(data) {
 
     if (now1 != ch1) {
         //make invisible while putting data in
-        //$('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
-        $("#block1").fadeOut(600);
+        $('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     
     //if same label
@@ -69,17 +68,14 @@ function trackData(data) {
         val = getDataById(ch1, data);
         if (val != $("#val1").text()) {
             //if data going to be changed, hide val block
-            //$("#val1").css({visibility: "visible"}).animate({opacity: 0}, 600);
-            $("#val1").fadeOut(600);
+            $("#val1").css({visibility: "visible"}).animate({opacity: 0}, 600);
         }
     }
         
     putData(ch1, $("#stat1"), $("#val1"), data);
     //show back if was hidden
-    //$("#val1").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
-    //$('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
-    $("#block1").fadeIn(600);
-    $("#val1").fadeIn(600);
+    $("#val1").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     
     
     
@@ -106,8 +102,9 @@ function trackData(data) {
     putData(ch2, $("#stat2"), $("#val2"), data);
     
     //show back if was hidden
-    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     $("#val2").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+   
     
     //now work with block3
     var ch3 = choice[2];
@@ -132,8 +129,8 @@ function trackData(data) {
     putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
-    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     $("#val3").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
 }
 
 
