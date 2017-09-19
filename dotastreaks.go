@@ -327,7 +327,6 @@ func (u *User) collectStats() error {
 	var stats *DotaStats = &u.Stats
 
 	if len(matches) == 0 {
-		fmt.Println("zero found")
 		return errors.New("No account_id")
 	}
 
