@@ -107,6 +107,10 @@ function trackData(data) {
         $("#stat1").text("Level");
         $("val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
+    //show back if was hidden
+    if (now1 != ch1) {
+        $('#block1').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+    }
     
     //now work with block2
     var ch2 = choice[1];
@@ -162,6 +166,10 @@ function trackData(data) {
         $("#stat2").text("Level");
         $("val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
+    //show back if was hidden
+    if (now2 != ch2) {
+        $('#block2').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+    }
     
     //now work with block3
     var ch3 = choice[2];
@@ -216,6 +224,10 @@ function trackData(data) {
     case 5:
         $("#stat3").text("Level");
         $("val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+    }
+    //show back if was hidden
+    if (now3 != ch3) {
+        $('#block1').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
     }
 }
 
