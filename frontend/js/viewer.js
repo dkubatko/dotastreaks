@@ -51,6 +51,8 @@ var wait = 500
 
 function trackData(data) {
     var val;
+    var border = [false, false, false]
+    
     var choice = [];
     var count = 0;
     //get ids with 
@@ -96,6 +98,7 @@ function trackData(data) {
         if (val != $("#val1").text()) {
             //if data going to be changed, hide val block
             $("#val1").css({visibility: "visible"}).animate({opacity: 0}, slow);
+            border[0] = true;
         }
     }
     
@@ -106,6 +109,7 @@ function trackData(data) {
         if (val != $("#val2").text()) {
             //if data going to be changed, hide val block
             $("#val2").css({visibility: "visible"}).animate({opacity: 0}, slow);
+            border[1] = true;
         }
     }
     
@@ -116,13 +120,14 @@ function trackData(data) {
         if (val != $("#val3").text()) {
             //if data going to be changed, hide val block
             $("#val3").css({visibility: "visible"}).animate({opacity: 0}, slow);
+            border[2] = true;
         }
     }
      
     //put all the data inside the blocks
-    putData(ch1, $("#stat1"), $("#val1"), data);
-    putData(ch2, $("#stat2"), $("#val2"), data);
-    putData(ch3, $("#stat3"), $("#val3"), data);
+    putData(ch1, $("#stat1"), $("#val1"), border[0], data);
+    putData(ch2, $("#stat2"), $("#val2"), border[1], data);
+    putData(ch3, $("#stat3"), $("#val3"), border[2], data);
     
     //show back if was hidden
     $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
@@ -135,7 +140,7 @@ function trackData(data) {
 }
 
 //puts data into appropriate field
-function putData(ch, stat, val, data) {
+function putData(ch, stat, val, border, data) {
     var toput;
     switch(ch) {
     case 0:
@@ -148,9 +153,21 @@ function putData(ch, stat, val, data) {
         //make borders appropriate color
         if (toput > 0) {
             //make visible if not yet then show border
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            //check if we need to show border
+            if (border) {
+                //if yes, show
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            } else {
+                //if no wait, then show
+                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+            }
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            //same here
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+            }
         }
         break;
     case 1:
@@ -172,9 +189,18 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput < 10) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            //make visible if not yet then show border
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+            }
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+            }
         }
         break;
     case 3:
@@ -184,9 +210,18 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput > 500) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            //make visible if not yet then show border
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+            }
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+            }
         }
         break;
     case 4:
@@ -196,9 +231,18 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput > 500) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            //make visible if not yet then show border
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+            }
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+            }
         }
         break;
     case 5:
@@ -208,9 +252,18 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput > 20) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            //make visible if not yet then show border
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+            }
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            } else {
+                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+            }
         }
     }
 }
