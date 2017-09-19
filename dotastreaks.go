@@ -349,10 +349,9 @@ func (d *DotaAPI) validateID(account_id string) bool {
 	var mhapi MatchHistoryAPIResponse
 	mhapi, err := d.getMatchHistoryData(account_id)
 	if err != nil {
-		fmt.Println(err.Error())
 		return false
 	}
-	fmt.Println(mhapi.Result.Status)
+
 	//from WebAPI success if 1
 	if mhapi.Result.Status == 1 {
 		return true
