@@ -80,7 +80,7 @@ function trackData(data) {
     }
     console.log(now1)
     console.log(ch1)
-    console.log(no1 != ch1)
+    console.log(now1 != ch1)
     if (now1 != ch1) {
         //make invisible while putting data in
         $('#block1').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
