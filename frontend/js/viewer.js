@@ -67,7 +67,7 @@ function trackData(data) {
     if (now1 == ch1) {
         val = getDataById(ch1, data);
         console.log(val)
-        console.log(("#val1").text())
+        console.log($("#val1").text())
         if (val != $("#val1").text()) {
             //if data going to be changed, hide val block
             $("#val1").css({visibility: "visible"}).animate({opacity: 0}, 600);
