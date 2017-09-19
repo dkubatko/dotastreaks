@@ -9,6 +9,7 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/rs/cors"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,14 +25,14 @@ const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
 
 /* LOGGING SETUP */
 
-func init() {
+func log_init() (w *io.Writer) {
 	f, err := os.OpenFile(log_path(), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Printf("Error logging file: %v\n", err)
+		return io.Writer{}
 	}
-	defer f.Close()
-
 	log.SetOutput(f)
+	return f
 }
 
 func moment() string {
@@ -730,7 +731,12 @@ func launchUpdates() {
 
 func main() {
 	fmt.Println(moment())
-	log.Printf("Starting logging at <%v>\n", moment())
+
+	//close file after the end of the session
+	f := log_init()
+	defer f.Close()
+
+	log.Printf("Started logging at <%v>\n", moment())
 	var err error
 
 	Users, err = readAll()
