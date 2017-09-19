@@ -69,7 +69,7 @@ $(document).ready(function (){
                 $(buttons[i]).animate({ opacity: 0.25 }, 1000);
             }
         }
-       
+        
         $.ajax({
             url: 'https://dotastreaks.com/config',
             type: 'POST',
