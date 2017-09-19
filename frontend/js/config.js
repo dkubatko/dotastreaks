@@ -112,12 +112,12 @@ function sendSteamID() {
 function successVerify(data) {
     $("#loading").slideUp("slow");
     if (data.Response == "ok") {
-        $("#resimg").delay(100).attr("src", "/images/ok.png");
+        $("#resimg").delay(100).attr("src", "https://dotastreaks.com/images/ok.png");
         $("#res").delay(1000).slideDown("slow");
         $("#done").delay(2000).fadeOut(400)
         $("#second").delay(2600).fadeIn(600);
     } else if (data.Response == "err") {
-        $("#resimg").attr("src", "/images/error.png");
+        $("#resimg").attr("src", "https://dotastreaks.com/images/error.png");
         $("#res").delay(1000).slideDown("slow");
     }
 }

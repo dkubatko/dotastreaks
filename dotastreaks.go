@@ -386,7 +386,6 @@ type VResponse struct {
 }
 
 func verify(rw http.ResponseWriter, req *http.Request) {
-	fmt.Println("Got verify request")
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 
 	if JWTtoken == "" {
@@ -409,8 +408,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	var val ValRequest
 	err = decoder.Decode(&val)
 
-	fmt.Println("Got token")
-
 	if err != nil {
 		return
 	}
@@ -428,8 +425,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Println("Searching for user")
-
 	us := *(findUserByChannelID(val.Channel_id))
 
 	if us.Channel_id != "" {
@@ -445,7 +440,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	us.convertID(us.Account_id)
 	us.Stats.Choice = make([]bool, 0, 0)
 	us.save()
-	fmt.Println("Everything ok")
 	Users = append(Users, us)
 }
 
