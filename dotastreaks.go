@@ -19,6 +19,7 @@ import (
 
 var DotaAPIKey string = os.Getenv("DOTA_API_KEY")
 var JWTsecret string = os.Getenv("JWT_SECRET")
+var ext_id string = os.Getenv("EXT_ID")
 
 const STEAM64 = 76561197960265728
 
@@ -39,7 +40,7 @@ func moment() string {
 }
 
 func log_path() string {
-	return "../logging/" + string(time.Now().Local().Format("2006-01-2")) + ".log"
+	return "../logging/" + string(time.Now().Local().Form0at("2006-01-2")) + ".log"
 }
 
 /* END LOGGING SETUP */
@@ -609,7 +610,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	url := "https://api.twitch.tv/extensions/ebfbsgj6lg9k2d4czcycledd89vrz9/0.0.1/required_configuration"
+	url := "https://api.twitch.tv/extensions/" + ext_id + "/0.0.1/required_configuration"
 	auth := "Bearer " + tokenstr
 
 	jsonStr := []byte(`{"required_configuration": "done"}`)
