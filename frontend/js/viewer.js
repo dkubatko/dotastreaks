@@ -15,6 +15,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 */
 if (window.Twitch.ext) {
   window.Twitch.ext.onAuthorized(function(auth) {
+      //repetetive function that asks EBS for updates
       (function update() {
         var data = {
                 "channel_id": auth.channelId
@@ -40,13 +41,19 @@ if (window.Twitch.ext) {
   });
 }
 
+//const colors for borders
 var goodStats = "rgb(102, 255, 153)"
 var regStats = "rgb(139, 0, 0)"
+
+//const speed for fading
+var slow = 600
+var wait = 400
 
 function trackData(data) {
     var val;
     var choice = [];
     var count = 0;
+    //get ids with 
     for (var i = 0; i < data.Choice.length; i++) {
         if (data.Choice[i] == true) {
             choice[count] = i;
@@ -57,10 +64,30 @@ function trackData(data) {
     var ch1 = choice[0];
     var txt = $("#stat1").text();
     var now1 = getIdByText(txt);
+    
+    //now work with block2
+    var ch2 = choice[1];
+    txt = $("#stat2").text();
+    var now2 = getIdByText(txt);
+    
+    //now work with block3
+    var ch3 = choice[2];
+    txt = $("#stat3").text();
+    var now3 = getIdByText(txt);
 
     if (now1 != ch1) {
         //make invisible while putting data in
-        $('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
+        $('#block1').css({visibility: "visible"}).animate({opacity: 0}, slow);
+    }
+    
+    if (now2 != ch2) {
+        //make invisible while putting data in
+        $('#block2').css({visibility: "visible"}).animate({opacity: 0}, slow);
+    }
+    
+    if (now3 != ch3) {
+        //make invisible while putting data in
+        $('#block3').css({visibility: "visible"}).animate({opacity: 0}, slow);
     }
     
     //if same label
@@ -68,24 +95,8 @@ function trackData(data) {
         val = getDataById(ch1, data);
         if (val != $("#val1").text()) {
             //if data going to be changed, hide val block
-            $("#val1").css({visibility: "visible"}).animate({opacity: 0}, 600);
+            $("#val1").css({visibility: "visible"}).animate({opacity: 0}, slow);
         }
-    }
-        
-    putData(ch1, $("#stat1"), $("#val1"), data);
-    //show back if was hidden
-    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
-    
-    
-    
-    //now work with block2
-    var ch2 = choice[1];
-    txt = $("#stat2").text();
-    var now2 = getIdByText(txt);
-    
-    if (now2 != ch2) {
-        //make invisible while putting data in
-        $('#block2').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     
     //if same label
@@ -94,24 +105,8 @@ function trackData(data) {
         //if not same data
         if (val != $("#val2").text()) {
             //if data going to be changed, hide val block
-            $("#val2").css({visibility: "visible"}).animate({opacity: 0}, 600);
+            $("#val2").css({visibility: "visible"}).animate({opacity: 0}, slow);
         }
-    }
-    
-    putData(ch2, $("#stat2"), $("#val2"), data);
-    
-    //show back if was hidden
-    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
-   
-    
-    //now work with block3
-    var ch3 = choice[2];
-    txt = $("#stat3").text();
-    var now3 = getIdByText(txt);
-    
-    if (now3 != ch3) {
-        //make invisible while putting data in
-        $('#block3').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     
     //if same label
@@ -120,30 +115,40 @@ function trackData(data) {
         //if not same data
         if (val != $("#val3").text()) {
             //if data going to be changed, hide val block
-            $("#val3").css({visibility: "visible"}).animate({opacity: 0}, 600);
+            $("#val3").css({visibility: "visible"}).animate({opacity: 0}, slow);
         }
     }
-    
+     
+    //put all the data inside the blocks
+    putData(ch1, $("#stat1"), $("#val1"), data);
+    putData(ch2, $("#stat2"), $("#val2"), data);
     putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
-    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    
+    //show back if was hidden
+    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    
+    //show back if was hidden
+    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
 }
 
-
+//puts data into appropriate field
 function putData(ch, stat, val, data) {
     switch(ch) {
     case 0:
+        //change data when block disappeared
         setTimeout(function () {
             stat.text("Streak");
             val.text(data.Streak);
         }, 600);
-            //show stats standing
+        //make borders appropriate color
         if (data.Streak > 0) {
             //make visible if not yet then show border
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 1:
@@ -152,9 +157,9 @@ function putData(ch, stat, val, data) {
             val.text(data.Kills);
         }, 600);
         if (data.Kills > 10) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 2:
@@ -163,9 +168,9 @@ function putData(ch, stat, val, data) {
             val.text(data.Deaths);
         }, 600);
         if (data.Deaths < 5) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 3:
@@ -174,9 +179,9 @@ function putData(ch, stat, val, data) {
             val.text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
         if (Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 4:
@@ -185,9 +190,9 @@ function putData(ch, stat, val, data) {
             val.text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
         if (Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 5:
@@ -196,9 +201,9 @@ function putData(ch, stat, val, data) {
             val.text(Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
         if (Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)) > 20) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
     }
 }
