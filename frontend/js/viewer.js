@@ -50,32 +50,32 @@ function trackData(data) {
       $("#block1").fadeOut("slow");
     } else {
      //let time for other blocks to disappear
-      $("#block1").delay(600).fadeIn("slow");
+      $("#block1").delay(700).fadeIn("slow");
     }
     if (!data.Choice[1]) {
       $("#block2").fadeOut("slow");
     } else {
-      $("#block2").delay(600).fadeIn("slow");
+      $("#block2").delay(700).fadeIn("slow");
     }
     if (!data.Choice[2]) {
       $("#block3").fadeOut("slow");
     } else {
-      $("#block3").delay(600).fadeIn("slow");
+      $("#block3").delay(700).fadeIn("slow");
     }
     if (!data.Choice[3]) {
       $("#block4").fadeOut("slow");
     } else {
-      $("#block4").delay(600).fadeIn("slow");
+      $("#block4").delay(700).fadeIn("slow");
     }
     if (!data.Choice[4]) {
       $("#block5").fadeOut("slow");
     } else {
-      $("#block5").delay(600).fadeIn("slow");
+      $("#block5").delay(700).fadeIn("slow");
     }
     if (!data.Choice[5]) {
       $("#block6").fadeOut("slow");
     } else {
-      $("#block6").delay(600).fadeIn("slow");
+      $("#block6").delay(700).fadeIn("slow");
     }
     
     //now track data
