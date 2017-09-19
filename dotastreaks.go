@@ -193,6 +193,10 @@ func readAll() ([]User, error) {
 
 		return nil
 	})
+	for _, us := range Users {
+		fmt.Println(us)
+	}
+
 	return Users, nil
 }
 
@@ -263,6 +267,8 @@ func (u *User) collectStats() error {
 func (u *User) convertID(id string) error {
 	var long_id int64
 	long_id, err := strconv.ParseInt(id, 10, 0)
+
+	fmt.Println(long_id)
 
 	if err != nil {
 		return err
@@ -414,11 +420,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 	dapi := &DotaAPI{}
 	dapi.Default()
-	if ok := dapi.validateID(val.Account_id); ok {
-		rw.Header().Set("Content-Type", "application/json")
-		js, _ := json.Marshal(VResponse{"ok"})
-		rw.Write(js)
-	} else {
+	if ok := dapi.validateID(val.Account_id); !ok {
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"err"})
 		rw.Write(js)
@@ -427,8 +429,20 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 	us := *(findUserByChannelID(val.Channel_id))
 
+	fmt.Println("checking")
+	fmt.Println(val.Account_id)
+
 	if us.Channel_id != "" {
-		us.convertID(val.Account_id)
+		err = us.convertID(val.Account_id)
+		if err != nil {
+			rw.Header().Set("Content-Type", "application/json")
+			js, _ := json.Marshal(VResponse{"err"})
+			rw.Write(js)
+			return
+		}
+		rw.Header().Set("Content-Type", "application/json")
+		js, _ := json.Marshal(VResponse{"err"})
+		rw.Write(js)
 		us.save()
 		return
 	}
@@ -437,7 +451,21 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	us = User{Account_id: val.Account_id,
 		Channel_id: val.Channel_id}
 
-	us.convertID(us.Account_id)
+	err = us.convertID(us.Account_id)
+
+	if err != nil {
+		rw.Header().Set("Content-Type", "application/json")
+		js, _ := json.Marshal(VResponse{"err"})
+		rw.Write(js)
+		return
+	}
+
+	fmt.Println(us.Account_id)
+
+	rw.Header().Set("Content-Type", "application/json")
+	js, _ := json.Marshal(VResponse{"ok"})
+	rw.Write(js)
+
 	us.Stats.Choice = make([]bool, 0, 0)
 	us.save()
 	Users = append(Users, us)
@@ -597,6 +625,9 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	r.Header.Set("Authorization", auth)
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
 	r.Header.Set("Content-Type", "application/json")
+
+	fmt.Println("asking for:")
+	fmt.Println(val.Channel_id)
 
 	q := r.URL.Query()
 	q.Add("channel_id", val.Channel_id)
