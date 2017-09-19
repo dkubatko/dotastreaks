@@ -397,8 +397,6 @@ func findUserByChannelID(Channel_id string) *User {
 func parseJWT(tokenString string) (jwt.MapClaims, error) {
 	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
 
-	fmt.Println(sDec)
-
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
