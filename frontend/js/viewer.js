@@ -143,7 +143,7 @@ function putData(ch, stat, val, data) {
         if (data.Streak > 0) {
             $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
         } else {
-             $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 1:
@@ -154,7 +154,7 @@ function putData(ch, stat, val, data) {
         if (data.Kills > 10) {
             $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
         } else {
-             $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 2:
@@ -165,7 +165,7 @@ function putData(ch, stat, val, data) {
         if (data.Deaths < 5) {
             $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
         } else {
-             $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 3:
@@ -176,7 +176,7 @@ function putData(ch, stat, val, data) {
         if (Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
             $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
         } else {
-             $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 4:
@@ -187,7 +187,7 @@ function putData(ch, stat, val, data) {
         if (Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
             $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
         } else {
-             $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 5:
@@ -198,7 +198,7 @@ function putData(ch, stat, val, data) {
         if (Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)) > 20) {
             $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
         } else {
-             $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
         }
     }
 }
