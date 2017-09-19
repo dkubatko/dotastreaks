@@ -443,7 +443,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 			return
 		}
 		rw.Header().Set("Content-Type", "application/json")
-		js, _ := json.Marshal(VResponse{"err"})
+		js, _ := json.Marshal(VResponse{"ok"})
 		rw.Write(js)
 		us.save()
 		return
@@ -456,6 +456,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	err = us.convertID(us.Account_id)
 
 	if err != nil {
+		fmt.Println("error from converting")
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"err"})
 		rw.Write(js)
