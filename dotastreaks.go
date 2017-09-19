@@ -486,7 +486,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	dapi.Default()
 	//check whether dota gives us person with such account
 	if ok := dapi.validateID(val.Account_id); !ok {
-		fmt.Println(val.Account_id)
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"err"})
 		rw.Write(js)
