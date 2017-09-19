@@ -325,6 +325,11 @@ func (u *User) collectStats() error {
 	//get easy pointer to user stats
 	var stats *DotaStats = &u.Stats
 
+	if len(matches) == 0 {
+		fmt.Println("zero found")
+		return
+	}
+
 	//if already tracked, skip
 	if matches[0].Match_id == u.Last_match_id {
 		return nil
