@@ -17,10 +17,10 @@ import (
 	"time"
 )
 
-const DefaultExt = ".html"
-const DotaAPIKey = "06F92D7C6DF8F881925E1513838D2C80"
+var DotaAPIKey string = os.Getenv("DOTA_API_KEY")
+var JWTsecret string = os.Getenv("JWT_SECRET")
+
 const STEAM64 = 76561197960265728
-const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
 
 /* LOGGING SETUP */
 
