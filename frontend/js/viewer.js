@@ -47,7 +47,7 @@ var regStats = "rgb(139, 0, 0)"
 
 //const speed for fading
 var slow = 600
-var wait = 400
+var wait = 500
 
 function trackData(data) {
     var val;
@@ -148,9 +148,9 @@ function putData(ch, stat, val, data) {
         //make borders appropriate color
         if (toput > 0) {
             //make visible if not yet then show border
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 1:
@@ -160,9 +160,9 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput > 10) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 2:
@@ -172,9 +172,9 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput < 10) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 3:
@@ -184,9 +184,9 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput > 500) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 4:
@@ -196,9 +196,9 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput > 500) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 5:
@@ -208,9 +208,9 @@ function putData(ch, stat, val, data) {
             val.text(toput);
         }, slow);
         if (toput > 20) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(slow).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
         }
     }
 }
