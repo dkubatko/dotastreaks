@@ -424,6 +424,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	//using pointer to directly mainpulate user's data
 	us := findUserByChannelID(val.Channel_id)
 
 	if us.Channel_id != "" {
@@ -623,18 +624,11 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	r.Header.Set("Client-Id", "ebfbsgj6lg9k2d4czcycledd89vrz9")
 	r.Header.Set("Content-Type", "application/json")
 
-	fmt.Println("asking for:")
-	fmt.Println(val.Channel_id)
-
 	q := r.URL.Query()
 	q.Add("channel_id", val.Channel_id)
 	r.URL.RawQuery = q.Encode()
 
-	resp, err := (&http.Client{}).Do(r)
-
-	defer resp.Body.Close()
-	dat, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(dat))
+	_, err = (&http.Client{}).Do(r)
 
 	if err != nil {
 		fmt.Println(err.Error())
