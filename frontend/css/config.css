@@ -34,6 +34,7 @@ p.instr-main {
 p.instr-hint {
     padding-bottom: 2px;
     margin-top: 1%;
+    margin-bottom: 0px;
     color: white;
     font-size: 10.5px;
 }
@@ -42,7 +43,8 @@ div {
 	margin: 0px;
     border: 1px;
 }
-div.instr {
+
+.instr {
     background-color: darkred;
     width: 50%;
     margin: 0 auto;
@@ -87,9 +89,9 @@ a:visited {
     text-align: center;
     font-size: 20px;
     font-family: 'Work Sans';
-    width: 50%;
-    margin-bottom: 2%;
-    margin-top: 0%;
+    width: 49.5%;
+    margin-bottom: 7px;
+    margin-top: 7px;
 }
 
 .defbtn {
