@@ -74,7 +74,6 @@ function trackData(data) {
         
     putData(ch1, $("#stat1"), $("#val1"), data);
     //show back if was hidden
-    $("#val1").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     
     
@@ -102,7 +101,6 @@ function trackData(data) {
     putData(ch2, $("#stat2"), $("#val2"), data);
     
     //show back if was hidden
-    $("#val2").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
    
     
@@ -129,7 +127,6 @@ function trackData(data) {
     putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
-    $("#val3").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
 }
 
@@ -143,9 +140,10 @@ function putData(ch, stat, val, data) {
         }, 600);
             //show stats standing
         if (data.Streak > 0) {
-            $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
+            //make visible if not yet then show border
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 1:
@@ -154,9 +152,9 @@ function putData(ch, stat, val, data) {
             val.text(data.Kills);
         }, 600);
         if (data.Kills > 10) {
-            $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 2:
@@ -165,9 +163,9 @@ function putData(ch, stat, val, data) {
             val.text(data.Deaths);
         }, 600);
         if (data.Deaths < 5) {
-            $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 3:
@@ -176,9 +174,9 @@ function putData(ch, stat, val, data) {
             val.text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
         if (Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
-            $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 4:
@@ -187,9 +185,9 @@ function putData(ch, stat, val, data) {
             val.text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
         if (Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
-            $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
         }
         break;
     case 5:
@@ -198,9 +196,9 @@ function putData(ch, stat, val, data) {
             val.text(Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
         if (Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)) > 20) {
-            $(val).delay(1000).animate({ borderColor: goodStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: goodStats }, 'slow');
         } else {
-            $(val).delay(1000).animate({ borderColor: regStats }, 'slow');
+            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, 600).delay(400).animate({ borderColor: regStats }, 'slow');
         }
     }
 }
