@@ -57,7 +57,7 @@ function trackData(data) {
     var ch1 = choice[0];
     var txt = $("stat1").text();
     var now1;
-    switch (txt1) {
+    switch (txt) {
         case "Streak":
             now1 = 0;
             break;
