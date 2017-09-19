@@ -639,7 +639,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	resp, err := (&http.Client{}).Do(r)
 
 	defer resp.Body.Close()
-	dat := ioutil.ReadAll(resp.Body)
+	dat, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(dat))
 
 	if err != nil {
