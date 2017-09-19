@@ -94,6 +94,11 @@ a:visited {
     margin-top: 7px;
 }
 
+.resimg {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
 .defbtn {
     color: black;
     background-color: white;
