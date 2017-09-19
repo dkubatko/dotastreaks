@@ -351,6 +351,7 @@ func (d *DotaAPI) validateID(account_id string) bool {
 	if err != nil {
 		return false
 	}
+	fmt.Println(mhapi.Result.Status)
 	//from WebAPI success if 1
 	if mhapi.Result.Status == 1 {
 		return true
