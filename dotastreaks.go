@@ -430,7 +430,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	us := *(findUserByChannelID(val.Channel_id))
+	us := findUserByChannelID(val.Channel_id)
 
 	fmt.Println("checking")
 	fmt.Println(val.Account_id)
