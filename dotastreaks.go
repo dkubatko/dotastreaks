@@ -10,7 +10,9 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/rs/cors"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 )
@@ -20,6 +22,29 @@ const DotaAPIKey = "06F92D7C6DF8F881925E1513838D2C80"
 const STEAM64 = 76561197960265728
 const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
 
+/* LOGGING SETUP */
+
+func init() {
+	f, err := os.OpenFile(log_path(), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Printf("Error logging file: %v", err)
+	}
+	defer f.Close()
+
+	log.SetOutput(f)
+}
+
+func moment() string {
+	return string(time.Now().Local().Format("2006 Jan, 2 15:04:05"))
+}
+
+func log_path() string {
+	return "../logging/" + string(time.Now().Local().Format("2006-01-2")) + ".log"
+}
+
+/* END LOGGING SETUP */
+
+/* DOTA API CODE */
 /* Match data struct sequence */
 type MatchDataAPIResponse struct {
 	Result MatchStruct
@@ -100,25 +125,88 @@ type Player struct {
 	Player_slot  int
 }
 
+type DotaAPI struct {
+	MatchDataURL    string
+	MatchHistoryURL string
+	Key             string
+}
+
+func (d *DotaAPI) Default() {
+	*d = DotaAPI{
+		MatchDataURL:    "http://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1",
+		MatchHistoryURL: "http://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/v1",
+		Key:             "06F92D7C6DF8F881925E1513838D2C80"}
+}
+
+func (d *DotaAPI) getMatchIDData(match_id string) (MatchDataAPIResponse, error) {
+	req, _ := http.NewRequest("GET", d.MatchDataURL, nil)
+
+	q := req.URL.Query()
+	q.Add("key", d.Key)
+	q.Add("match_id", match_id)
+	req.URL.RawQuery = q.Encode()
+
+	resp, err := (&http.Client{}).Do(req)
+
+	if err != nil {
+		return MatchDataAPIResponse{}, err
+	}
+
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	var apiresp MatchDataAPIResponse
+	json.Unmarshal([]byte(body), &apiresp)
+	return apiresp, nil
+}
+
+func (d *DotaAPI) getMatchHistoryData(account_id string) (MatchHistoryAPIResponse, error) {
+	req, _ := http.NewRequest("GET", d.MatchHistoryURL, nil)
+
+	q := req.URL.Query()
+	q.Add("key", d.Key)
+	q.Add("account_id", account_id)
+
+	req.URL.RawQuery = q.Encode()
+
+	resp, err := (&http.Client{}).Do(req)
+
+	if err != nil {
+		return MatchHistoryAPIResponse{}, err
+	}
+
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	var apiresp MatchHistoryAPIResponse
+	json.Unmarshal([]byte(body), &apiresp)
+
+	if apiresp.Result.Status == 15 {
+		return apiresp, &APIErr{"Couldn't fetch player's data"}
+	}
+
+	return apiresp, nil
+}
+
+func (d *DotaAPI) validateID(account_id string) bool {
+	var mhapi MatchHistoryAPIResponse
+	mhapi, err := d.getMatchHistoryData(account_id)
+	if err != nil {
+		return false
+	}
+
+	//from WebAPI success if 1
+	if mhapi.Result.Status == 1 {
+		return true
+	} else {
+		return false
+	}
+
+}
+
 /* USER FUNCTIONALITY NOW */
 
-/* Struct for user info */
-type User struct {
-	Account_id    string
-	Channel_id    string
-	Stats         DotaStats
-	Last_match_id int
-}
-
-type DotaStats struct {
-	Choice []bool
-	Streak int
-	Kills  int
-	Deaths int
-	GPM    int
-	XPM    int
-	Lvl    int
-}
+/* DB CODE */
 
 func (u *User) save() error {
 	db, err := bolt.Open("UserData.db", 0600, nil)
@@ -193,6 +281,24 @@ func readAll() ([]User, error) {
 		return nil
 	})
 	return Users, nil
+}
+
+/* User basic info */
+type User struct {
+	Account_id    string
+	Channel_id    string
+	Stats         DotaStats
+	Last_match_id int
+}
+
+type DotaStats struct {
+	Choice []bool
+	Streak int
+	Kills  int
+	Deaths int
+	GPM    int
+	XPM    int
+	Lvl    int
 }
 
 func (u *User) collectStats() error {
@@ -275,84 +381,17 @@ func (u *User) convertID(id string) error {
 	return nil
 }
 
-type DotaAPI struct {
-	MatchDataURL    string
-	MatchHistoryURL string
-	Key             string
+func findUserByChannelID(Channel_id string) *User {
+	//this uses references
+	for i := range Users {
+		if Users[i].Channel_id == Channel_id {
+			return &Users[i]
+		}
+	}
+	return &User{}
 }
 
-func (d *DotaAPI) Default() {
-	*d = DotaAPI{
-		MatchDataURL:    "http://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1",
-		MatchHistoryURL: "http://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/v1",
-		Key:             "06F92D7C6DF8F881925E1513838D2C80"}
-}
-
-func (d *DotaAPI) getMatchIDData(match_id string) (MatchDataAPIResponse, error) {
-	req, _ := http.NewRequest("GET", d.MatchDataURL, nil)
-
-	q := req.URL.Query()
-	q.Add("key", d.Key)
-	q.Add("match_id", match_id)
-	req.URL.RawQuery = q.Encode()
-
-	resp, err := (&http.Client{}).Do(req)
-
-	if err != nil {
-		return MatchDataAPIResponse{}, err
-	}
-
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-
-	var apiresp MatchDataAPIResponse
-	json.Unmarshal([]byte(body), &apiresp)
-	return apiresp, nil
-}
-
-func (d *DotaAPI) getMatchHistoryData(account_id string) (MatchHistoryAPIResponse, error) {
-	req, _ := http.NewRequest("GET", d.MatchHistoryURL, nil)
-
-	q := req.URL.Query()
-	q.Add("key", d.Key)
-	q.Add("account_id", account_id)
-
-	req.URL.RawQuery = q.Encode()
-
-	resp, err := (&http.Client{}).Do(req)
-
-	if err != nil {
-		return MatchHistoryAPIResponse{}, err
-	}
-
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-
-	var apiresp MatchHistoryAPIResponse
-	json.Unmarshal([]byte(body), &apiresp)
-
-	if apiresp.Result.Status == 15 {
-		return apiresp, &APIErr{"Couldn't fetch player's data"}
-	}
-
-	return apiresp, nil
-}
-
-func (d *DotaAPI) validateID(account_id string) bool {
-	var mhapi MatchHistoryAPIResponse
-	mhapi, err := d.getMatchHistoryData(account_id)
-	if err != nil {
-		return false
-	}
-
-	//from WebAPI success if 1
-	if mhapi.Result.Status == 1 {
-		return true
-	} else {
-		return false
-	}
-
-}
+/* JWT CODE */
 
 func parseJWT(tokenString string) (jwt.MapClaims, error) {
 	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
@@ -372,6 +411,32 @@ func parseJWT(tokenString string) (jwt.MapClaims, error) {
 	}
 }
 
+type JWTSignature struct {
+	Exp     int64
+	User_id string
+	Role    string
+}
+
+func signToken(jwts JWTSignature) (string, error) {
+	// Create a new token object, specifying signing method and the claims
+	// you would like it to contain.
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"exp":     int64(jwts.Exp),
+		"user_id": jwts.User_id,
+		"role":    jwts.Role,
+	})
+
+	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
+
+	// Sign and get the complete encoded token as a string using the secret
+	tokenString, err := token.SignedString(sDec)
+
+	return tokenString, err
+}
+
+/* END JWT CODE */
+
+/* VERIFY CODE */
 /* Config stuff */
 var Users []User
 
@@ -389,6 +454,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 
 	if JWTtoken == "" {
+		log.Printf("No JWT for %v. Aborting\n", req.RemoteAddr)
 		return
 	}
 
@@ -396,10 +462,12 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	JWTclaims, err := parseJWT(JWTtoken)
 
 	if err != nil {
+		log.Printf("Invalid JWT for %v. Aborting\n", req.RemoteAddr)
 		return
 	}
 
 	if JWTclaims["role"] != "broadcaster" {
+		log.Printf("User requesting verification: no access for %v\n", req.RemoteAddr)
 		return
 	}
 
@@ -409,6 +477,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	err = decoder.Decode(&val)
 
 	if err != nil {
+		log.Printf("Error decoding request from %v\n", req.RemoteAddr)
 		//if err decoding then it means that's not our caller
 		return
 	}
@@ -437,6 +506,8 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 			return
 		}
 		//if ok converting return ok
+		log.Printf("Success account (%v) verification for user %v\n", val.Account_id,
+			val.Channel_id)
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"ok"})
 		rw.Write(js)
@@ -464,95 +535,17 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	js, _ := json.Marshal(VResponse{"ok"})
 	rw.Write(js)
 
+	log.Printf("Success account (%v) verification for user %v\n", val.Account_id,
+		val.Channel_id)
+
 	us.Stats.Choice = make([]bool, 0, 0)
 	us.save()
 	Users = append(Users, *us)
 }
 
-func findUserByChannelID(Channel_id string) *User {
-	//this uses references
-	for i := range Users {
-		if Users[i].Channel_id == Channel_id {
-			return &Users[i]
-		}
-	}
-	return &User{}
-}
+/* END VERIFY CODE */
 
-/* Actual update */
-
-type UserUpdateRequest struct {
-	Channel_id string
-}
-
-func userUpdate(rw http.ResponseWriter, req *http.Request) {
-	var JWTtoken string = req.Header.Get("x-extension-jwt")
-
-	if JWTtoken == "" {
-		fmt.Println("Empty token")
-		return
-	}
-	var JWTclaims jwt.MapClaims
-	JWTclaims, err := parseJWT(JWTtoken)
-
-	if err != nil {
-		return
-	}
-
-	if JWTclaims["role"] != "viewer" && JWTclaims["role"] != "broadcaster" {
-		return
-	}
-
-	defer req.Body.Close()
-	decoder := json.NewDecoder(req.Body)
-	var upd UserUpdateRequest
-	err = decoder.Decode(&upd)
-
-	if err != nil {
-		fmt.Println("Error decoding")
-		return
-	}
-
-	var updUser *User = findUserByChannelID(upd.Channel_id)
-
-	if updUser.Channel_id == "" {
-		fmt.Println("User not found!")
-		return
-	}
-
-	js, err := json.Marshal(updUser.Stats)
-
-	if err != nil {
-		fmt.Println("Error processing json!")
-		return
-	}
-
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(js)
-}
-
-type JWTSignature struct {
-	Exp     int64
-	User_id string
-	Role    string
-}
-
-func signToken(jwts JWTSignature) (string, error) {
-	// Create a new token object, specifying signing method and the claims
-	// you would like it to contain.
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"exp":     int64(jwts.Exp),
-		"user_id": jwts.User_id,
-		"role":    jwts.Role,
-	})
-
-	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
-
-	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString(sDec)
-
-	return tokenString, err
-}
+/* CONFIG CODE */
 
 type ConfigReq struct {
 	Channel_id string
@@ -568,6 +561,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	var JWTtoken string = req.Header.Get("x-extension-jwt")
 
 	if JWTtoken == "" {
+		log.Printf("No JWT for %v. Aborting\n", req.RemoteAddr)
 		return
 	}
 
@@ -575,10 +569,12 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	JWTclaims, err := parseJWT(JWTtoken)
 
 	if err != nil {
+		log.Printf("Invalid JWT for %v. Aborting\n", req.RemoteAddr)
 		return
 	}
 
 	if JWTclaims["role"] != "broadcaster" {
+		log.Printf("User requesting verification: no access for %v\n", req.RemoteAddr)
 		return
 	}
 
@@ -589,13 +585,14 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	err = decoder.Decode(&val)
 
 	if err != nil {
+		log.Printf("Error decoding request from %v\n", req.RemoteAddr)
 		return
 	}
 
 	var updUser *User = findUserByChannelID(val.Channel_id)
 
 	if updUser.Channel_id == "" {
-		fmt.Println("User not found!")
+		log.Printf("User with channel id %v not found. Aborting for %v\n", val.Channel_id, req.RemoteAddr)
 		return
 	}
 
@@ -628,14 +625,73 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 	q.Add("channel_id", val.Channel_id)
 	r.URL.RawQuery = q.Encode()
 
-	_, err = (&http.Client{}).Do(r)
+	resp, err := (&http.Client{}).Do(r)
 
-	if err != nil {
-		fmt.Println(err.Error())
+	if err != nil || resp.StatusCode != 204 {
+		log.Printf("Error giving config access to %v when calling to Twitch - %v", val.Channel_id, req.RemoteAddr)
 		return
 	}
 }
 
+/* END CONFIG CODE */
+
+/* UPDATE CODE */
+
+type UserUpdateRequest struct {
+	Channel_id string
+}
+
+func userUpdate(rw http.ResponseWriter, req *http.Request) {
+	var JWTtoken string = req.Header.Get("x-extension-jwt")
+
+	if JWTtoken == "" {
+		log.Printf("No JWT for %v. Aborting\n", req.RemoteAddr)
+		return
+	}
+	var JWTclaims jwt.MapClaims
+	JWTclaims, err := parseJWT(JWTtoken)
+
+	if err != nil {
+		log.Printf("Invalid JWT for %v. Aborting\n", req.RemoteAddr)
+		return
+	}
+
+	if JWTclaims["role"] != "viewer" && JWTclaims["role"] != "broadcaster" {
+		log.Printf("Update requested by unknown: no access for %v\n", req.RemoteAddr)
+		return
+	}
+
+	defer req.Body.Close()
+	decoder := json.NewDecoder(req.Body)
+	var upd UserUpdateRequest
+	err = decoder.Decode(&upd)
+
+	if err != nil {
+		log.Printf("Error decoding request from %v\n", req.RemoteAddr)
+		return
+	}
+
+	var updUser *User = findUserByChannelID(upd.Channel_id)
+
+	if updUser.Channel_id == "" {
+		log.Printf("User with channel id %v not found. Aborting for %v\n", upd.Channel_id, req.RemoteAddr)
+		return
+	}
+
+	js, err := json.Marshal(updUser.Stats)
+
+	if err != nil {
+		log.Printf("Error marshalling json for %v\n", updUser.Channel_id)
+		return
+	}
+
+	rw.Header().Set("Content-Type", "application/json")
+	rw.Write(js)
+}
+
+/* END UPDATE CODE */
+
+//go routines reg update stuff
 func updateInfo(us *User, done chan bool) {
 	err := us.collectStats()
 
@@ -651,6 +707,7 @@ func updateInfo(us *User, done chan bool) {
 }
 
 func launchUpdates() {
+	var count int
 	for {
 		doneChan := make(chan bool, len(Users))
 
@@ -662,12 +719,17 @@ func launchUpdates() {
 		for _ = range Users {
 			<-doneChan
 		}
-
-		time.Sleep(10 * time.Second)
+		count++
+		if count%1000 == 0 {
+			log.Printf("Cycle %v has gone through. Status: ok.", count)
+		}
+		time.Sleep(30 * time.Second)
 	}
 }
 
 func main() {
+	fmt.Println(moment())
+	fmt.Println(log_path())
 	var err error
 
 	Users, err = readAll()
@@ -684,6 +746,10 @@ func main() {
 	mux.HandleFunc("/verify", verify)
 	mux.HandleFunc("/config", configDone)
 	mux.HandleFunc("/userUpdate", userUpdate)
+
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s - %s - %s\n", r.RemoteAddr, r.Method, r.URL)
+	})
 
 	//support static file serve for htmls
 	mux.HandleFunc("/frontend/", func(w http.ResponseWriter, r *http.Request) {
