@@ -46,79 +46,112 @@ var regStats = "rgb(139, 0, 0)"
 function trackData(data) {
     //get rid of non-tracked data
     //could be for-ized but I am not sure how
-    if (!data.Choice[0]) {
-      $("#block1").fadeOut("slow");
-    } else {
-     //let time for other blocks to disappear
-      $("#block1").delay(700).fadeIn("slow");
-    }
-    if (!data.Choice[1]) {
-      $("#block2").fadeOut("slow");
-    } else {
-      $("#block2").delay(700).fadeIn("slow");
-    }
-    if (!data.Choice[2]) {
-      $("#block3").fadeOut("slow");
-    } else {
-      $("#block3").delay(700).fadeIn("slow");
-    }
-    if (!data.Choice[3]) {
-      $("#block4").fadeOut("slow");
-    } else {
-      $("#block4").delay(700).fadeIn("slow");
-    }
-    if (!data.Choice[4]) {
-      $("#block5").fadeOut("slow");
-    } else {
-      $("#block5").delay(700).fadeIn("slow");
-    }
-    if (!data.Choice[5]) {
-      $("#block6").fadeOut("slow");
-    } else {
-      $("#block6").delay(700).fadeIn("slow");
+    if (data.Choice[0]) {
+        if ($("#stat1").text != "Streak") {
+            //hide element for a while
+            $("#block1").css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+            //now change data
+            $("#stat1").text("Streak");
+            $("val1").text(data.Streak)
+            //show changed data
+            $("#block1").css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            //show green or red frames
+            if (data.Streak > 0) {
+                $("#val1").animate({borderColor: goodStats}, "slow");
+            } else {
+                $("#val1").animate({borderColor: regStats}, "slow");
+            }
+        }
     }
     
-    //now track data
-    $("#val1").text(data.Streak);
-    if (data.Streak > 0) {
-        $("#val1").animate({borderColor: goodStats}, "slow");
-    } else {
-        $("#val1").animate({borderColor: regStats}, "slow");
-    }
-
-    $("#val2").text(data.Kills);
-    if (data.Kills > 10) {
-        $("#val2").animate({borderColor: goodStats}, "slow");
-    } else {
-        $("#val2").animate({borderColor: regStats}, "slow");
-    }
-    
-    $("#val3").text(data.Deaths);
-    if (data.Deaths < 5) {
-        $("#val3").animate({borderColor: goodStats}, "slow");
-    } else {
-        $("#val3").animate({borderColor: regStats}, "slow");
+    if (data.Choice[1]) {
+        if ($("#stat1").text != "Kills") {
+            //hide element for a while
+            $("#block1").css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+            //now change data
+            $("#stat1").text("Kills");
+            $("val1").text(data.Kills)
+            //show changed data
+            $("#block1").css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            //show green or red frames
+            if (data.Kills > 10) {
+                $("#val1").animate({borderColor: goodStats}, "slow");
+            } else {
+                $("#val1").animate({borderColor: regStats}, "slow");
+            }
+        }
     }
     
-    $("#val4").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
-    if (data.GPM > 500) {
-        $("#val4").animate({borderColor: goodStats}, "slow");
-    } else {
-        $("#val4").animate({borderColor: regStats}, "slow");
+    if (data.Choice[2]) {
+        if ($("#stat2").text != "Deaths") {
+            //hide element for a while
+            $("#block2").css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+            //now change data
+            $("#stat2").text("Deaths");
+            $("val2").text(data.Deaths)
+            //show changed data
+            $("#block2").css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            //show green or red frames
+            if (data.Deaths < 5) {
+                $("#val2").animate({borderColor: goodStats}, "slow");
+            } else {
+                $("#val2").animate({borderColor: regStats}, "slow");
+            }
+        }
     }
     
-    $("#val5").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
-    if (data.XPM > 500) {
-        $("#val5").animate({borderColor: goodStats}, "slow");
-    } else {
-        $("#val5").animate({borderColor: regStats}, "slow");
+    if (data.Choice[3]) {
+        if ($("#stat2").text != "GPM") {
+            //hide element for a while
+            $("#block2").css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+            //now change data
+            $("#stat2").text("GPM");
+            $("val2").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)))
+            //show changed data
+            $("#block2").css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            //show green or red frames
+            if (Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
+                $("#val2").animate({borderColor: goodStats}, "slow");
+            } else {
+                $("#val2").animate({borderColor: regStats}, "slow");
+            }
+        }
     }
     
-    $("#val6").text(Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)));
-    if (data.Lvl > 20) {
-        $("#val6").animate({borderColor: goodStats}, "slow");
-    } else {
-        $("#val6").animate({borderColor: regStats}, "slow");
+    if (data.Choice[4]) {
+        if ($("#stat3").text != "XPM") {
+            //hide element for a while
+            $("#block3").css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+            //now change data
+            $("#stat3").text("XPM");
+            $("val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)))
+            //show changed data
+            $("#block3").css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            //show green or red frames
+            if (Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
+                $("#val3").animate({borderColor: goodStats}, "slow");
+            } else {
+                $("#val3").animate({borderColor: regStats}, "slow");
+            }
+        }
+    }
+    
+    if (data.Choice[5]) {
+        if ($("#stat3").text != "Level") {
+            //hide element for a while
+            $("#block3").css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+            //now change data
+            $("#stat3").text("Level");
+            $("val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)))
+            //show changed data
+            $("#block3").css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            //show green or red frames
+            if (Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
+                $("#val3").animate({borderColor: goodStats}, "slow");
+            } else {
+                $("#val3").animate({borderColor: regStats}, "slow");
+            }
+        }
     }
 }
 
