@@ -626,10 +626,12 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	resp, err := (&http.Client{}).Do(r)
 
-	if err != nil || resp.StatusCode != 204 {
-		log.Printf("Error giving config access to %v when calling to Twitch - %v", val.Channel_id, req.RemoteAddr)
+	if (err != nil) || (resp.StatusCode != 204) {
+		log.Printf("Error giving config access to %v when calling to Twitch - %v\n", val.Channel_id, req.RemoteAddr)
 		return
 	}
+
+	log.Printf("Successfully set config for user %v from  %v\n", val.Channel_id, req.RemoteAddr)
 }
 
 /* END CONFIG CODE */
@@ -720,7 +722,7 @@ func launchUpdates() {
 		}
 		count++
 		if count%1000 == 0 {
-			log.Printf("Cycle %v has gone through. Status: ok.", count)
+			log.Printf("Cycle %v has gone through. Status: ok.\n", count)
 		}
 		time.Sleep(30 * time.Second)
 	}
@@ -728,6 +730,7 @@ func launchUpdates() {
 
 func main() {
 	fmt.Println(moment())
+	log.Printf("Starting logging at <%v>\n", moment())
 	var err error
 
 	Users, err = readAll()
