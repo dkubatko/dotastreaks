@@ -53,9 +53,6 @@ function trackData(data) {
             count++;
         }
     }
-    console.log(now2)
-    console.log(ch2)
-    console.log(now2 != ch2)
     //now work with block1
     var ch1 = choice[0];
     var txt = $("#stat1").text();
@@ -76,9 +73,6 @@ function trackData(data) {
     txt = $("#stat2").text();
     var now2 = getIdByText(txt);
     
-    console.log(now2)
-    console.log(ch2)
-    console.log(now2 != ch2)
     if (now2 != ch2) {
         //make invisible while putting data in
         $('#block2').css({visibility: "visible"}).animate({opacity: 0}, 600);
@@ -94,9 +88,6 @@ function trackData(data) {
     txt = $("#stat3").text();
     var now3 = getIdByText(txt);
     
-    console.log(now3)
-    console.log(ch3)
-    console.log(now3 != ch3)
     if (now3 != ch3) {
         //make invisible while putting data in
         $('#block3').css({visibility: "visible"}).animate({opacity: 0}, 600);
@@ -116,36 +107,67 @@ function putData(ch, stat, val, data) {
             stat.text("Streak");
             val.text(data.Streak);
         }, 600);
+            //show stats standing
+        if (data.Streak > 0) {
+            $(val).animate({ borderColor: goodStats }, 'slow');
+        } else {
+             $(val).animate({ borderColor: regStats }, 'slow');
+        }
         break;
     case 1:
         setTimeout(function () {
             stat.text("Kills");
             val.text(data.Kills);
         }, 600);
+        if (data.Kills > 10) {
+            $(val).animate({ borderColor: goodStats }, 'slow');
+        } else {
+             $(val).animate({ borderColor: regStats }, 'slow');
+        }
         break;
     case 2:
         setTimeout(function () {
             stat.text("Deaths");
             val.text(data.Deaths);
         }, 600);
+        if (data.Deaths < 5) {
+            $(val).animate({ borderColor: goodStats }, 'slow');
+        } else {
+             $(val).animate({ borderColor: regStats }, 'slow');
+        }
         break;
     case 3:
         setTimeout(function () {
             stat.text("GPM");
             val.text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
+        if (Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
+            $(val).animate({ borderColor: goodStats }, 'slow');
+        } else {
+             $(val).animate({ borderColor: regStats }, 'slow');
+        }
         break;
     case 4:
         setTimeout(function () {
             stat.text("XPM");
             val.text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
+        if (Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)) > 500) {
+            $(val).animate({ borderColor: goodStats }, 'slow');
+        } else {
+             $(val).animate({ borderColor: regStats }, 'slow');
+        }
         break;
     case 5:
         setTimeout(function () {
             stat.text("Level");
-            val.text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+            val.text(Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)));
         }, 600);
+        if (Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)) > 20) {
+            $(val).animate({ borderColor: goodStats }, 'slow');
+        } else {
+             $(val).animate({ borderColor: regStats }, 'slow');
+        }
     }
 }
 
