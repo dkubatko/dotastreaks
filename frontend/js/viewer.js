@@ -74,8 +74,8 @@ function trackData(data) {
         
     putData(ch1, $("#stat1"), $("#val1"), data);
     //show back if was hidden
-    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0});
-    $("#val1").css({visibility: "visible"}).animate({opacity: 1.0});
+    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $("#val1").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     
     
     //now work with block2
@@ -101,8 +101,8 @@ function trackData(data) {
     putData(ch2, $("#stat2"), $("#val2"), data);
     
     //show back if was hidden
-    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0});
-    $("#val2").css({visibility: "visible"}).animate({opacity: 1.0});
+    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $("#val2").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
     
     //now work with block3
     var ch3 = choice[2];
@@ -127,8 +127,8 @@ function trackData(data) {
     putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
-    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0});
-    $("#val3").css({visibility: "visible"}).animate({opacity: 1.0});
+    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $("#val3").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
 }
 
 
