@@ -9,7 +9,6 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/rs/cors"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
