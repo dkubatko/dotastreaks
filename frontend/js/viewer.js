@@ -139,10 +139,10 @@ function putData(ch, stat, val, data) {
     var toput;
     switch(ch) {
     case 0:
+        toput = data.Streak;
         //change data when block disappeared
         setTimeout(function () {
             stat.text("Streak");
-            toput = data.Streak;
             val.text(toput);
         }, slow);
         //make borders appropriate color
@@ -154,9 +154,9 @@ function putData(ch, stat, val, data) {
         }
         break;
     case 1:
+        toput = data.Kills;
         setTimeout(function () {
             stat.text("Kills");
-            toput = data.Kills;
             val.text(toput);
         }, slow);
         if (toput > 10) {
@@ -166,9 +166,9 @@ function putData(ch, stat, val, data) {
         }
         break;
     case 2:
+        toput = data.Deaths;
         setTimeout(function () {
             stat.text("Deaths");
-            toput = data.Deaths;
             val.text(toput);
         }, slow);
         if (toput < 10) {
@@ -178,9 +178,9 @@ function putData(ch, stat, val, data) {
         }
         break;
     case 3:
+        toput = Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak));
         setTimeout(function () {
             stat.text("GPM");
-            toput = Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak));
             val.text(toput);
         }, slow);
         if (toput > 500) {
@@ -190,9 +190,9 @@ function putData(ch, stat, val, data) {
         }
         break;
     case 4:
+        toput = Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak));
         setTimeout(function () {
             stat.text("XPM");
-            toput = Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak));
             val.text(toput);
         }, slow);
         if (toput > 500) {
@@ -202,9 +202,9 @@ function putData(ch, stat, val, data) {
         }
         break;
     case 5:
+        toput = Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak));
         setTimeout(function () {
-            stat.text("Level");
-            toput = Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak));
+            stat.text("Level");   
             val.text(toput);
         }, slow);
         if (toput > 20) {
