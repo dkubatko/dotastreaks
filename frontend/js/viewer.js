@@ -60,7 +60,8 @@ function trackData(data) {
 
     if (now1 != ch1) {
         //make invisible while putting data in
-        $('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
+        //$('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
+        $("#block1").fadeOut(600);
     }
     
     //if same label
@@ -68,14 +69,18 @@ function trackData(data) {
         val = getDataById(ch1, data);
         if (val != $("#val1").text()) {
             //if data going to be changed, hide val block
-            $("#val1").css({visibility: "visible"}).animate({opacity: 0}, 600);
+            //$("#val1").css({visibility: "visible"}).animate({opacity: 0}, 600);
+            $("#val1").fadeOut(600);
         }
     }
         
     putData(ch1, $("#stat1"), $("#val1"), data);
     //show back if was hidden
-    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
-    $("#val1").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    //$("#val1").css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    //$('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, 600);
+    $("#block1").fadeIn(600);
+    $("#val1").fadeIn(600);
+    
     
     
     //now work with block2
