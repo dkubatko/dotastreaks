@@ -44,7 +44,7 @@ var goodStats = "rgb(102, 255, 153)"
 var regStats = "rgb(139, 0, 0)"
 
 function trackData(data) {
-    var choices = [];
+    var choice = [];
     var count = 0;
     for (var i = 0; i < data.Choice.length; i++) {
         if (data.Choice[i] == true) {
