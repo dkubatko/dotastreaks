@@ -25,11 +25,11 @@ const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
 
 /* LOGGING SETUP */
 
-func log_init() (w *io.Writer) {
+func log_init() (w *os.File) {
 	f, err := os.OpenFile(log_path(), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Printf("Error logging file: %v\n", err)
-		return io.Writer{}
+		return &os.File{}
 	}
 	log.SetOutput(f)
 	return f
