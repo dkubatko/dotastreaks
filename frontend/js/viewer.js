@@ -56,7 +56,7 @@ function trackData(data) {
     
     //now work with block1
     var ch1 = choice[0];
-    var txt = $("stat1").text();
+    var txt = $("#stat1").text();
     var now1;
     switch (txt) {
         case "Streak":
@@ -78,9 +78,6 @@ function trackData(data) {
             now1 = 5;
             break;
     }
-    console.log(now1)
-    console.log(ch1)
-    console.log(now1 != ch1)
     if (now1 != ch1) {
         //make invisible while putting data in
         $('#block1').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
@@ -118,7 +115,7 @@ function trackData(data) {
     
     //now work with block2
     var ch2 = choice[1];
-    txt = $("stat2").text();
+    txt = $("#stat2").text();
     var now2;
     switch (txt) {
         case "Streak":
@@ -177,7 +174,7 @@ function trackData(data) {
     
     //now work with block3
     var ch3 = choice[2];
-    txt = $("stat3").text();
+    txt = $("#stat3").text();
     var now3;
     switch (txt) {
         case "Streak":
