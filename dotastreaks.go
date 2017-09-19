@@ -40,7 +40,7 @@ func moment() string {
 }
 
 func log_path() string {
-	return "../logging/" + string(time.Now().Local().Form0at("2006-01-2")) + ".log"
+	return "../logging/" + string(time.Now().Local().Format("2006-01-2")) + ".log"
 }
 
 /* END LOGGING SETUP */
