@@ -451,7 +451,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	//append new user with channel id and account id
-	us = User{Account_id: val.Account_id,
+	*us = User{Account_id: val.Account_id,
 		Channel_id: val.Channel_id}
 
 	err = us.convertID(us.Account_id)
@@ -472,7 +472,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 	us.Stats.Choice = make([]bool, 0, 0)
 	us.save()
-	Users = append(Users, us)
+	Users = append(Users, *us)
 }
 
 func findUserByChannelID(Channel_id string) *User {
