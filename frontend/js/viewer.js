@@ -78,6 +78,9 @@ function trackData(data) {
             now1 = 5;
             break;
     }
+    console.log(now1)
+    console.log(ch1)
+    console.log(no1 != ch1)
     if (now1 != ch1) {
         //make invisible while putting data in
         $('#block1').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
@@ -86,27 +89,27 @@ function trackData(data) {
     switch(ch1) {
     case 0:
         $("#stat1").text("Streak");
-        $("val1").text(data.Streak);
+        $("#val1").text(data.Streak);
         break;
     case 1:
         $("#stat1").text("Kills");
-        $("val1").text(data.Kills);
+        $("#val1").text(data.Kills);
         break;
     case 2:
         $("#stat1").text("Deaths");
-        $("val1").text(data.Deaths);
+        $("#val1").text(data.Deaths);
         break;
     case 3:
         $("#stat1").text("GPM");
-        $("val1").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val1").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
         break;
     case 4:
         $("#stat1").text("XPM");
-        $("val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
         break;
     case 5:
         $("#stat1").text("Level");
-        $("val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
     //show back if was hidden
     if (now1 != ch1) {
@@ -145,27 +148,27 @@ function trackData(data) {
     switch(ch2) {
     case 0:
         $("#stat2").text("Streak");
-        $("val2").text(data.Streak);
+        $("#val2").text(data.Streak);
         break;
     case 1:
         $("#stat2").text("Kills");
-        $("val2").text(data.Kills);
+        $("#val2").text(data.Kills);
         break;
     case 2:
         $("#stat2").text("Deaths");
-        $("val2").text(data.Deaths);
+        $("#val2").text(data.Deaths);
         break;
     case 3:
         $("#stat2").text("GPM");
-        $("val2").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val2").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
         break;
     case 4:
         $("#stat2").text("XPM");
-        $("val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
         break;
     case 5:
         $("#stat2").text("Level");
-        $("val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
     //show back if was hidden
     if (now2 != ch2) {
@@ -204,27 +207,27 @@ function trackData(data) {
     switch(ch3) {
     case 0:
         $("#stat3").text("Streak");
-        $("val3").text(data.Streak);
+        $("#val3").text(data.Streak);
         break;
     case 1:
         $("#stat3").text("Kills");
-        $("val3").text(data.Kills);
+        $("#val3").text(data.Kills);
         break;
     case 2:
         $("#stat3").text("Deaths");
-        $("val3").text(data.Deaths);
+        $("#val3").text(data.Deaths);
         break;
     case 3:
         $("#stat3").text("GPM");
-        $("val3").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val3").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
         break;
     case 4:
         $("#stat3").text("XPM");
-        $("val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
         break;
     case 5:
         $("#stat3").text("Level");
-        $("val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        $("#val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
     //show back if was hidden
     if (now3 != ch3) {
