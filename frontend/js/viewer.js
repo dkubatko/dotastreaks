@@ -57,60 +57,14 @@ function trackData(data) {
     //now work with block1
     var ch1 = choice[0];
     var txt = $("#stat1").text();
-    var now1;
-    switch (txt) {
-        case "Streak":
-            now1 = 0;
-            break;
-        case "Kills":
-            now1 = 1;
-            break;
-        case "Deaths":
-            now1 = 2;
-            break;
-        case "GPM":
-            now1 = 3;
-            break;
-        case "XPM":
-            now1 = 4;
-            break;
-        case "Level":
-            now1 = 5;
-            break;
-    }
-    console.log(now1)
-    console.log(ch1)
-    console.log(now1 != ch1)
+    var now1 = getIdByText(txt);
+
     if (now1 != ch1) {
         //make invisible while putting data in
         $('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
-    //else just change data
-    switch(ch1) {
-    case 0:
-        $("#stat1").text("Streak");
-        $("#val1").text(data.Streak);
-        break;
-    case 1:
-        $("#stat1").text("Kills");
-        $("#val1").text(data.Kills);
-        break;
-    case 2:
-        $("#stat1").text("Deaths");
-        $("#val1").text(data.Deaths);
-        break;
-    case 3:
-        $("#stat1").text("GPM");
-        $("#val1").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
-        break;
-    case 4:
-        $("#stat1").text("XPM");
-        $("#val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
-        break;
-    case 5:
-        $("#stat1").text("Level");
-        $("#val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
-    }
+        
+    putData(ch1, $("#stat1"), $("#val1"), data);
     //show back if was hidden
     $('#block1').css({visibility: "visible"}).animate({opacity: 1.0});
     
@@ -118,27 +72,8 @@ function trackData(data) {
     //now work with block2
     var ch2 = choice[1];
     txt = $("#stat2").text();
-    var now2;
-    switch (txt) {
-        case "Streak":
-            now2 = 0;
-            break;
-        case "Kills":
-            now2 = 1;
-            break;
-        case "Deaths":
-            now2 = 2;
-            break;
-        case "GPM":
-            now2 = 3;
-            break;
-        case "XPM":
-            now2 = 4;
-            break;
-        case "Level":
-            now2 = 5;
-            break;
-    }
+    var now2 = getIdByText(txt);
+    
     console.log(now2)
     console.log(ch2)
     console.log(now2 != ch2)
@@ -147,59 +82,16 @@ function trackData(data) {
         $('#block2').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     
-    //else just change data
-    switch(ch2) {
-    case 0:
-        $("#stat2").text("Streak");
-        $("#val2").text(data.Streak);
-        break;
-    case 1:
-        $("#stat2").text("Kills");
-        $("#val2").text(data.Kills);
-        break;
-    case 2:
-        $("#stat2").text("Deaths");
-        $("#val2").text(data.Deaths);
-        break;
-    case 3:
-        $("#stat2").text("GPM");
-        $("#val2").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
-        break;
-    case 4:
-        $("#stat2").text("XPM");
-        $("#val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
-        break;
-    case 5:
-        $("#stat2").text("Level");
-        $("#val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
-    }
+    putData(ch2, $("#stat2"), $("#val2"), data);
+    
     //show back if was hidden
     $('#block2').css({visibility: "visible"}).animate({opacity: 1.0});
     
     //now work with block3
     var ch3 = choice[2];
     txt = $("#stat3").text();
-    var now3;
-    switch (txt) {
-        case "Streak":
-            now3 = 0;
-            break;
-        case "Kills":
-            now3 = 1;
-            break;
-        case "Deaths":
-            now3 = 2;
-            break;
-        case "GPM":
-            now3 = 3;
-            break;
-        case "XPM":
-            now3 = 4;
-            break;
-        case "Level":
-            now3 = 5;
-            break;
-    }
+    var now3 = getIdByText(txt);
+    
     console.log(now3)
     console.log(ch3)
     console.log(now3 != ch3)
@@ -207,36 +99,61 @@ function trackData(data) {
         //make invisible while putting data in
         $('#block3').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
-    //else just change data
-    switch(ch3) {
-    case 0:
-        $("#stat3").text("Streak");
-        $("#val3").text(data.Streak);
-        break;
-    case 1:
-        $("#stat3").text("Kills");
-        $("#val3").text(data.Kills);
-        break;
-    case 2:
-        $("#stat3").text("Deaths");
-        $("#val3").text(data.Deaths);
-        break;
-    case 3:
-        $("#stat3").text("GPM");
-        $("#val3").text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
-        break;
-    case 4:
-        $("#stat3").text("XPM");
-        $("#val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
-        break;
-    case 5:
-        $("#stat3").text("Level");
-        $("#val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
-    }
+    
+    putData(ch3, $("#stat3"), $("val3"), data);
+    
     //show back if was hidden
     $('#block3').css({visibility: "visible"}).animate({opacity: 1.0});
 }
 
 
-    
+function putData(ch, stat, val, data) {
+    switch(ch) {
+    case 0:
+        stat.delay(600).text("Streak");
+        val.delay(600).text(data.Streak);
+        break;
+    case 1:
+        stat.delay(600).text("Kills");
+        val.delay(600).text(data.Kills);
+        break;
+    case 2:
+        stat.delay(600).text("Deaths");
+        val.delay(600).text(data.Deaths);
+        break;
+    case 3:
+        stat.delay(600).text("GPM");
+        val.delay(600).text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        break;
+    case 4:
+        stat.delay(600).text("XPM");
+        val.delay(600).text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        break;
+    case 5:
+        stat.delay(600).text("Level");
+        val.delay(600).text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+    }
+}
 
+function getIdByText(txt) {
+    switch (txt) {
+        case "Streak":
+            return 0;
+            break;
+        case "Kills":
+            return 1;
+            break;
+        case "Deaths":
+            return 2;
+            break;
+        case "GPM":
+            return 3;
+            break;
+        case "XPM":
+            return 4;
+            break;
+        case "Level":
+            return 5;
+            break;
+    }
+}
