@@ -306,7 +306,7 @@ type DotaStats struct {
 func (u *User) collectStats() error {
 	if u.Account_id == "" {
 		//skipping if now account id set
-		return errors.new("No account id")
+		return errors.New("No account id")
 	}
 
 	dapi := &DotaAPI{}
