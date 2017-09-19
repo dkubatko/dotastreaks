@@ -190,13 +190,8 @@ func readAll() ([]User, error) {
 
 			Users = append(Users, us)
 		}
-
 		return nil
 	})
-	for _, us := range Users {
-		fmt.Println(us)
-	}
-
 	return Users, nil
 }
 
@@ -267,8 +262,6 @@ func (u *User) collectStats() error {
 func (u *User) convertID(id string) error {
 	var long_id int64
 	long_id, err := strconv.ParseInt(id, 10, 0)
-
-	fmt.Println(long_id)
 
 	if err != nil {
 		return err
@@ -416,13 +409,14 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	err = decoder.Decode(&val)
 
 	if err != nil {
+		//if err decoding then it means that's not our caller
 		return
 	}
 
 	dapi := &DotaAPI{}
 	dapi.Default()
+	//check whether dota gives us person with such account
 	if ok := dapi.validateID(val.Account_id); !ok {
-		fmt.Println("Verifying in dota")
 		fmt.Println(val.Account_id)
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"err"})
@@ -432,17 +426,16 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 
 	us := findUserByChannelID(val.Channel_id)
 
-	fmt.Println("checking")
-	fmt.Println(val.Account_id)
-
 	if us.Channel_id != "" {
 		err = us.convertID(val.Account_id)
+		//if err converting return err
 		if err != nil {
 			rw.Header().Set("Content-Type", "application/json")
 			js, _ := json.Marshal(VResponse{"err"})
 			rw.Write(js)
 			return
 		}
+		//if ok converting return ok
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"ok"})
 		rw.Write(js)
@@ -451,21 +444,21 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	//append new user with channel id and account id
+	//if no users were found
 	*us = User{Account_id: val.Account_id,
 		Channel_id: val.Channel_id}
 
 	err = us.convertID(us.Account_id)
 
+	//if error occured converting id, return
 	if err != nil {
-		fmt.Println("error from converting")
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"err"})
 		rw.Write(js)
 		return
 	}
 
-	fmt.Println(us.Account_id)
-
+	//if everything went right, send ok respone
 	rw.Header().Set("Content-Type", "application/json")
 	js, _ := json.Marshal(VResponse{"ok"})
 	rw.Write(js)
