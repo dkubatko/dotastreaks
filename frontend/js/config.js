@@ -19,7 +19,7 @@ var unpressedColor = "rgb(255, 255, 255)"
 
 $(document).ready(function (){
     //set up all buttons to have unpressed color
-    var buttons = document.getElementsByClassName("defbtn")
+    var buttons = document.getElementsByClassName("defbtn");
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].style.backgroundColor = unpressedColor
     }
