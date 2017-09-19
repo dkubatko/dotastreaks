@@ -159,14 +159,14 @@ function putData(ch, stat, val, border, data) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
             } else {
                 //if no wait, then show
-                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
             }
         } else {
             //same here
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
             }
         }
         break;
@@ -177,9 +177,22 @@ function putData(ch, stat, val, border, data) {
             val.text(toput);
         }, slow);
         if (toput > 10) {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            //make visible if not yet then show border
+            //check if we need to show border
+            if (border) {
+                //if yes, show
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
+            } else {
+                //if no wait, then show
+                $(val).stop().delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+            }
         } else {
-            $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            //same here
+            if (border) {
+                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
+            } else {
+                $(val).stop().delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+            }
         }
         break;
     case 2:
@@ -193,13 +206,13 @@ function putData(ch, stat, val, border, data) {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
             }
         } else {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
             }
         }
         break;
@@ -214,13 +227,13 @@ function putData(ch, stat, val, border, data) {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
             }
         } else {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
             }
         }
         break;
@@ -235,13 +248,13 @@ function putData(ch, stat, val, border, data) {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
             }
         } else {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
             }
         }
         break;
@@ -256,13 +269,13 @@ function putData(ch, stat, val, border, data) {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: goodStats }, 'slow');   
             }
         } else {
             if (border) {
                 $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
             } else {
-                $(val).delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
+                $(val).stop().delay(wait + slow).animate({ borderColor: regStats }, 'slow');   
             }
         }
     }
