@@ -56,16 +56,16 @@ div {
     border: 2px solid darkred;
 }
 
-#block4 {
-    display: none;
+#block1 {
+    visibility: hidden;
 }
 
-#block5 {
-    display: none;
+#block2 {
+    visibility: hidden;
 }
 
-#block6 {
-    display: none;
+#block3 {
+    visibility: hidden;
 }
 
 .stats {
