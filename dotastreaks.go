@@ -610,7 +610,7 @@ func configDone(rw http.ResponseWriter, req *http.Request) {
 
 	updUser.save()
 
-	var signature = JWTSignature{Exp: 1505774570, User_id: "43665292",
+	var signature = JWTSignature{Exp: time.Now().Unix() + (60 * 60), User_id: "43665292",
 		Role: "external"}
 	tokenstr, err := signToken(signature)
 
