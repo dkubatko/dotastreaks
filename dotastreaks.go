@@ -17,9 +17,9 @@ import (
 	"time"
 )
 
-var DotaAPIKey string = os.Getenv("DOTA_API_KEY")
-var JWTsecret string = os.Getenv("JWT_SECRET")
-var ext_id string = os.Getenv("EXT_ID")
+var DotaAPIKey string = string(os.Getenv("DOTA_API_KEY"))
+var JWTsecret string = string(os.Getenv("JWT_SECRET"))
+var ext_id string = string(os.Getenv("EXT_ID"))
 
 const STEAM64 = 76561197960265728
 
@@ -396,6 +396,8 @@ func findUserByChannelID(Channel_id string) *User {
 
 func parseJWT(tokenString string) (jwt.MapClaims, error) {
 	sDec, _ := b64.StdEncoding.DecodeString(JWTsecret)
+
+	fmt.Println(sDec)
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
