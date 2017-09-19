@@ -53,7 +53,9 @@ function trackData(data) {
             count++;
         }
     }
-    
+    console.log(now2)
+    console.log(ch2)
+    console.log(now2 != ch2)
     //now work with block1
     var ch1 = choice[0];
     var txt = $("#stat1").text();
@@ -100,7 +102,7 @@ function trackData(data) {
         $('#block3').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     
-    putData(ch3, $("#stat3"), $("val3"), data);
+    putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
     $('#block3').css({visibility: "visible"}).animate({opacity: 1.0});
@@ -110,28 +112,40 @@ function trackData(data) {
 function putData(ch, stat, val, data) {
     switch(ch) {
     case 0:
-        stat.delay(600).text("Streak");
-        val.delay(600).text(data.Streak);
+        setTimeout(function () {
+            stat.text("Streak");
+            val.text(data.Streak);
+        }, 600);
         break;
     case 1:
-        stat.delay(600).text("Kills");
-        val.delay(600).text(data.Kills);
+        setTimeout(function () {
+            stat.text("Kills");
+            val.text(data.Kills);
+        }, 600);
         break;
     case 2:
-        stat.delay(600).text("Deaths");
-        val.delay(600).text(data.Deaths);
+        setTimeout(function () {
+            stat.text("Deaths");
+            val.text(data.Deaths);
+        }, 600);
         break;
     case 3:
-        stat.delay(600).text("GPM");
-        val.delay(600).text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        setTimeout(function () {
+            stat.text("GPM");
+            val.text(Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        }, 600);
         break;
     case 4:
-        stat.delay(600).text("XPM");
-        val.delay(600).text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        setTimeout(function () {
+            stat.text("XPM");
+            val.text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        }, 600);
         break;
     case 5:
-        stat.delay(600).text("Level");
-        val.delay(600).text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        setTimeout(function () {
+            stat.text("Level");
+            val.text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
+        }, 600);
     }
 }
 
