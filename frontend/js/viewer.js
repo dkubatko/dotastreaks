@@ -44,6 +44,7 @@ var goodStats = "rgb(102, 255, 153)"
 var regStats = "rgb(139, 0, 0)"
 
 function trackData(data) {
+    console.log(data)
     var choice = [];
     var count = 0;
     for (var i = 0; i < data.Choice.length; i++) {
@@ -227,7 +228,7 @@ function trackData(data) {
     }
     //show back if was hidden
     if (now3 != ch3) {
-        $('#block1').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+        $('#block3').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
     }
 }
 
