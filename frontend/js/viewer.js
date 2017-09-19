@@ -44,7 +44,7 @@ var goodStats = "rgb(102, 255, 153)"
 var regStats = "rgb(139, 0, 0)"
 
 function trackData(data) {
-    console.log(data)
+    var val;
     var choice = [];
     var count = 0;
     for (var i = 0; i < data.Choice.length; i++) {
@@ -62,10 +62,20 @@ function trackData(data) {
         //make invisible while putting data in
         $('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
+    
+    //if same label
+    if (now1 == ch1) {
+        val = getDataById(ch1, data);
+        if (val != $("#val1").text()) {
+            //if data going to be changed, hide val block
+            $("#val1").css({visibility: "visible"}).animate({opacity: 0}, 600);
+        }
+    }
         
     putData(ch1, $("#stat1"), $("#val1"), data);
     //show back if was hidden
     $('#block1').css({visibility: "visible"}).animate({opacity: 1.0});
+    $("#val1").css({visibility: "visible"}).animate({opacity: 1.0});
     
     
     //now work with block2
@@ -78,10 +88,21 @@ function trackData(data) {
         $('#block2').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     
+    //if same label
+    if (now2 == ch2) {
+        val = getDataById(ch2, data);
+        //if not same data
+        if (val != $("#val2").text()) {
+            //if data going to be changed, hide val block
+            $("#val2").css({visibility: "visible"}).animate({opacity: 0}, 600);
+        }
+    }
+    
     putData(ch2, $("#stat2"), $("#val2"), data);
     
     //show back if was hidden
     $('#block2').css({visibility: "visible"}).animate({opacity: 1.0});
+    $("#val2").css({visibility: "visible"}).animate({opacity: 1.0});
     
     //now work with block3
     var ch3 = choice[2];
@@ -93,10 +114,21 @@ function trackData(data) {
         $('#block3').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     
+    //if same label
+    if (now3 == ch3) {
+        val = getDataById(ch3, data);
+        //if not same data
+        if (val != $("#val3").text()) {
+            //if data going to be changed, hide val block
+            $("#val3").css({visibility: "visible"}).animate({opacity: 0}, 600);
+        }
+    }
+    
     putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
     $('#block3').css({visibility: "visible"}).animate({opacity: 1.0});
+    $("#val3").css({visibility: "visible"}).animate({opacity: 1.0});
 }
 
 
@@ -190,6 +222,29 @@ function getIdByText(txt) {
             break;
         case "Level":
             return 5;
+            break;
+    }
+}
+
+function getDataById(id, data) {
+    switch (id) {
+        case 0:
+            return data.Streak;
+            break;
+        case 1:
+            return data.Kills;
+            break;
+        case 2:
+            return data.Deaths;
+            break;
+        case 3:
+            return Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak));
+            break;
+        case 4:
+            return Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak));
+            break;
+        case 5:
+            return Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak));
             break;
     }
 }
