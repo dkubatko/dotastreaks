@@ -27,7 +27,7 @@ const JWTsecret = "GMN6U3GbKX2UionfEMqFe7Vw87/EVw96zQswj8ZH7Ow="
 func init() {
 	f, err := os.OpenFile(log_path(), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		fmt.Printf("Error logging file: %v", err)
+		fmt.Printf("Error logging file: %v\n", err)
 	}
 	defer f.Close()
 
@@ -728,7 +728,6 @@ func launchUpdates() {
 
 func main() {
 	fmt.Println(moment())
-	fmt.Println(log_path())
 	var err error
 
 	Users, err = readAll()
