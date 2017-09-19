@@ -183,7 +183,7 @@ func (d *DotaAPI) getMatchHistoryData(account_id string) (MatchHistoryAPIRespons
 	var apiresp MatchHistoryAPIResponse
 	json.Unmarshal([]byte(body), &apiresp)
 
-	if apiresp.Result.Status == 15 {
+	if apiresp.Result.Status != 1 {
 		return apiresp, &APIErr{"Couldn't fetch player's data"}
 	}
 
@@ -304,6 +304,11 @@ type DotaStats struct {
 }
 
 func (u *User) collectStats() error {
+	if u.Account_id == "" {
+		//skipping if now account id set
+		return errors.new("No account id")
+	}
+
 	dapi := &DotaAPI{}
 	dapi.Default()
 	//get all matches list
@@ -326,8 +331,9 @@ func (u *User) collectStats() error {
 	//get easy pointer to user stats
 	var stats *DotaStats = &u.Stats
 
+	//extra protection from no data
 	if len(matches) == 0 {
-		return errors.New("No account_id")
+		return errors.New("Error getting data")
 	}
 
 	//if already tracked, skip
@@ -703,7 +709,7 @@ func updateInfo(us *User, done chan bool) {
 	err := us.collectStats()
 
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Println(err.Error())
 		done <- true
 		return
 	}
