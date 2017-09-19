@@ -80,9 +80,10 @@ function trackData(data) {
     }
     console.log(now1)
     console.log(ch1)
+    console.log(now1 != ch1)
     if (now1 != ch1) {
         //make invisible while putting data in
-        $('#block1').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+        $('#block1').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     //else just change data
     switch(ch1) {
@@ -111,7 +112,7 @@ function trackData(data) {
         $("#val1").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
     //show back if was hidden
-    $('#block1').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0});
     
     
     //now work with block2
@@ -140,10 +141,12 @@ function trackData(data) {
     }
     console.log(now2)
     console.log(ch2)
+    console.log(now2 != ch2)
     if (now2 != ch2) {
         //make invisible while putting data in
-        $('#block2').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+        $('#block2').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
+    
     //else just change data
     switch(ch2) {
     case 0:
@@ -171,7 +174,7 @@ function trackData(data) {
         $("#val2").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
     //show back if was hidden
-    $('#block2').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0});
     
     //now work with block3
     var ch3 = choice[2];
@@ -199,9 +202,10 @@ function trackData(data) {
     }
     console.log(now3)
     console.log(ch3)
+    console.log(now3 != ch3)
     if (now3 != ch3) {
         //make invisible while putting data in
-        $('#block3').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0}, 600);
+        $('#block3').css({visibility: "visible"}).animate({opacity: 0}, 600);
     }
     //else just change data
     switch(ch3) {
@@ -230,7 +234,7 @@ function trackData(data) {
         $("#val3").text(Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)));
     }
     //show back if was hidden
-    $('#block3').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0});
 }
 
 
