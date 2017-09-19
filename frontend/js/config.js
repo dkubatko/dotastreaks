@@ -14,8 +14,12 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 */
 
+
 var pressedColor = "rgb(102, 255, 153)"
 var unpressedColor = "rgb(255, 255, 255)"
+
+//if you see this: I am desperately looking
+//for internships. :x
 
 $(document).ready(function (){
     //set up all buttons to have unpressed color
@@ -23,14 +27,14 @@ $(document).ready(function (){
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].style.backgroundColor = unpressedColor
     }
-    
+    //simply remove done button and show loading img
     $("#done").click(function() {
         sendSteamID();
         $("#res").slideUp("50");
         $("#loading").slideDown("slow");
     });
     
-    //count number of pressed buttons
+    //count number of buttons pressed
     var count = 0
     
     $(".defbtn").click(function() {
@@ -45,6 +49,7 @@ $(document).ready(function (){
         //do nothing if count == 3
     });
     
+    //handle complete button
     $("#complete").click(function() {
         var data = {
                 "channel_id": Gauth.channelId,
@@ -53,6 +58,7 @@ $(document).ready(function (){
             };
         
         var clr = [];
+        //get all buttons color and find pressed ones
         var buttons = document.getElementsByClassName("defbtn");
         //JQuery didnt give me any result for some reason
         for (var i = 0; i < buttons.length; i++) {

@@ -55,23 +55,12 @@ div {
     border: 2px solid darkred;
 }
 
-#block4 {
-    display: none;
-}
-
-#block5 {
-    display: none;
-}
-
-#block6 {
-    display: none;
-}
-
 .stats {
     margin: 0px;
     color: white;
     text-align: center;
     padding: 5px;
+    display: none;
 }
 
 .stath {
