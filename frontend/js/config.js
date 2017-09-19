@@ -110,6 +110,7 @@ function sendSteamID() {
 }
 
 function successVerify(data) {
+    console.log(data)
     $("#loading").slideUp("slow");
     if (data.Response == "ok") {
         $("#resimg").delay(100).attr("src", "https://dotastreaks.com/images/ok.png");
@@ -124,4 +125,5 @@ function successVerify(data) {
 
 function notSuccess() {
     $("#loading").slideUp("slow");
+    console.log("Error")
 }
