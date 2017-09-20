@@ -31,12 +31,15 @@ $(document).ready(function (){
     //count number of buttons pressed
     var count = 0
     
+    //handle button options
     $(".defbtn").click(function() {
         var clr = $(this).css("backgroundColor")
         if (clr == unpressedColor && count < 3) {
+            //press button and count it
             $(this).animate({backgroundColor: pressedColor}, "fast");
             count++;
         } else if (clr == pressedColor) {
+            //unpress button and uncount it
             $(this).animate({backgroundColor: unpressedColor}, "fast");
             count--;
         }
@@ -45,6 +48,7 @@ $(document).ready(function (){
     
     //handle complete button
     $("#complete").click(function() {
+        //data for the server
         var data = {
                 "channel_id": Gauth.channelId,
                 "choice": [false, false, false,
@@ -57,13 +61,14 @@ $(document).ready(function (){
         //JQuery didnt give me any result for some reason
         for (var i = 0; i < buttons.length; i++) {
             clr[i] = buttons[i].style.backgroundColor;
+            //get pressed buttons
             if (clr[i] != unpressedColor) {
                 data.choice[i] = true;
             } else {
                 $(buttons[i]).animate({ opacity: 0.25 }, 1000);
             }
         }
-        
+        //send ajax
         $.ajax({
             url: 'https://dotastreaks.com/config',
             type: 'POST',
@@ -81,6 +86,7 @@ $(document).ready(function (){
     });
 });
 
+//verifies data on EBS
 function sendSteamID() {
     //close result before showing new one
     $("#res").slideUp(300);
@@ -109,6 +115,7 @@ function sendSteamID() {
         });
 }
 
+//shows stuff on verification
 function successVerify(data) {
     $("#loading").slideUp("slow");
     if (data.Response == "ok") {
@@ -121,7 +128,7 @@ function successVerify(data) {
         $("#res").delay(1000).slideDown("slow");
     }
 }
-
+//err connecting to server
 function notSuccess() {
     $("#loading").slideUp("slow");
 }

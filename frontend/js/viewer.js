@@ -49,13 +49,16 @@ var regStats = "rgb(139, 0, 0)"
 var slow = 600
 var wait = 500
 
+//writes in data
 function trackData(data) {
     var val;
+    var txt;
+    //keeps track of whether border faded
     var border = [false, false, false]
     
     var choice = [];
     var count = 0;
-    //get ids with 
+    //get ids of tracked stats
     for (var i = 0; i < data.Choice.length; i++) {
         if (data.Choice[i] == true) {
             choice[count] = i;
@@ -64,7 +67,7 @@ function trackData(data) {
     }
     //now work with block1
     var ch1 = choice[0];
-    var txt = $("#stat1").text();
+    txt = $("#stat1").text();
     var now1 = getIdByText(txt);
     
     //now work with block2
@@ -143,6 +146,7 @@ function trackData(data) {
     $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
+                //show border change on complete
                 animateBorder(choice[0], data, $("#val2"));
             }
         });
