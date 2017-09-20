@@ -61,15 +61,15 @@ div {
 }
 
 #block1 {
-    visibility: hidden;
+    visibility: hidde;
 }
 
 #block2 {
-    visibility: hidden;
+    visibility: hidde;
 }
 
 #block3 {
-    visibility: hidden;
+    visibility: hidde;
 }
 
 .stats {
@@ -77,7 +77,7 @@ div {
     color: white;
     text-align: center;
     padding: 5px;
-    padding-top: 3.5px;
+    padding-top: 1.5%;
 }
 
 .stath {
