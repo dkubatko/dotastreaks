@@ -135,7 +135,7 @@ function trackData(data) {
     $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
-                animateBorder(choice[0], data, $("val1"));
+                animateBorder(choice[0], data, $("#val1"));
             }
         });
     
@@ -143,7 +143,7 @@ function trackData(data) {
     $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
-                animateBorder(choice[0], data, $("val2"));
+                animateBorder(choice[0], data, $("#val2"));
             }
         });
     
@@ -151,7 +151,7 @@ function trackData(data) {
     $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
-                animateBorder(choice[0], data, $("val3"));
+                animateBorder(choice[0], data, $("#val3"));
             }
         });
     
@@ -160,7 +160,7 @@ function trackData(data) {
         $('#val1').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
-                animateBorder(choice[0], data, $("val1"));
+                animateBorder(choice[0], data, $("#val1"));
             }
         });
     }
@@ -170,7 +170,7 @@ function trackData(data) {
         $('#val2').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
-                animateBorder(choice[1], data, $("val2"));
+                animateBorder(choice[1], data, $("#val2"));
             }
         });
     }
@@ -180,7 +180,7 @@ function trackData(data) {
         $('#val3').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
-                animateBorder(choice[2], data, $("val3"));
+                animateBorder(choice[2], data, $("#val3"));
             }
         });
     }
