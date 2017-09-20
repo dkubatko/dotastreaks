@@ -127,9 +127,9 @@ function trackData(data) {
     console.log(border)
      
     //put all the data inside the blocks
-    putData(ch1, $("#stat1"), $("#val1"), border[0], data);
-    putData(ch2, $("#stat2"), $("#val2"), border[1], data);
-    putData(ch3, $("#stat3"), $("#val3"), border[2], data);
+    putData(ch1, $("#stat1"), $("#val1"), data);
+    putData(ch2, $("#stat2"), $("#val2"), data);
+    putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
     $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
@@ -139,194 +139,46 @@ function trackData(data) {
     
     //show back if was hidden
     $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    
+    //now show border if was hidden
+    if (border[0]) {
+        $('#val1').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    }
+    
+    //now show border if was hidden
+    if (border[1]) {
+        $('#val2').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    }
+    
+    //now show border if was hidden
+    if (border[2]) {
+        $('#val3').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    }
+    
+    //now show green or red border around
+    if (checkDataById(choice[0], data)) {
+        $("#val1").animate({borderColor: goodStats}, slow);
+    } else {
+        $("#val1").animate({borderColor: regStats}, slow);
+    }
+    
+    if (checkDataById(choice[0], data)) {
+        $("#val2").animate({borderColor: goodStats}, slow);
+    } else {
+        $("#val2").animate({borderColor: regStats}, slow);
+    }
+    
+    if (checkDataById(choice[0], data)) {
+        $("#val3").animate({borderColor: goodStats}, slow);
+    } else {
+        $("#val3").animate({borderColor: regStats}, slow);
+    }
 }
 
 //puts data into appropriate field
-function putData(ch, stat, val, border, data) {
-    var toput;
-    switch(ch) {
-    case 0:
-        toput = data.Streak;
-        //change data when block disappeared
-        setTimeout(function () {
-            stat.text("Streak");
-            val.text(toput);
-        }, slow);
-        //make borders appropriate color
-        if (toput > 0) {
-            //make visible if not yet then show border
-            //check if we need to show border
-            if (border) {
-                //if yes, show
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: goodStats }, 'slow');  
-                }, wait + slow);
-            }
-        } else {
-            //same here
-            if (border) {
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: regStats }, 'slow');  
-                }, wait + slow);  
-            }
-        }
-        break;
-    case 1:
-        toput = data.Kills;
-        setTimeout(function () {
-            stat.text("Kills");
-            val.text(toput);
-        }, slow);
-        if (toput > 10) {
-            //make visible if not yet then show border
-            //check if we need to show border
-            if (border) {
-                //if yes, show
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: goodStats }, 'slow');  
-                }, wait + slow);
-            }
-        } else {
-            //same here
-            if (border) {
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: regStats }, 'slow');  
-                }, wait + slow);  
-            }
-        }
-        break;
-    case 2:
-        toput = data.Deaths;
-        setTimeout(function () {
-            stat.text("Deaths");
-            val.text(toput);
-        }, slow);
-        if (toput < 10) {
-            //make visible if not yet then show border
-            //check if we need to show border
-            if (border) {
-                //if yes, show
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: goodStats }, 'slow');  
-                }, wait + slow);
-            }
-        } else {
-            //same here
-            if (border) {
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: regStats }, 'slow');  
-                }, wait + slow);  
-            }
-        }
-        break;
-    case 3:
-        toput = Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak));
-        setTimeout(function () {
-            stat.text("GPM");
-            val.text(toput);
-        }, slow);
-        if (toput > 500) {
-            //make visible if not yet then show border
-            //check if we need to show border
-            if (border) {
-                //if yes, show
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: goodStats }, 'slow');  
-                }, wait + slow);
-            }
-        } else {
-            //same here
-            if (border) {
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: regStats }, 'slow');  
-                }, wait + slow);  
-            }
-        }
-        break;
-    case 4:
-        toput = Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak));
-        setTimeout(function () {
-            stat.text("XPM");
-            val.text(toput);
-        }, slow);
-        if (toput > 500) {
-            //make visible if not yet then show border
-            //check if we need to show border
-            if (border) {
-                //if yes, show
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: goodStats }, 'slow');  
-                }, wait + slow);
-            }
-        } else {
-            //same here
-            if (border) {
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: regStats }, 'slow');  
-                }, wait + slow);  
-            }
-        }
-        break;
-    case 5:
-        toput = Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak));
-        setTimeout(function () {
-            stat.text("Level");   
-            val.text(toput);
-        }, slow);
-        if (toput > 20) {
-            //make visible if not yet then show border
-            //check if we need to show border
-            if (border) {
-                //if yes, show
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: goodStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: goodStats }, 'slow');  
-                }, wait + slow);
-            }
-        } else {
-            //same here
-            if (border) {
-                $(val).css({visibility: "visible"}).animate({opacity: 1.0}, slow).delay(wait).animate({ borderColor: regStats }, 'slow');
-            } else {
-                //wait until frames are done
-                setTimeout(function () {
-                    $(val).animate({ borderColor: regStats }, 'slow');  
-                }, wait + slow);  
-            }
-        }
-    }
+function putData(ch, stat, val, data) {
+    $(stat).text(getNameById(ch));
+    $(val).text(getDataById(ch, data));
 }
 
 function getIdByText(txt) {
@@ -352,6 +204,29 @@ function getIdByText(txt) {
     }
 }
 
+function getNameById(txt) {
+    switch (txt) {
+        case 0:
+            return "Streak";
+            break;
+        case 1:
+            return "Kills";
+            break;
+        case 2:
+            return "Deaths";
+            break;
+        case 3:
+            return "GPM";
+            break;
+        case 4:
+            return "XPM";
+            break;
+        case 5:
+            return "Level";
+            break;
+    }
+}
+
 function getDataById(id, data) {
     switch (id) {
         case 0:
@@ -371,6 +246,29 @@ function getDataById(id, data) {
             break;
         case 5:
             return Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak));
+            break;
+    }
+}
+
+function checkDataById(id, data) {
+    switch (id) {
+        case 0:
+            return data.Streak > 0;
+            break;
+        case 1:
+            return data.Kills >= 10;
+            break;
+        case 2:
+            return data.Deaths < 10;
+            break;
+        case 3:
+            return Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)) >= 500;
+            break;
+        case 4:
+            return Math.floor(data.XPM / ((data.Streak == 0) ? 1 : data.Streak)) >= 500;
+            break;
+        case 5:
+            return Math.floor(data.Lvl / ((data.Streak == 0) ? 1 : data.Streak)) >= 20;
             break;
     }
 }
