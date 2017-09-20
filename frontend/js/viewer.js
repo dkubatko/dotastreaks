@@ -132,46 +132,57 @@ function trackData(data) {
     putData(ch3, $("#stat3"), $("#val3"), data);
     
     //show back if was hidden
-    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    $('#block1').css({visibility: "visible"}).animate({opacity: 1.0}, {
+            duration: slow,
+            complete: function() {
+                animateBorder(choice[0], data, $("val1"));
+            }
+        });
     
     //show back if was hidden
-    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    $('#block2').css({visibility: "visible"}).animate({opacity: 1.0}, {
+            duration: slow,
+            complete: function() {
+                animateBorder(choice[0], data, $("val2"));
+            }
+        });
     
     //show back if was hidden
-    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+    $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, {
+            duration: slow,
+            complete: function() {
+                animateBorder(choice[0], data, $("val3"));
+            }
+        });
     
     //now show border if was hidden
     if (border[0]) {
-        $('#val1').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+        $('#val1').css({visibility: "visible"}).animate({opacity: 1.0}, {
+            duration: slow,
+            complete: function() {
+                animateBorder(choice[0], data, $("val1"));
+            }
+        });
     }
     
     //now show border if was hidden
     if (border[1]) {
-        $('#val2').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
+        $('#val2').css({visibility: "visible"}).animate({opacity: 1.0}, {
+            duration: slow,
+            complete: function() {
+                animateBorder(choice[1], data, $("val2"));
+            }
+        });
     }
     
     //now show border if was hidden
     if (border[2]) {
-        $('#val3').css({visibility: "visible"}).animate({opacity: 1.0}, slow);
-    }
-    
-    //now show green or red border around
-    if (checkDataById(choice[0], data)) {
-        $("#val1").animate({borderColor: goodStats}, slow);
-    } else {
-        $("#val1").animate({borderColor: regStats}, slow);
-    }
-    
-    if (checkDataById(choice[0], data)) {
-        $("#val2").animate({borderColor: goodStats}, slow);
-    } else {
-        $("#val2").animate({borderColor: regStats}, slow);
-    }
-    
-    if (checkDataById(choice[0], data)) {
-        $("#val3").animate({borderColor: goodStats}, slow);
-    } else {
-        $("#val3").animate({borderColor: regStats}, slow);
+        $('#val3').css({visibility: "visible"}).animate({opacity: 1.0}, {
+            duration: slow,
+            complete: function() {
+                animateBorder(choice[2], data, $("val3"));
+            }
+        });
     }
 }
 
@@ -181,6 +192,14 @@ function putData(ch, stat, val, data) {
         $(stat).text(getNameById(ch));
         $(val).text(getDataById(ch, data));
     }, slow);
+}
+
+function animateBorder(id, data, ref) {
+    if (checkDataById(id, data)) {
+        $(ref).animate({borderColor: goodStats}, slow);
+    } else {
+        $(ref).animate({borderColor: regStats}, slow);
+    }
 }
 
 function getIdByText(txt) {
