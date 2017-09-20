@@ -25,8 +25,10 @@ div {
 }
 
 #main {
-    max-height: 325px;
-    min-height: 200px;
+    min-height: 327px;
+    max-height: 327px;
+    height: 327px;
+    min-width: 298px;
     width: 298px;
     max-width: 298px;
     margin: 0px;
@@ -75,6 +77,7 @@ div {
     color: white;
     text-align: center;
     padding: 5px;
+    padding-top: 3.5px;
 }
 
 .stath {
