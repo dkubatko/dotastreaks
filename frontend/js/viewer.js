@@ -177,8 +177,10 @@ function trackData(data) {
 
 //puts data into appropriate field
 function putData(ch, stat, val, data) {
-    $(stat).text(getNameById(ch));
-    $(val).text(getDataById(ch, data));
+    setTimeout(function() {
+        $(stat).text(getNameById(ch));
+        $(val).text(getDataById(ch, data));
+    }, slow);
 }
 
 function getIdByText(txt) {
