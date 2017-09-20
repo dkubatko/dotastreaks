@@ -126,8 +126,6 @@ function trackData(data) {
             border[2] = true;
         }
     }
-    
-    console.log(border)
      
     //put all the data inside the blocks
     putData(ch1, $("#stat1"), $("#val1"), data);

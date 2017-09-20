@@ -51,6 +51,7 @@ div {
     margin-left: 5px;
     margin-right: 5px;
     border: 2px solid darkred;
+    border-radius: 2px;
 }
 
 #header {
