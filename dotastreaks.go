@@ -474,12 +474,14 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	JWTclaims, err := parseJWT(JWTtoken)
 
 	if err != nil {
-		log.Printf("Invalid JWT for %v. Aborting\n", req.RemoteAddr)
+		log.Printf("Err: %v - Invalid JWT for %v. Aborting\n", err.Error(),
+			req.RemoteAddr)
 		return
 	}
 
 	if JWTclaims["role"] != "broadcaster" {
-		log.Printf("User requesting verification: no access for %v\n", req.RemoteAddr)
+		log.Printf("User requesting verification: no access for %v\n",
+			req.RemoteAddr)
 		return
 	}
 
