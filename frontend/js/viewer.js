@@ -14,17 +14,23 @@ or in the "license" file accompanying this file. This file is distributed on an 
 
 */
 if (window.Twitch.ext) {
-  window.Twitch.ext.onAuthorized(function(auth) {
       //repetetive function that asks EBS for updates
       (function update() {
+        var Gauth;
+        
+        window.Twitch.ext.onAuthorized(function(auth) {
+            Gauth = auth;
+        });
+          
         var data = {
-                "channel_id": auth.channelId
+                "channel_id": Gauth.channelId
             };
+          
         $.ajax({
             url: 'https://dotastreaks.com/userUpdate',
             type: 'POST',
             headers: {
-                'x-extension-jwt': auth.token
+                'x-extension-jwt': Gauth.token
             },
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -37,8 +43,8 @@ if (window.Twitch.ext) {
               setTimeout(update, 30000);
             }
         }); 
+          
     })();
-  });
 }
 
 //const colors for borders
