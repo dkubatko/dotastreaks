@@ -333,7 +333,7 @@ func (u *User) collectStats() error {
 
 	//extra protection from no data
 	if len(matches) == 0 {
-		return errors.New("Error getting data for user %v and Account Id %v", u.Channel_id, u.Account_id)
+		return errors.New("Error getting data")
 	}
 
 	//if already tracked, skip
@@ -715,6 +715,7 @@ func updateInfo(us *User, done chan bool) {
 
 	if err != nil {
 		log.Println(err.Error())
+		log.Printf("For user %v with account %v\n", us.Channel_id, us.Account_id)
 		done <- true
 		return
 	}
