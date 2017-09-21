@@ -333,7 +333,7 @@ func (u *User) collectStats() error {
 
 	//extra protection from no data
 	if len(matches) == 0 {
-		return errors.New("Error getting data")
+		return errors.New("Error getting data for user %v and Account Id %v", u.Channel_id, u.Account_id)
 	}
 
 	//if already tracked, skip
