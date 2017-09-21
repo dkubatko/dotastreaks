@@ -145,7 +145,7 @@ function trackData(data) {
             duration: slow,
             complete: function() {
                 //show border change on complete
-                animateBorder(choice[0], data, $("#val2"));
+                animateBorder(choice[1], data, $("#val2"));
             }
         });
     
@@ -153,7 +153,7 @@ function trackData(data) {
     $('#block3').css({visibility: "visible"}).animate({opacity: 1.0}, {
             duration: slow,
             complete: function() {
-                animateBorder(choice[0], data, $("#val3"));
+                animateBorder(choice[2], data, $("#val3"));
             }
         });
     
