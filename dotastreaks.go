@@ -714,8 +714,8 @@ func updateInfo(us *User, done chan bool) {
 	err := us.collectStats()
 
 	if err != nil {
-		log.Println(err.Error())
-		log.Printf("For user %v with account %v\n", us.Channel_id, us.Account_id)
+		//log.Println(err.Error())
+		//log.Printf("For user %v with account %v\n", us.Channel_id, us.Account_id)
 		done <- true
 		return
 	}
@@ -739,9 +739,11 @@ func launchUpdates() {
 			<-doneChan
 		}
 		count++
+
 		if count%1000 == 0 {
 			log.Printf("Cycle %v has gone through. Status: ok.\n", count)
 		}
+
 		time.Sleep(30 * time.Second)
 	}
 }
