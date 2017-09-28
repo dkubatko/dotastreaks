@@ -282,7 +282,7 @@ function checkDataById(id, data) {
             return data.Kills >= 10;
             break;
         case 2:
-            return data.Deaths < 10;
+            return (data.Deaths < 10 && data.Streak > 0);
             break;
         case 3:
             return Math.floor(data.GPM / ((data.Streak == 0) ? 1 : data.Streak)) >= 500;
