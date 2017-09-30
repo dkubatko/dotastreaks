@@ -18,6 +18,7 @@ body {
 	font: 22px "Work Sans";
     color: white;
     margin: 0px;
+    position: absolute;
 }
 div {
 	margin: 0px;
@@ -32,14 +33,14 @@ div {
     width: 298px;
     max-width: 298px;
     margin: 0px;
-    background-color: black;
-    position: relative;
+    background-color: #101e29;
+    position: absolute;
 }
 
 #pod {
     text-align: center;
     font: 10px "Work Sans";
-    margin-top: -8px;
+    margin-top: -4px;
     margin-bottom: 0px;
 }
 
@@ -47,18 +48,25 @@ div {
     min-height: 260px;
     max-height: 260px;
     padding-top: 0px;
-    margin-top: 20px;
     margin-left: 5px;
     margin-right: 5px;
-    border: 2px solid darkred;
-    border-radius: 2px;
+    background-color: #1f2e35;
+}
+
+#logo {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 26px;
 }
 
 #header {
-    margin-bottom: -18px;
-    margin-top: -5px;
-    font: 28px "Work Sans";
-    border: 2px solid darkred;
+    width: 288px;
+    height: 35px;
+    padding: 0px;
+    padding-bottom: 4px;
+    margin-left: 5px;
+    margin-bottom: 6px;
+    background-color: #1f2e35;
 }
 
 #block1 {
@@ -90,5 +98,5 @@ div {
     font: 24px "Work Sans";
     margin: 0px;
     border: 2px solid;
-    border-color: darkred;
+    border-color: #46555c;
 }
