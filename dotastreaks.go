@@ -137,7 +137,7 @@ func (d *DotaAPI) Default() {
 	*d = DotaAPI{
 		MatchDataURL:    "http://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1",
 		MatchHistoryURL: "http://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/v1",
-		Key:             "06F92D7C6DF8F881925E1513838D2C80"}
+		Key:             DotaAPIKey}
 }
 
 func (d *DotaAPI) getMatchIDData(match_id string) (MatchDataAPIResponse, error) {
