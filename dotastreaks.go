@@ -294,7 +294,7 @@ func readAll() ([]User, error) {
 			}
 
 			if best_streak := bstr.Get([]byte(k)); best_streak != nil {
-				us.Stats.Best_streak = int(binary.BigEndian.Uint32(best_streak))
+				us.Stats.Best_streak = int(binary.BigEndian.Uint64(best_streak))
 				log.Printf("%v is beststreak for %v\n", us.Stats.Best_streak, us.Channel_id)
 			}
 
