@@ -236,6 +236,8 @@ func (u *User) save() error {
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
 		choice.Put([]byte(u.Channel_id), buf.Bytes())
 
+		log.Printf("%v is best streak when save for %v", u.Stats.Best_streak, u.Channel_id)
+
 		//put best streak for the user
 		buf = new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Best_streak)
