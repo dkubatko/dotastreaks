@@ -236,8 +236,6 @@ func (u *User) save() error {
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
 		choice.Put([]byte(u.Channel_id), buf.Bytes())
 
-		log.Printf("%v is best streak when save for %v", u.Stats.Best_streak, u.Channel_id)
-
 		//put best streak for the user
 		b := make([]byte, 4)
 		binary.BigEndian.PutUint32(b, uint32(u.Stats.Best_streak))
@@ -294,9 +292,7 @@ func readAll() ([]User, error) {
 			}
 
 			if best_streak := bstr.Get([]byte(k)); best_streak != nil && len(best_streak) != 0 {
-				fmt.Println(best_streak)
 				us.Stats.Best_streak = int(binary.BigEndian.Uint32(best_streak))
-				log.Printf("%v is beststreak for %v\n", us.Stats.Best_streak, us.Channel_id)
 			}
 
 			Users = append(Users, us)
