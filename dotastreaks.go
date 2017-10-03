@@ -222,17 +222,24 @@ func (u *User) save() error {
 	err = db.Batch(func(tx *bolt.Tx) error {
 		chs := tx.Bucket([]byte("Account_id"))
 		choice := tx.Bucket([]byte("Choice"))
+		bstr := tx.Bucket([]byte("Best_streak"))
 
 		if err != nil {
 			return err
 		}
 
+		//put account id to track for user
 		chs.Put([]byte(u.Channel_id), []byte(u.Account_id))
 
+		//put choice array for the user
 		buf := new(bytes.Buffer)
 		binary.Write(buf, binary.BigEndian, u.Stats.Choice)
-
 		choice.Put([]byte(u.Channel_id), buf.Bytes())
+
+		//put best streak for the user
+		buf = new(bytes.Buffer)
+		binary.Write(buf, binary.BigEndian, u.Stats.Best_streak)
+		bstr.Put([]byte(u.Channel_id), buf.Bytes())
 
 		return nil
 	})
@@ -265,6 +272,12 @@ func readAll() ([]User, error) {
 	db.View(func(tx *bolt.Tx) error {
 		chs := tx.Bucket([]byte("Account_id"))
 		choice := tx.Bucket([]byte("Choice"))
+		bstr := tx.Bucket([]byte("Best_streak"))
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err
+		}
 
 		c := chs.Cursor()
 
@@ -276,6 +289,11 @@ func readAll() ([]User, error) {
 
 			if stats := choice.Get([]byte(k)); stats != nil {
 				us.Stats.Choice = toBool(stats)
+			}
+
+			if best_streak := bstr.Get([]byte(k)); best_streak != nil {
+				us.Stats.Best_streak = int(binary.BigEndian.Uint32(best_streak))
+				log.Printf("%v is beststreak for %v\n", us.Stats.Best_streak, us.Channel_id)
 			}
 
 			Users = append(Users, us)
@@ -294,13 +312,14 @@ type User struct {
 }
 
 type DotaStats struct {
-	Choice []bool
-	Streak int
-	Kills  int
-	Deaths int
-	GPM    int
-	XPM    int
-	Lvl    int
+	Choice      []bool
+	Streak      int
+	Kills       int
+	Deaths      int
+	GPM         int
+	XPM         int
+	Lvl         int
+	Best_streak int
 }
 
 func (u *User) collectStats() error {
@@ -363,6 +382,11 @@ func (u *User) collectStats() error {
 			gamestats, _ := match_data.Result.inGame(p)
 			//write data to stats
 			stats.Streak += 1
+
+			if stats.Streak > stats.Best_streak {
+				stats.Best_streak = stats.Streak
+			}
+
 			stats.Kills += gamestats.Kills
 			stats.Deaths += gamestats.Deaths
 			stats.Lvl += gamestats.Level
@@ -373,7 +397,6 @@ func (u *User) collectStats() error {
 			return nil
 		}
 	}
-
 	return nil
 }
 
@@ -757,6 +780,14 @@ func main() {
 
 	log.Printf("Started logging at <%v>\n", moment())
 	var err error
+
+	db, err := bolt.Open("UserData.db", 0600, nil)
+
+	db.Batch(func(tx *bolt.Tx) error {
+		tx.CreateBucket([]byte("Best_streak"))
+		return nil
+	})
+	db.Close()
 
 	Users, err = readAll()
 
