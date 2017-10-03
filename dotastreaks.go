@@ -240,7 +240,7 @@ func (u *User) save() error {
 
 		//put best streak for the user
 		b := make([]byte, 4)
-		binary.BigEndian.PutUint32(b, u.Stats.Best_streak)
+		binary.BigEndian.PutUint32(b, uint32(u.Stats.Best_streak))
 		bstr.Put([]byte(u.Channel_id), b)
 
 		return nil
