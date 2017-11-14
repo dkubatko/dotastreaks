@@ -826,7 +826,7 @@ func main() {
 
 	fmt.Println("Server running!")
 	//create logfile for https errors
-	httpslog := os.Create("../logging/httpslogging.log")
+	httpslog, _ := os.Create("../logging/httpslogging.log")
 	defer httpslog.Close()
 	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handlers.LoggingHandler(httpslog, handler))
 
