@@ -23,6 +23,8 @@ var JWTsecret string = string(os.Getenv("JWT_SECRET"))
 var ext_id string = string(os.Getenv("EXT_ID"))
 
 const STEAM64 = 76561197960265728
+const REQUEST_LIMIT = 100000
+const REQUEST_ADDITIONAL_DELAY = 30
 
 /* LOGGING SETUP */
 
@@ -193,7 +195,6 @@ func (d *DotaAPI) getMatchHistoryData(account_id string) (MatchHistoryAPIRespons
 func (d *DotaAPI) validateID(account_id string) bool {
 	var mhapi MatchHistoryAPIResponse
 	mhapi, err := d.getMatchHistoryData(account_id)
-	fmt.Println(err)
 	if err != nil {
 		return false
 	}
@@ -276,7 +277,6 @@ func readAll() ([]User, error) {
 		bstr := tx.Bucket([]byte("Best_streak"))
 
 		if err != nil {
-			fmt.Println(err.Error())
 			return err
 		}
 
@@ -523,7 +523,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	dapi.Default()
 	//check whether dota gives us person with such account
 	if ok := dapi.validateID(val.Account_id); !ok {
-		fmt.Println(dapi.validateID(val.Account_id))
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"err"})
 		rw.Write(js)
@@ -537,7 +536,6 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		err = us.convertID(val.Account_id)
 		//if err converting return err
 		if err != nil {
-			fmt.Println(err)
 			rw.Header().Set("Content-Type", "application/json")
 			js, _ := json.Marshal(VResponse{"err"})
 			rw.Write(js)
@@ -739,8 +737,6 @@ func updateInfo(us *User, done chan bool) {
 	err := us.collectStats()
 
 	if err != nil {
-		//log.Println(err.Error())
-		//log.Printf("For user %v with account %v\n", us.Channel_id, us.Account_id)
 		done <- true
 		return
 	}
@@ -765,11 +761,15 @@ func launchUpdates() {
 		}
 		count++
 
+		//number of seconds in a day divided by number of allowed cycle
+		//yields delay between the calls + additional delay secs for other calls
+		sleepTime := (60*60*24)/(REQUEST_LIMIT/len(Users)) + REQUEST_ADDITIONAL_DELAY
+
 		if count%1000 == 0 {
-			log.Printf("Cycle %v has gone through. Status: ok.\n", count)
+			log.Printf("Cycle %v has gone through. sleepTime is %v. Status: ok.\n", count, sleepTime)
 		}
 
-		time.Sleep(30 * time.Second)
+		time.Sleep(sleepTime)
 	}
 }
 
