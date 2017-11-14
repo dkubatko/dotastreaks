@@ -69,7 +69,7 @@ func (d *DotaAPI) getMatchHistoryData(account_id string) (MatchHistoryAPIRespons
 
 	req.URL.RawQuery = q.Encode()
 
-	fmt.Println(req.URL.Path)
+	fmt.Println(req.URL.Query)
 
 	resp, err := (&http.Client{}).Do(req)
 
