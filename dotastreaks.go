@@ -769,7 +769,7 @@ func launchUpdates() {
 			log.Printf("Cycle %v has gone through. sleepTime is %v. Status: ok.\n", count, sleepTime)
 		}
 
-		time.Sleep(sleepTime)
+		time.Sleep(sleepTime * time.Second)
 	}
 }
 
