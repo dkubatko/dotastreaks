@@ -83,7 +83,7 @@ func (d *DotaAPI) getMatchHistoryData(account_id string) (MatchHistoryAPIRespons
 	var apiresp MatchHistoryAPIResponse
 	json.Unmarshal([]byte(body), &apiresp)
 
-	fmt.Println(body)
+	fmt.Println(string(body))
 
 	if apiresp.Result.Status != 1 {
 		return apiresp, &APIErr{"Couldn't fetch player's data"}
