@@ -193,6 +193,7 @@ func (d *DotaAPI) getMatchHistoryData(account_id string) (MatchHistoryAPIRespons
 func (d *DotaAPI) validateID(account_id string) bool {
 	var mhapi MatchHistoryAPIResponse
 	mhapi, err := d.getMatchHistoryData(account_id)
+	fmt.Println(err)
 	if err != nil {
 		return false
 	}
@@ -522,6 +523,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 	dapi.Default()
 	//check whether dota gives us person with such account
 	if ok := dapi.validateID(val.Account_id); !ok {
+		fmt.Println(dapi.validateID(val.Account_id))
 		rw.Header().Set("Content-Type", "application/json")
 		js, _ := json.Marshal(VResponse{"err"})
 		rw.Write(js)
@@ -535,6 +537,7 @@ func verify(rw http.ResponseWriter, req *http.Request) {
 		err = us.convertID(val.Account_id)
 		//if err converting return err
 		if err != nil {
+			fmt.Println(err)
 			rw.Header().Set("Content-Type", "application/json")
 			js, _ := json.Marshal(VResponse{"err"})
 			rw.Write(js)
