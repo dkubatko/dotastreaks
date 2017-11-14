@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/boltdb/bolt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/handlers"
 	"github.com/rs/cors"
 	"io/ioutil"
 	"log"
@@ -824,7 +825,7 @@ func main() {
 	handler := cors.AllowAll().Handler(mux)
 
 	fmt.Println("Server running!")
-	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handler)
+	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handlers.LogginHandler(os.Stdout, handler))
 
 	if err != nil {
 		fmt.Println(err.Error())
