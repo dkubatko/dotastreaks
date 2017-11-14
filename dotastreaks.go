@@ -825,7 +825,7 @@ func main() {
 	handler := cors.AllowAll().Handler(mux)
 
 	fmt.Println("Server running!")
-	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handlers.LogginHandler(os.Stdout, handler))
+	err = http.ListenAndServeTLS(":443", "dotastreaks.crt", "dotastreaks.key", handlers.LoggingHandler(os.Stdout, handler))
 
 	if err != nil {
 		fmt.Println(err.Error())
